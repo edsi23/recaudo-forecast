@@ -1,9 +1,12 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
+# Tabla de contenido del libro
 format: jb-book
 root: intro
 chapters:
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+- file: 01_base_de_datos
+- file: 02_carga_y_limpieza
+- file: 03_particion_y_objetivo
+- file: 04_eda_uni_bi_multivariado
+- file: 05_auditoria_fuga
+- file: 06_eda_temporal
+- file: 07_preprocesamiento
+- file: 08_modelo_base

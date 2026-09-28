@@ -1,11 +1,16 @@
-# Welcome to your Jupyter Book
+# Pronóstico de ventas diarias por negocio
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+Primer entregable del proyecto de Machine Learning: pronóstico de la **venta total diaria** de 452 negocios (estaciones de servicio, tiendas de conveniencia y kioscos de autoservicio o KCO) operados por Masser, a partir de su historia reciente por medio de pago.
 
-Check out the content pages bundled with this sample book to see more.
+| | |
+|---|---|
+| **Tipo de problema** | Regresión sobre panel temporal (negocio × día) |
+| **Periodo** | 1 jul – 23 sep 2026 (85 días) |
+| **Modelo base** | Línea base ingenua + SVR lineal con validación cruzada temporal |
+
+```{note}
+Los datos son confidenciales y no están en el repositorio (acceso bajo solicitud y con autorización de la empresa). Los notebooks se ejecutaron localmente y se publican con sus salidas guardadas.
+```
 
 ```{tableofcontents}
 ```
