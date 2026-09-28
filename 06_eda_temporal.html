@@ -1,0 +1,1088 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>⏱️ 6. EDA temporal &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '06_eda_temporal';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="⚙️ 7. Preprocesamiento" href="07_preprocesamiento.html" />
+    <link rel="prev" title="🚨 5. Auditoría de fuga de datos" href="05_auditoria_fuga.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/06_eda_temporal.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>⏱️ 6. EDA temporal</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#serie-agregada-tendencia-y-estacionalidad">📈 6.1 Serie agregada: tendencia y estacionalidad</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autocorrelacion-dentro-de-cada-negocio">🔁 6.2 Autocorrelación dentro de cada negocio</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estacionariedad">📉 6.3 Estacionariedad</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriva-dentro-de-train">🌊 6.4 Deriva dentro de train</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#festivos">🎉 6.5 Festivos</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esquema-de-validacion-cruzada-temporal">🧩 6.6 Esquema de validación cruzada temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-capitulo">✅ Resumen del capítulo</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="eda-temporal">
+<h1>⏱️ 6. EDA temporal<a class="headerlink" href="#eda-temporal" title="Permalink to this heading">#</a></h1>
+<p>Este capítulo estudia la estructura en el tiempo de la venta, <strong>solo con train</strong> (1 jul – 2 sep): tendencia y estacionalidad, autocorrelación, estacionariedad, deriva y festivos. De aquí salen el horizonte, los rezagos del modelo y el esquema de validación cruzada temporal.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.seasonal</span> <span class="kn">import</span> <span class="n">STL</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.stattools</span> <span class="kn">import</span> <span class="n">acf</span><span class="p">,</span> <span class="n">pacf</span><span class="p">,</span> <span class="n">adfuller</span><span class="p">,</span> <span class="n">kpss</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.multitest</span> <span class="kn">import</span> <span class="n">multipletests</span>
+
+<span class="kn">from</span> <span class="nn">comun</span> <span class="kn">import</span> <span class="p">(</span><span class="n">estilo</span><span class="p">,</span> <span class="n">cargar_panel</span><span class="p">,</span> <span class="n">fechas_eje</span><span class="p">,</span> <span class="n">datos_modelo</span><span class="p">,</span> <span class="n">folds_temporales</span><span class="p">,</span> <span class="n">formato_p</span><span class="p">,</span>
+                   <span class="n">INICIO</span><span class="p">,</span> <span class="n">CORTE</span><span class="p">,</span> <span class="n">FESTIVOS</span><span class="p">,</span> <span class="n">DIAS</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="n">VERDE</span><span class="p">,</span> <span class="n">GRIS</span><span class="p">)</span>
+
+<span class="n">estilo</span><span class="p">()</span>
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">panel</span> <span class="o">=</span> <span class="n">cargar_panel</span><span class="p">()</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">panel</span><span class="p">[</span><span class="n">panel</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">CORTE</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">train</span><span class="p">[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train: </span><span class="si">{</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> a </span><span class="si">{</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> días&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: 2026-07-01 a 2026-09-02, 64 días
+</pre></div>
+</div>
+</div>
+</div>
+<section id="serie-agregada-tendencia-y-estacionalidad">
+<h2>📈 6.1 Serie agregada: tendencia y estacionalidad<a class="headerlink" href="#serie-agregada-tendencia-y-estacionalidad" title="Permalink to this heading">#</a></h2>
+<p>Para ver la dinámica general sumo la venta de los negocios que operan <strong>todos</strong> los días de train. Así la serie no sube ni baja porque entren o salgan negocios.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">completos</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+<span class="n">completos</span> <span class="o">=</span> <span class="n">completos</span><span class="p">[</span><span class="n">completos</span> <span class="o">==</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">agg</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">completos</span><span class="p">)]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;fecha&quot;</span><span class="p">)[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mf">1e9</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;negocios con los </span><span class="si">{</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> días de train: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">completos</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">stl</span> <span class="o">=</span> <span class="n">STL</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">agg</span><span class="p">),</span> <span class="n">period</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">fuerza_sem</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">stl</span><span class="o">.</span><span class="n">resid</span><span class="o">.</span><span class="n">var</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">stl</span><span class="o">.</span><span class="n">seasonal</span> <span class="o">+</span> <span class="n">stl</span><span class="o">.</span><span class="n">resid</span><span class="p">)</span><span class="o">.</span><span class="n">var</span><span class="p">())</span>
+<span class="n">fuerza_tend</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">stl</span><span class="o">.</span><span class="n">resid</span><span class="o">.</span><span class="n">var</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">stl</span><span class="o">.</span><span class="n">trend</span> <span class="o">+</span> <span class="n">stl</span><span class="o">.</span><span class="n">resid</span><span class="p">)</span><span class="o">.</span><span class="n">var</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fuerza de la estacionalidad semanal: </span><span class="si">{</span><span class="n">fuerza_sem</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> | fuerza de la tendencia: </span><span class="si">{</span><span class="n">fuerza_tend</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">  (0 = nada, 1 = domina)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>negocios con los 64 días de train: 436
+fuerza de la estacionalidad semanal: 0.56 | fuerza de la tendencia: 0.04  (0 = nada, 1 = domina)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]})</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">agg</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">agg</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;venta diaria&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">agg</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">stl</span><span class="o">.</span><span class="n">trend</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;tendencia (STL)&quot;</span><span class="p">)</span>
+<span class="n">domingos</span> <span class="o">=</span> <span class="n">agg</span><span class="p">[</span><span class="n">agg</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">dayofweek</span> <span class="o">==</span> <span class="mi">6</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">domingos</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">domingos</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;domingos&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">FESTIVOS</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">VERDE</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">FESTIVOS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot; festivos&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">VERDE</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Venta total diaria de los </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">completos</span><span class="p">)</span><span class="si">}</span><span class="s2"> negocios completos (train)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Miles de millones de COP&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower left&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">agg</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">stl</span><span class="o">.</span><span class="n">seasonal</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">-</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Componente semanal (STL)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;% vs. tendencia&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Fecha&quot;</span><span class="p">)</span>
+<span class="n">fechas_eje</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">agg</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/83b8eef2dc5ee743a0472d224297f7b947fa44ebe861e65652f9c1d22f6634c7.png" src="_images/83b8eef2dc5ee743a0472d224297f7b947fa44ebe861e65652f9c1d22f6634c7.png" />
+</div>
+</div>
+<section id="interpretacion">
+<h3>Interpretación<a class="headerlink" href="#interpretacion" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La serie agregada tiene un <strong>ciclo semanal muy marcado</strong>. La descomposición STL (tendencia + estacionalidad de periodo 7 + residuo) le da a la estacionalidad semanal una <strong>fuerza de 0,56</strong>, y a la tendencia solo 0,04 (prácticamente plana).</p></li>
+<li><p>En dinero agregado, el <strong>domingo</strong> es claramente el día más bajo (~17 % bajo la tendencia) y de jueves a sábado el más alto. En el capítulo 4, mirando el negocio <em>típico</em>, lunes y domingo quedaban casi empatados. La diferencia se explica porque la serie agregada la dominan los negocios grandes (EDS), cuyo domingo cae más.</p></li>
+<li><p>Los tres festivos son de los días más bajos de la serie (se miden en 6.5).</p></li>
+</ul>
+</section>
+</section>
+<section id="autocorrelacion-dentro-de-cada-negocio">
+<h2>🔁 6.2 Autocorrelación dentro de cada negocio<a class="headerlink" href="#autocorrelacion-dentro-de-cada-negocio" title="Permalink to this heading">#</a></h2>
+<p>La autocorrelación (ACF) mide cuánto se parece la venta de un día a la de <span class="math notranslate nohighlight">\(k\)</span> días antes. La parcial (PACF) mide lo mismo, descontando los rezagos intermedios. Se calcula <strong>negocio por negocio</strong> sobre <code class="docutils literal notranslate"><span class="pre">log1p(venta)</span></code>, sin los días de venta 0, y se resume con la mediana y el rango intercuartil entre negocios.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [IA] ACF y PACF por negocio (serie en log sin ceros), resumidas entre negocios</span>
+<span class="n">NLAGS</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="n">acfs</span><span class="p">,</span> <span class="n">pacfs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">neg</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">train</span><span class="p">[</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;fecha&quot;</span><span class="p">)[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">acfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acf</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">nlags</span><span class="o">=</span><span class="n">NLAGS</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="s2">&quot;conservative&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">pacfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pacf</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">limit_direction</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">),</span> <span class="n">nlags</span><span class="o">=</span><span class="n">NLAGS</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">acfs</span><span class="p">,</span> <span class="n">pacfs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">acfs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pacfs</span><span class="p">)</span>
+<span class="n">banda</span> <span class="o">=</span> <span class="mf">1.96</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;negocios usados: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">acfs</span><span class="p">)</span><span class="si">}</span><span class="s2"> | banda aprox. de significancia por negocio: ±</span><span class="si">{</span><span class="n">banda</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">res_acf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;ACF mediana&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">acfs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;PACF mediana&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">pacfs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                        <span class="s2">&quot;% negocios con ACF &gt; banda&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">acfs</span> <span class="o">&gt;</span> <span class="n">banda</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">},</span>
+                       <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">NLAGS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="s2">&quot;rezago&quot;</span><span class="p">)</span>
+<span class="n">res_acf</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">21</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>negocios usados: 438 | banda aprox. de significancia por negocio: ±0.24
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ACF mediana</th>
+      <th>PACF mediana</th>
+      <th>% negocios con ACF &gt; banda</th>
+    </tr>
+    <tr>
+      <th>rezago</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>0.20</td>
+      <td>0.21</td>
+      <td>43.15</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.04</td>
+      <td>-0.12</td>
+      <td>7.99</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.12</td>
+      <td>-0.10</td>
+      <td>5.94</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.13</td>
+      <td>0.08</td>
+      <td>20.78</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.32</td>
+      <td>0.23</td>
+      <td>59.82</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.10</td>
+      <td>-0.04</td>
+      <td>16.21</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0.10</td>
+      <td>0.05</td>
+      <td>11.87</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0.19</td>
+      <td>0.05</td>
+      <td>41.32</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0.14</td>
+      <td>0.05</td>
+      <td>27.17</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">lags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">NLAGS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">nombre</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">acfs</span><span class="p">,</span> <span class="s2">&quot;ACF&quot;</span><span class="p">),</span> <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pacfs</span><span class="p">,</span> <span class="s2">&quot;PACF&quot;</span><span class="p">)]:</span>
+    <span class="n">med</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">lags</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;rango intercuartil&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">lags</span><span class="p">,</span> <span class="n">med</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">NARANJA</span> <span class="k">if</span> <span class="n">l</span> <span class="o">%</span> <span class="mi">7</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">AZUL</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lags</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;mediana entre negocios&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span><span class="o">-</span><span class="n">banda</span><span class="p">,</span> <span class="n">banda</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;banda ±1,96/√n&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">21</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2"> de log1p(venta) por negocio (train)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Rezago (días)&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Autocorrelación&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/795a9d67121385c4f0433a6aafa93c2afba80b02e8c1e921cf5a5b8231c9bd51.png" src="_images/795a9d67121385c4f0433a6aafa93c2afba80b02e8c1e921cf5a5b8231c9bd51.png" />
+</div>
+</div>
+<section id="id1">
+<h3>Interpretación<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La ACF tiene <strong>picos en 7, 14 y 21 días</strong> (barras naranjas): el mismo día de la semana anterior se parece más que los días intermedios. Es la huella del ciclo semanal.</p></li>
+<li><p>El rezago 1 también es positivo: hay <strong>persistencia de corto plazo</strong> (una buena semana sigue siendo buena).</p></li>
+<li><p>La PACF tiene picos en 1 y en 7. Descontando los rezagos intermedios, la información útil está sobre todo en <strong>ayer</strong> y en <strong>hace una semana</strong>. El 14 aporta menos, pero sigue por encima de la banda en parte de los negocios.</p></li>
+</ul>
+<p><strong>Decisiones →</strong> rezagos <strong>1, 7 y 14</strong> (y no más largos, porque cada semana extra de rezago quita una semana de train). El <strong>ingenuo estacional</strong> (<span class="math notranslate nohighlight">\(\hat y_t = y_{t-7}\)</span>) es una línea base fuerte. Y como hay autocorrelación relevante hasta una semana, la validación cruzada usa un <strong>gap de 7 días</strong> (6.6).</p>
+</section>
+</section>
+<section id="estacionariedad">
+<h2>📉 6.3 Estacionariedad<a class="headerlink" href="#estacionariedad" title="Permalink to this heading">#</a></h2>
+<p>Se aplican dos pruebas complementarias a cada negocio (log1p, sin ceros):</p>
+<ul class="simple">
+<li><p><strong>ADF</strong>: <span class="math notranslate nohighlight">\(H_0\)</span> = la serie tiene raíz unitaria (no es estacionaria). Rechazar apoya la estacionariedad.</p></li>
+<li><p><strong>KPSS</strong>: <span class="math notranslate nohighlight">\(H_0\)</span> = la serie es estacionaria. Rechazar indica que no lo es.</p></li>
+</ul>
+<p>Como son cientos de pruebas, los p-valores se corrigen con <strong>Holm</strong> dentro de cada familia.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [IA] ADF y KPSS por negocio; con 64 días la potencia es baja, así que se leen juntas</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>  <span class="c1"># kpss avisa cuando el p-valor sale del rango de su tabla</span>
+    <span class="k">for</span> <span class="n">neg</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">train</span><span class="p">[</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;fecha&quot;</span><span class="p">)[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">neg</span><span class="p">,</span> <span class="n">adfuller</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">maxlag</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">autolag</span><span class="o">=</span><span class="s2">&quot;AIC&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">kpss</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">regression</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">nlags</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span>
+<span class="n">est</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;p_adf&quot;</span><span class="p">,</span> <span class="s2">&quot;p_kpss&quot;</span><span class="p">])</span>
+<span class="n">est</span><span class="p">[</span><span class="s2">&quot;adf_holm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">est</span><span class="p">[</span><span class="s2">&quot;p_adf&quot;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;holm&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">est</span><span class="p">[</span><span class="s2">&quot;kpss_holm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">est</span><span class="p">[</span><span class="s2">&quot;p_kpss&quot;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;holm&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">resumen</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;sin corrección (%)&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">est</span><span class="p">[</span><span class="s2">&quot;p_adf&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="n">est</span><span class="p">[</span><span class="s2">&quot;p_kpss&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">],</span>
+    <span class="s2">&quot;con Holm (%)&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">est</span><span class="p">[</span><span class="s2">&quot;adf_holm&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="n">est</span><span class="p">[</span><span class="s2">&quot;kpss_holm&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">],</span>
+<span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ADF rechaza raíz unitaria (→ estacionaria)&quot;</span><span class="p">,</span> <span class="s2">&quot;KPSS rechaza estacionariedad (→ no estacionaria)&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;negocios probados: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">est</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;serie agregada: ADF p = </span><span class="si">{</span><span class="n">adfuller</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">agg</span><span class="p">),</span><span class="w"> </span><span class="n">maxlag</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="n">autolag</span><span class="o">=</span><span class="s1">&#39;AIC&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">resumen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>negocios probados: 438
+serie agregada: ADF p = 0.209
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sin corrección (%)</th>
+      <th>con Holm (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ADF rechaza raíz unitaria (→ estacionaria)</th>
+      <td>60.73</td>
+      <td>46.80</td>
+    </tr>
+    <tr>
+      <th>KPSS rechaza estacionariedad (→ no estacionaria)</th>
+      <td>20.78</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id2">
+<h3>Interpretación<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>Con solo 64 días por serie, las pruebas tienen <strong>poca potencia</strong>: no rechazar no significa «no estacionaria» ni «estacionaria». Leídas juntas: ADF rechaza la raíz unitaria en el 61 % de los negocios (47 % con Holm), y KPSS rechaza la estacionariedad en el 21 % (ninguno después de Holm). Eso apunta a series <strong>mayormente estacionarias en nivel</strong> (en log), con algunos negocios con cambios de nivel. En la serie agregada ADF no rechaza (p = 0,21), algo esperable con 64 puntos y un ciclo semanal fuerte que la prueba no modela.</p>
+<p><strong>Decisión →</strong> no se diferencia la serie. Se modela el <strong>nivel</strong> en log con rezagos y medias móviles, que se adaptan a cambios lentos de nivel. Una media móvil de 7 días responde a un cambio de nivel en una semana.</p>
+</section>
+</section>
+<section id="deriva-dentro-de-train">
+<h2>🌊 6.4 Deriva dentro de train<a class="headerlink" href="#deriva-dentro-de-train" title="Permalink to this heading">#</a></h2>
+<p>¿Cambió el nivel de venta de los negocios entre el inicio y el final de train? Se compara, para cada negocio, la media en log de las <strong>primeras 4 semanas</strong> (1 – 28 jul) con la de las <strong>últimas 4</strong> (6 ago – 2 sep). Se usa Wilcoxon pareado entre negocios, con la correlación biserial por rangos como tamaño del efecto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ini</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="s2">&quot;2026-07-29&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">fin</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s2">&quot;2026-08-06&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ambos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ini</span><span class="p">,</span> <span class="n">fin</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;inicio&quot;</span><span class="p">,</span> <span class="s2">&quot;final&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">dif</span> <span class="o">=</span> <span class="n">ambos</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">ambos</span><span class="p">[</span><span class="s2">&quot;inicio&quot;</span><span class="p">]</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">wilcoxon</span><span class="p">(</span><span class="n">dif</span><span class="p">)</span>
+<span class="n">rango</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">rankdata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dif</span><span class="p">))</span>
+<span class="n">r_rb</span> <span class="o">=</span> <span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="n">dif</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">rango</span><span class="p">[</span><span class="n">dif</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">rango</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;negocios: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dif</span><span class="p">)</span><span class="si">}</span><span class="s2"> | cambio mediano: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">dif</span><span class="o">.</span><span class="n">median</span><span class="p">())</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">+.1f</span><span class="si">}</span><span class="s2"> % | Wilcoxon p = </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">pvalue</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2"> | r biserial = </span><span class="si">{</span><span class="n">r_rb</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;negocios que bajan más de 20 %: </span><span class="si">{</span><span class="p">(</span><span class="n">dif</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.8</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> | que suben más de 20 %: </span><span class="si">{</span><span class="p">(</span><span class="n">dif</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.2</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>negocios: 445 | cambio mediano: -0.4 % | Wilcoxon p = 1.8e-01 | r biserial = -0.07
+negocios que bajan más de 20 %: 44 | que suben más de 20 %: 40
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">dif</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">dif</span><span class="o">.</span><span class="n">median</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;mediana: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">dif</span><span class="o">.</span><span class="n">median</span><span class="p">())</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">+.1f</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Cambio de nivel por negocio: últimas vs. primeras 4 semanas de train&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Cambio en la venta media (%, recortado a ±170 %)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Negocios&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/930522b684378faee9d147e6ce607d638db4a0f04d73034b6701b6065846be31.png" src="_images/930522b684378faee9d147e6ce607d638db4a0f04d73034b6701b6065846be31.png" />
+</div>
+</div>
+<section id="id3">
+<h3>Interpretación<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<p><strong>No hay una deriva sistemática</strong>: el cambio mediano es −0,4 %, la prueba no lo detecta (p = 0,18) y el tamaño del efecto es despreciable (<span class="math notranslate nohighlight">\(r = -0{,}07\)</span>). Pero eso no significa que cada negocio sea estable: <strong>44 negocios bajan más de 20 %</strong> y <strong>40 suben más de 20 %</strong>. Hay cambios individuales grandes en ambas direcciones que se cancelan en el agregado.</p>
+<p>Esto también explica la correlación ligeramente negativa del nivel histórico dentro del negocio (cap. 4). La media desde el inicio reacciona lento, así que en un negocio que cambia de nivel queda desfasada respecto a la venta actual.</p>
+<p><strong>Decisiones →</strong> (1) Las variables de <strong>corto plazo</strong> (rezago 1, rezago 7, media de 7 días) permiten que el modelo siga los cambios de nivel de cada negocio; el nivel histórico solo sirve como referencia de escala. (2) Un negocio que cambie de nivel en septiembre generará errores grandes unos días, hasta que los rezagos se pongan al día. Se revisa en los residuos del capítulo 8.</p>
+</section>
+</section>
+<section id="festivos">
+<h2>🎉 6.5 Festivos<a class="headerlink" href="#festivos" title="Permalink to this heading">#</a></h2>
+<p>Hay 3 festivos en train (lun 20 jul, vie 7 ago, lun 17 ago) y <strong>ninguno en test</strong>. Para cada festivo y negocio se compara la venta del festivo con la media del mismo día de la semana en las demás semanas de train (en log). Wilcoxon de una muestra y Holm sobre los 3 festivos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [IA] efecto de cada festivo vs. el mismo día de semana en semanas normales</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">pos</span><span class="p">[</span><span class="s2">&quot;dia&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">dayofweek</span>
+<span class="n">normal</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="o">~</span><span class="n">pos</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">FESTIVOS</span><span class="p">)]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;dia&quot;</span><span class="p">])[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">FESTIVOS</span><span class="p">:</span>
+    <span class="n">fest</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="n">pos</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">f</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">normal</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">dayofweek</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;dia&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">fest</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">dif_f</span> <span class="o">=</span> <span class="p">(</span><span class="n">fest</span> <span class="o">-</span> <span class="n">ref</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">rango</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">rankdata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dif_f</span><span class="p">))</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">f</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="n">DIAS</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">dayofweek</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">dif_f</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">dif_f</span><span class="o">.</span><span class="n">median</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                  <span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="n">dif_f</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">rango</span><span class="p">[</span><span class="n">dif_f</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">rango</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">stats</span><span class="o">.</span><span class="n">wilcoxon</span><span class="p">(</span><span class="n">dif_f</span><span class="p">)</span><span class="o">.</span><span class="n">pvalue</span><span class="p">))</span>
+<span class="n">fest</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;festivo&quot;</span><span class="p">,</span> <span class="s2">&quot;día&quot;</span><span class="p">,</span> <span class="s2">&quot;negocios&quot;</span><span class="p">,</span> <span class="s2">&quot;efecto mediano (%)&quot;</span><span class="p">,</span> <span class="s2">&quot;r biserial&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">])</span>
+<span class="n">fest</span><span class="p">[</span><span class="s2">&quot;p Holm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">fest</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;holm&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">formato_p</span><span class="p">(</span><span class="n">fest</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>festivo</th>
+      <th>día</th>
+      <th>negocios</th>
+      <th>efecto mediano (%)</th>
+      <th>r biserial</th>
+      <th>p</th>
+      <th>p Holm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2026-07-20</td>
+      <td>lun</td>
+      <td>441</td>
+      <td>-14.75</td>
+      <td>-0.38</td>
+      <td>5.6e-12</td>
+      <td>1.1e-11</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2026-08-07</td>
+      <td>vie</td>
+      <td>445</td>
+      <td>-22.94</td>
+      <td>-0.70</td>
+      <td>8.4e-38</td>
+      <td>2.5e-37</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2026-08-17</td>
+      <td>lun</td>
+      <td>439</td>
+      <td>-15.30</td>
+      <td>-0.37</td>
+      <td>1.7e-11</td>
+      <td>1.7e-11</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id4">
+<h3>Interpretación<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<p>Los tres festivos <strong>bajan la venta</strong>: −15 % los lunes festivos y −23 % el viernes 7 de agosto, frente al mismo día de la semana en semanas normales. Los tres son significativos después de Holm, con efectos de moderados a grandes (<span class="math notranslate nohighlight">\(|r|\)</span> entre 0,37 y 0,70). Pero son <strong>solo 3 días</strong> y ninguno cae en test: el modelo puede aprender un coeficiente para <code class="docutils literal notranslate"><span class="pre">festivo</span></code>, pero no se puede evaluar si pronostica bien un festivo.</p>
+<p><strong>Decisión →</strong> se incluye la variable <code class="docutils literal notranslate"><span class="pre">festivo</span></code> (se conoce de antemano, cap. 5). Es una <strong>limitación declarada</strong>: con 3 casos su coeficiente es poco confiable, y su efecto en test es nulo porque no hay festivos.</p>
+</section>
+</section>
+<section id="esquema-de-validacion-cruzada-temporal">
+<h2>🧩 6.6 Esquema de validación cruzada temporal<a class="headerlink" href="#esquema-de-validacion-cruzada-temporal" title="Permalink to this heading">#</a></h2>
+<p>Con lo anterior se define la validación cruzada que se usa para elegir hiperparámetros (cap. 8):</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Elemento</p></th>
+<th class="head"><p>Valor</p></th>
+<th class="head"><p>Hallazgo que lo motiva</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Esquema</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TimeSeriesSplit</span></code> sobre <strong>días</strong> (no filas)</p></td>
+<td><p>Las filas de un día comparten choques comunes. Partir por días evita que el mismo día quede en train y en validación</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tamaño de validación</p></td>
+<td><p><strong>7 días</strong></p></td>
+<td><p>Ciclo semanal (6.1, 6.2): cada fold contiene cada día de la semana una vez</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gap</span></code></p></td>
+<td><p><strong>7 días</strong></p></td>
+<td><p>ACF relevante hasta una semana (6.2): los días justo antes de la validación comparten choques con ella. Con el gap, la validación es más exigente que el uso real (<span class="math notranslate nohighlight">\(h = 1\)</span>), es decir <strong>conservadora</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Número de folds</p></td>
+<td><p><strong>4</strong></p></td>
+<td><p>Con 50 días utilizables en train (64 menos 14 de calentamiento para el rezago 14), 4 folds dejan al menos 2 semanas de entrenamiento en el primero</p></td>
+</tr>
+<tr class="row-even"><td><p>Calentamiento</p></td>
+<td><p>Las filas sin rezago 14 se excluyen</p></td>
+<td><p>El rezago más largo es 14 días (6.2)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datos</span> <span class="o">=</span> <span class="n">datos_modelo</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
+<span class="n">tr_mod</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="n">datos</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">CORTE</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;fecha&quot;</span><span class="p">,</span> <span class="s2">&quot;negocio&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">folds</span> <span class="o">=</span> <span class="n">folds_temporales</span><span class="p">(</span><span class="n">tr_mod</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">))</span>
+<span class="n">dias_tr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">tr_mod</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()))</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">i_tr</span><span class="p">,</span> <span class="n">i_val</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">folds</span><span class="p">):</span>
+    <span class="n">f_tr</span><span class="p">,</span> <span class="n">f_val</span> <span class="o">=</span> <span class="n">tr_mod</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i_tr</span><span class="p">],</span> <span class="n">tr_mod</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i_val</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">f_tr</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">f_tr</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">days</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">f_tr</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">f_val</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">f_tr</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">days</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">f_tr</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#e4e3df&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">f_val</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">f_val</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">days</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">f_val</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fold </span><span class="si">{</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: train </span><span class="si">{</span><span class="n">f_tr</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> a </span><span class="si">{</span><span class="n">f_tr</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">f_tr</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> días) | &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;validación </span><span class="si">{</span><span class="n">f_val</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> a </span><span class="si">{</span><span class="n">f_val</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">folds</span><span class="p">),</span> <span class="p">(</span><span class="n">CORTE</span> <span class="o">-</span> <span class="n">INICIO</span><span class="p">)</span><span class="o">.</span><span class="n">days</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">INICIO</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">folds</span><span class="p">)))</span> <span class="o">+</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">folds</span><span class="p">)])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;fold </span><span class="si">{</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">folds</span><span class="p">))]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;train (con 14 días</span><span class="se">\n</span><span class="s2">de calentamiento)&quot;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Validación cruzada temporal: entrenamiento, gap y validación&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Patch</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;entrenamiento&quot;</span><span class="p">),</span> <span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;#e4e3df&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;gap (7 días)&quot;</span><span class="p">),</span>
+                   <span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;validación (7 días)&quot;</span><span class="p">)],</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper center&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.18</span><span class="p">))</span>
+<span class="n">fechas_eje</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">INICIO</span><span class="p">,</span> <span class="n">CORTE</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fold 1: train 2026-07-15 a 2026-07-29 (15 días) | validación 2026-08-06 a 2026-08-12
+fold 2: train 2026-07-15 a 2026-08-05 (22 días) | validación 2026-08-13 a 2026-08-19
+fold 3: train 2026-07-15 a 2026-08-12 (29 días) | validación 2026-08-20 a 2026-08-26
+fold 4: train 2026-07-15 a 2026-08-19 (36 días) | validación 2026-08-27 a 2026-09-02
+</pre></div>
+</div>
+<img alt="_images/21aa2fb9f1b17438273ffd5e32a81c91da07bd618cf5ca2f4d3daef5ce3d0de0.png" src="_images/21aa2fb9f1b17438273ffd5e32a81c91da07bd618cf5ca2f4d3daef5ce3d0de0.png" />
+</div>
+</div>
+</section>
+<section id="resumen-del-capitulo">
+<h2>✅ Resumen del capítulo<a class="headerlink" href="#resumen-del-capitulo" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Hallazgo temporal</p></th>
+<th class="head"><p>Decisión</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ciclo semanal fuerte (STL, ACF con picos en 7, 14, 21)</p></td>
+<td><p>Día de la semana + rezagos 7 y 14 + línea base estacional</p></td>
+</tr>
+<tr class="row-odd"><td><p>Persistencia de corto plazo (ACF y PACF en el rezago 1)</p></td>
+<td><p>Rezago 1, media y desviación de 7 días; horizonte <span class="math notranslate nohighlight">\(h = 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Series mayormente estacionarias en log (ADF/KPSS, baja potencia)</p></td>
+<td><p>No diferenciar; modelar el nivel en log</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sin deriva global, pero cambios de nivel &gt; 20 % en ~84 negocios</p></td>
+<td><p>Variables de corto plazo; revisar los residuos en test</p></td>
+</tr>
+<tr class="row-even"><td><p>3 festivos con caídas de 15–23 %, ninguno en test</p></td>
+<td><p>Variable <code class="docutils literal notranslate"><span class="pre">festivo</span></code>, con la limitación declarada</p></td>
+</tr>
+<tr class="row-odd"><td><p>Autocorrelación hasta una semana</p></td>
+<td><p>CV temporal por días: 4 folds de 7 días con gap de 7</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p><strong>Límites por tener solo ~3 meses.</strong> No se puede estimar estacionalidad mensual ni anual (quincenas, primas, temporadas), ni validar el efecto de festivos fuera de muestra. La deriva observada en 9 semanas podría ser parte de un ciclo más largo que no se alcanza a ver.</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05_auditoria_fuga.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">🚨 5. Auditoría de fuga de datos</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07_preprocesamiento.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">⚙️ 7. Preprocesamiento</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#serie-agregada-tendencia-y-estacionalidad">📈 6.1 Serie agregada: tendencia y estacionalidad</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autocorrelacion-dentro-de-cada-negocio">🔁 6.2 Autocorrelación dentro de cada negocio</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estacionariedad">📉 6.3 Estacionariedad</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriva-dentro-de-train">🌊 6.4 Deriva dentro de train</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#festivos">🎉 6.5 Festivos</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esquema-de-validacion-cruzada-temporal">🧩 6.6 Esquema de validación cruzada temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-capitulo">✅ Resumen del capítulo</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

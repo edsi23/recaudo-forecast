@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="es" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Welcome to your Jupyter Book &#8212; My sample book</title>
+    <title>Pronóstico de ventas diarias por negocio &#8212; Pronóstico de ventas diarias por negocio</title>
   
   
   
@@ -53,6 +53,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -62,11 +63,11 @@ const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Markdown Files" href="markdown.html" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="📘 1. Base de datos" href="01_base_de_datos.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:language" content="es"/>
   </head>
   
   
@@ -74,7 +75,7 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -151,14 +152,19 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Welcome to your Jupyter Book
+                    Pronóstico de ventas diarias por negocio
                 </a>
             </li>
         </ul>
         <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Content with notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
 </ul>
 
     </div>
@@ -202,50 +208,18 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="article-header-buttons">
 
 
-
-
-
-<div class="dropdown dropdown-source-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
-    <i class="fab fa-github"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
-   class="btn btn-sm btn-source-repository-button dropdown-item"
-   title="Source repository"
-   data-bs-placement="left" data-bs-toggle="tooltip"
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   <i class="fab fa-github"></i>
   </span>
-<span class="btn__text-container">Repository</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
-   class="btn btn-sm btn-source-issues-button dropdown-item"
-   title="Open an issue"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
 
-<span class="btn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="btn__text-container">Open issue</span>
 </a>
-</li>
-      
-  </ul>
-</div>
 
 
 
@@ -253,7 +227,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <div class="dropdown dropdown-download-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
@@ -262,7 +236,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="_sources/intro.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
-   title="Download source file"
+   title="Descargar archivo fuente"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
@@ -280,7 +254,7 @@ const thebe_selector_output = ".output, .cell_output"
       <li>
 <button onclick="window.print()"
   class="btn btn-sm btn-download-pdf-button dropdown-item"
-  title="Print to PDF"
+  title="Imprimir en PDF"
   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
@@ -300,7 +274,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <button onclick="toggleFullScreen()"
   class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
+  title="Modo de pantalla completa"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
@@ -314,7 +288,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
     <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
     <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
@@ -324,7 +298,7 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
   </button>
 `);
@@ -340,7 +314,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Welcome to your Jupyter Book</h1>
+    <h1>Pronóstico de ventas diarias por negocio</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -354,18 +328,41 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-your-jupyter-book">
-<h1>Welcome to your Jupyter Book<a class="headerlink" href="#welcome-to-your-jupyter-book" title="Permalink to this heading">#</a></h1>
-<p>This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a> for more information.</p>
-<p>Check out the content pages bundled with this sample book to see more.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="pronostico-de-ventas-diarias-por-negocio">
+<h1>Pronóstico de ventas diarias por negocio<a class="headerlink" href="#pronostico-de-ventas-diarias-por-negocio" title="Permalink to this heading">#</a></h1>
+<p>Primer entregable del proyecto de Machine Learning: pronóstico de la <strong>venta total diaria</strong> de 452 negocios (estaciones de servicio, tiendas de conveniencia y kioscos de autoservicio o KCO) operados por Masser, a partir de su historia reciente por medio de pago.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Tipo de problema</strong></p></td>
+<td><p>Regresión sobre panel temporal (negocio × día)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Periodo</strong></p></td>
+<td><p>1 jul – 23 sep 2026 (85 días)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Modelo base</strong></p></td>
+<td><p>Línea base ingenua + SVR lineal con validación cruzada temporal</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Los datos son confidenciales y no están en el repositorio (acceso bajo solicitud y con autorización de la empresa). Los notebooks se ejecutaron localmente y se publican con sus salidas guardadas.</p>
+</div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Content with notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
 </ul>
 </div>
 </section>
@@ -402,11 +399,11 @@ It does not go in-depth into any particular topic - check out <a class="referenc
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="right-next"
-       href="markdown.html"
-       title="next page">
+       href="01_base_de_datos.html"
+       title="siguiente página">
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Markdown Files</p>
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">📘 1. Base de datos</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -429,7 +426,7 @@ It does not go in-depth into any particular topic - check out <a class="referenc
   <div class="footer-item">
     
 <p class="component-author">
-By The Jupyter Book Community
+Por edsi23
 </p>
 
   </div>

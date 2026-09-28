@@ -1,0 +1,2433 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>🧹 2. Carga y limpieza &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_carga_y_limpieza';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="✂️ 3. Partición y variable objetivo" href="03_particion_y_objetivo.html" />
+    <link rel="prev" title="📘 1. Base de datos" href="01_base_de_datos.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_carga_y_limpieza.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>🧹 2. Carga y limpieza</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lectura-de-los-archivos">📂 2.1 Lectura de los archivos</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parseo-del-monto-recibo-total">💲 2.2 Parseo del monto (<code class="docutils literal notranslate"><span class="pre">Recibo.Total</span></code>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-catalogo-de-medios-de-pago-y-anonimizacion">🗂️ 2.3 Tipos, catálogo de medios de pago y anonimización</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#corte-temporal-se-excluye-el-24-de-septiembre">✂️ 2.4 Corte temporal: se excluye el 24 de septiembre</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controles-de-calidad-por-fila">🔍 2.5 Controles de calidad por fila</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agrupacion-de-medios-de-pago">💳 2.6 Agrupación de medios de pago</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agregacion-a-negocio-dia">🧮 2.7 Agregación a negocio × día</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dias-sin-registro-completar-el-panel">📅 2.8 Días sin registro: completar el panel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#panel-limpio-y-guardado">💾 2.9 Panel limpio y guardado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-capitulo">✅ Resumen del capítulo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiones-y-el-hallazgo-que-las-motiva">Decisiones y el hallazgo que las motiva</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="carga-y-limpieza">
+<h1>🧹 2. Carga y limpieza<a class="headerlink" href="#carga-y-limpieza" title="Permalink to this heading">#</a></h1>
+<p>En este capítulo paso de los archivos crudos de recibos a un <strong>panel limpio negocio × día</strong>, que es la base de todo el análisis que sigue.</p>
+<p>Aquí solo aplico <strong>reglas deterministas</strong>: parsear montos, cortar fechas, agregar y completar días según reglas del negocio. Ninguna de estas reglas usa estadísticas calculadas sobre los datos (medias, cuantiles, umbrales), así que no se filtra información del periodo de prueba hacia el entrenamiento. Las decisiones que sí dependen de estadísticas (outliers, escalado, imputación) se toman después de la partición cronológica del capítulo 3, usando solo train.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Paso</p></th>
+<th class="head"><p>Qué se hace</p></th>
+<th class="head"><p>Sección</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Leer los CSV y verificar qué fechas trae cada uno</p></td>
+<td><p>2.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Convertir el monto de texto a número</p></td>
+<td><p>2.2</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Unir el catálogo de medios de pago y anonimizar negocios</p></td>
+<td><p>2.3</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Excluir el día incompleto (24 sep)</p></td>
+<td><p>2.4</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Controles de calidad por fila</p></td>
+<td><p>2.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Agrupar medios de pago pequeños</p></td>
+<td><p>2.6</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>Agregar a negocio × día y completar días sin venta</p></td>
+<td><p>2.7 – 2.8</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>Guardar el panel limpio</p></td>
+<td><p>2.9</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Patch</span>
+
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
+
+<span class="c1"># rutas relativas (los datos viven fuera del repo)</span>
+<span class="n">DATA</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;../../Data&quot;</span><span class="p">)</span>
+<span class="n">SALIDA</span> <span class="o">=</span> <span class="n">DATA</span> <span class="o">/</span> <span class="s2">&quot;processed&quot;</span>
+
+<span class="c1"># paleta del libro</span>
+<span class="n">PALETA</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#2a78d6&quot;</span><span class="p">,</span> <span class="s2">&quot;#eb6834&quot;</span><span class="p">,</span> <span class="s2">&quot;#1baf7a&quot;</span><span class="p">,</span> <span class="s2">&quot;#eda100&quot;</span><span class="p">,</span> <span class="s2">&quot;#e87ba4&quot;</span><span class="p">,</span> <span class="s2">&quot;#008300&quot;</span><span class="p">,</span> <span class="s2">&quot;#4a3aa7&quot;</span><span class="p">,</span> <span class="s2">&quot;#e34948&quot;</span><span class="p">]</span>
+<span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="n">GRIS</span> <span class="o">=</span> <span class="n">PALETA</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">PALETA</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;#c9c8c2&quot;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s2">&quot;figure.dpi&quot;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;axes.prop_cycle&quot;</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">PALETA</span><span class="p">),</span>
+    <span class="s2">&quot;axes.spines.top&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;axes.spines.right&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;axes.grid&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;grid.color&quot;</span><span class="p">:</span> <span class="s2">&quot;#e4e3df&quot;</span><span class="p">,</span> <span class="s2">&quot;grid.linewidth&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span>
+    <span class="s2">&quot;axes.edgecolor&quot;</span><span class="p">:</span> <span class="s2">&quot;#8a8983&quot;</span><span class="p">,</span> <span class="s2">&quot;axes.labelcolor&quot;</span><span class="p">:</span> <span class="s2">&quot;#52514e&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;xtick.color&quot;</span><span class="p">:</span> <span class="s2">&quot;#52514e&quot;</span><span class="p">,</span> <span class="s2">&quot;ytick.color&quot;</span><span class="p">:</span> <span class="s2">&quot;#52514e&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;axes.titleweight&quot;</span><span class="p">:</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="s2">&quot;axes.titlesize&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.float_format&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{:,.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
+<span class="n">MESES</span> <span class="o">=</span> <span class="p">{</span><span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;jul&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;ago&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="s2">&quot;sep&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="lectura-de-los-archivos">
+<h2>📂 2.1 Lectura de los archivos<a class="headerlink" href="#lectura-de-los-archivos" title="Permalink to this heading">#</a></h2>
+<p>Los recibos vienen en CSV organizados por año y mes (<code class="docutils literal notranslate"><span class="pre">Pos_Receipts/2026/&lt;Mes&gt;/&lt;rango&gt;.csv</span></code>). Leo todo como texto para controlar yo mismo la conversión de tipos, y guardo de qué archivo sale cada fila.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">archivos</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DATA</span> <span class="o">/</span> <span class="s2">&quot;Pos_Receipts&quot;</span> <span class="o">/</span> <span class="s2">&quot;**&quot;</span> <span class="o">/</span> <span class="s2">&quot;*.csv&quot;</span><span class="p">),</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+<span class="n">partes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">archivos</span><span class="p">:</span>
+    <span class="c1"># utf-8-sig porque los archivos traen BOM al inicio</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+    <span class="n">d</span><span class="p">[</span><span class="s2">&quot;archivo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:])</span>  <span class="c1"># solo mes/archivo, sin ruta completa</span>
+    <span class="n">partes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">crudo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">partes</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">])</span>
+
+<span class="n">resumen</span> <span class="o">=</span> <span class="n">crudo</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;archivo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">filas</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">),</span>
+    <span class="n">desde</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">),</span>
+    <span class="n">hasta</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">),</span>
+    <span class="n">dias</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;desde&quot;</span><span class="p">)</span>
+<span class="n">resumen</span><span class="p">[</span><span class="s2">&quot;desde&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resumen</span><span class="p">[</span><span class="s2">&quot;desde&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+<span class="n">resumen</span><span class="p">[</span><span class="s2">&quot;hasta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resumen</span><span class="p">[</span><span class="s2">&quot;hasta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">archivos</span><span class="p">)</span><span class="si">}</span><span class="s2"> archivos, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">crudo</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas, columnas: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">crudo</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">resumen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6 archivos, 143,367 filas, columnas: [&#39;Source&#39;, &#39;Biz.ID&#39;, &#39;Date&#39;, &#39;PM.ID&#39;, &#39;Recibo.Total&#39;]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>filas</th>
+      <th>desde</th>
+      <th>hasta</th>
+      <th>dias</th>
+    </tr>
+    <tr>
+      <th>archivo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Julio/1_15.csv</th>
+      <td>24919</td>
+      <td>2026-07-01</td>
+      <td>2026-07-15</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>Julio/16_31.csv</th>
+      <td>26566</td>
+      <td>2026-07-16</td>
+      <td>2026-07-31</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>Agosto/1-15.csv</th>
+      <td>24790</td>
+      <td>2026-08-01</td>
+      <td>2026-08-15</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>Agosto/16-26.csv</th>
+      <td>26518</td>
+      <td>2026-08-16</td>
+      <td>2026-08-31</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>Septiembre/1-15.csv</th>
+      <td>25383</td>
+      <td>2026-09-01</td>
+      <td>2026-09-15</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>Septiembre/16-21.csv</th>
+      <td>15191</td>
+      <td>2026-09-16</td>
+      <td>2026-09-24</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reviso que ningún día aparezca en dos archivos y que no falte ningún día</span>
+<span class="n">dias_por_archivo</span> <span class="o">=</span> <span class="n">crudo</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">)[</span><span class="s2">&quot;archivo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+<span class="n">todos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">date</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;días repetidos entre archivos:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">dias_por_archivo</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;días faltantes en el rango:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">todos</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">dias_por_archivo</span><span class="o">.</span><span class="n">index</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;fechas con hora distinta de 00:00:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">hour</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>días repetidos entre archivos: 0
+días faltantes en el rango: 0
+fechas con hora distinta de 00:00: 0
+</pre></div>
+</div>
+</div>
+</div>
+<section id="interpretacion">
+<h3>Interpretación<a class="headerlink" href="#interpretacion" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Son 6 archivos que cubren del 1 de julio al 24 de septiembre sin días repetidos ni faltantes, y todas las fechas vienen a las 00:00 (el dato ya está agregado por día).</p></li>
+<li><p><strong>Los nombres de archivo no coinciden con su contenido</strong>: <code class="docutils literal notranslate"><span class="pre">Agosto/16-26.csv</span></code> trae hasta el 31 y <code class="docutils literal notranslate"><span class="pre">Septiembre/16-21.csv</span></code> trae hasta el 24. Por eso todos los filtros de este libro se hacen <strong>por la columna <code class="docutils literal notranslate"><span class="pre">Date</span></code></strong>, nunca por el nombre del archivo.</p></li>
+</ul>
+</section>
+</section>
+<section id="parseo-del-monto-recibo-total">
+<h2>💲 2.2 Parseo del monto (<code class="docutils literal notranslate"><span class="pre">Recibo.Total</span></code>)<a class="headerlink" href="#parseo-del-monto-recibo-total" title="Permalink to this heading">#</a></h2>
+<p>El monto viene como texto con el formato de moneda del sistema: prefijo <code class="docutils literal notranslate"><span class="pre">$</span> </code>, <strong>coma como separador decimal</strong> y el signo menos delante del <code class="docutils literal notranslate"><span class="pre">$</span></code> en los negativos. Antes de convertir verifico que todas las filas cumplan un único patrón.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monto_txt</span> <span class="o">=</span> <span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;Recibo.Total&quot;</span><span class="p">]</span>
+
+<span class="c1"># patrón esperado: signo opcional, &quot;$ &quot;, dígitos y opcionalmente &quot;,decimales&quot;</span>
+<span class="n">patron</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;-?\$ \d+(,\d{1,3})?&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;filas que NO cumplen el patrón:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="o">~</span><span class="n">monto_txt</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">patron</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">con_coma</span> <span class="o">=</span> <span class="n">monto_txt</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+<span class="n">n_dec</span> <span class="o">=</span> <span class="n">monto_txt</span><span class="p">[</span><span class="n">con_coma</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;filas con coma: </span><span class="si">{</span><span class="n">con_coma</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">con_coma</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dígitos después de la coma:&quot;</span><span class="p">,</span> <span class="n">n_dec</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;negativos:&quot;</span><span class="p">,</span> <span class="n">monto_txt</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>filas que NO cumplen el patrón: 0
+filas con coma: 15,863 (11.1%)
+dígitos después de la coma: {1: 6261, 2: 9015, 3: 587}
+negativos: 12
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ojo: la coma es decimal, no separador de miles</span>
+<span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">monto_txt</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                           <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                           <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                           <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+
+<span class="c1"># qué pasaría si solo se borraran las comas</span>
+<span class="n">monto_mal</span> <span class="o">=</span> <span class="n">monto_txt</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[$ ,]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nulos tras convertir:&quot;</span><span class="p">,</span> <span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;total bien parseado: </span><span class="si">{</span><span class="n">crudo</span><span class="p">[</span><span class="s1">&#39;monto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;total borrando comas: </span><span class="si">{</span><span class="n">monto_mal</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">monto_mal</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">crudo</span><span class="p">[</span><span class="s1">&#39;monto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> veces más)&quot;</span><span class="p">)</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;texto&quot;</span><span class="p">:</span> <span class="n">monto_txt</span><span class="p">,</span> <span class="s2">&quot;monto&quot;</span><span class="p">:</span> <span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]})[</span><span class="n">con_coma</span> <span class="o">|</span> <span class="p">(</span><span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">&quot;texto&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>nulos tras convertir: 0
+total bien parseado: 892,151,033,287
+total borrando comas: 30,974,726,751,125  (34.7 veces más)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>texto</th>
+      <th>monto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>$ 24079207,913</td>
+      <td>24,079,207.91</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>$ 60532854,446</td>
+      <td>60,532,854.45</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>$ 67773622,2</td>
+      <td>67,773,622.20</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>$ 14362660,45</td>
+      <td>14,362,660.45</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>$ 30325557,15</td>
+      <td>30,325,557.15</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>$ 37476323,7</td>
+      <td>37,476,323.70</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id1">
+<h3>Interpretación<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>Todas las filas cumplen el patrón, así que la conversión es segura y no deja nulos. La coma es decimal y no de miles: si fuera de miles siempre habría exactamente 3 dígitos después de ella, y aquí hay 1, 2 o 3. Si solo se borraran las comas, los montos con decimales quedarían multiplicados por 10, 100 o 1000 y el valor total se inflaría varias veces.</p>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p>La coma en <code class="docutils literal notranslate"><span class="pre">Recibo.Total</span></code> es <strong>separador decimal</strong>. Hay que reemplazarla por punto; si se borra, los montos se inflan por potencias de 10.</p>
+</div>
+</section>
+</section>
+<section id="tipos-catalogo-de-medios-de-pago-y-anonimizacion">
+<h2>🗂️ 2.3 Tipos, catálogo de medios de pago y anonimización<a class="headerlink" href="#tipos-catalogo-de-medios-de-pago-y-anonimizacion" title="Permalink to this heading">#</a></h2>
+<p>El catálogo <code class="docutils literal notranslate"><span class="pre">vw_PaymetMethods.txt</span></code> (separado por <code class="docutils literal notranslate"><span class="pre">;</span></code>) trae el nombre y la categoría de cada <code class="docutils literal notranslate"><span class="pre">PM.ID</span></code>. Hay tres categorías: <strong>Contado</strong>, <strong>Crédito propio</strong> (crédito que el negocio le da a sus clientes) y <strong>Crédito empresa</strong> (convenios de crédito corporativo).</p>
+<p>Los <code class="docutils literal notranslate"><span class="pre">Biz.ID</span></code> se reemplazan por códigos <code class="docutils literal notranslate"><span class="pre">N001…N453</span></code>, asignados en orden de ID (la numeración se mantiene aunque después se excluya algún negocio). La tabla de equivalencias se guarda solo en la carpeta privada de datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA</span> <span class="o">/</span> <span class="s2">&quot;vw_PaymetMethods.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ID&quot;</span><span class="p">:</span> <span class="s2">&quot;pm_id&quot;</span><span class="p">,</span> <span class="s2">&quot;PaymentMethod&quot;</span><span class="p">:</span> <span class="s2">&quot;medio&quot;</span><span class="p">,</span> <span class="s2">&quot;Category&quot;</span><span class="p">:</span> <span class="s2">&quot;categoria&quot;</span><span class="p">})</span>
+
+<span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;biz_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;Biz.ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;pm_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;PM.ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">usados</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;pm_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;medios en el catálogo: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span><span class="si">}</span><span class="s2">, medios usados en los datos: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">usados</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;medios usados que no están en el catálogo:&quot;</span><span class="p">,</span> <span class="nb">set</span><span class="p">(</span><span class="n">usados</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">cat</span><span class="p">[</span><span class="s2">&quot;pm_id&quot;</span><span class="p">]))</span>
+<span class="n">cat</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;categoria&quot;</span><span class="p">)[</span><span class="s2">&quot;pm_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;medios en catálogo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>medios en el catálogo: 26, medios usados en los datos: 19
+medios usados que no están en el catálogo: set()
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>medios en catálogo</th>
+    </tr>
+    <tr>
+      <th>categoria</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Contado</th>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>Credito Propio</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Credito Terpel</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [IA] anonimizo negocios: N001, N002, ... en orden de ID</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">crudo</span><span class="p">[</span><span class="s2">&quot;biz_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">mapa_negocios</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;biz_id&quot;</span><span class="p">:</span> <span class="n">ids</span><span class="p">,</span> <span class="s2">&quot;negocio&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;N</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">03d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]})</span>
+<span class="n">crudo</span> <span class="o">=</span> <span class="n">crudo</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">mapa_negocios</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;biz_id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;pm_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">crudo</span><span class="p">[[</span><span class="s2">&quot;archivo&quot;</span><span class="p">,</span> <span class="s2">&quot;Source&quot;</span><span class="p">,</span> <span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;pm_id&quot;</span><span class="p">,</span> <span class="s2">&quot;medio&quot;</span><span class="p">,</span> <span class="s2">&quot;categoria&quot;</span><span class="p">,</span> <span class="s2">&quot;monto&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="s2">&quot;fuente&quot;</span><span class="p">,</span> <span class="s2">&quot;Date&quot;</span><span class="p">:</span> <span class="s2">&quot;fecha&quot;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;negocios:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>negocios: 453
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>archivo</th>
+      <th>fuente</th>
+      <th>negocio</th>
+      <th>fecha</th>
+      <th>pm_id</th>
+      <th>medio</th>
+      <th>categoria</th>
+      <th>monto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Agosto/1-15.csv</td>
+      <td>TPos Recibos</td>
+      <td>N001</td>
+      <td>2026-08-01</td>
+      <td>1</td>
+      <td>Efectivo</td>
+      <td>Contado</td>
+      <td>24,079,207.91</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Agosto/1-15.csv</td>
+      <td>TPos Recibos</td>
+      <td>N001</td>
+      <td>2026-08-01</td>
+      <td>10</td>
+      <td>Bono Fidelizacion</td>
+      <td>Contado</td>
+      <td>70,000.00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Agosto/1-15.csv</td>
+      <td>TPos Recibos</td>
+      <td>N001</td>
+      <td>2026-08-01</td>
+      <td>11</td>
+      <td>Rumbo</td>
+      <td>Credito Terpel</td>
+      <td>60,532,854.45</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Agosto/1-15.csv</td>
+      <td>TPos Recibos</td>
+      <td>N001</td>
+      <td>2026-08-01</td>
+      <td>12</td>
+      <td>Mi Empresa</td>
+      <td>Credito Terpel</td>
+      <td>22,126,707.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Agosto/1-15.csv</td>
+      <td>TPos Recibos</td>
+      <td>N001</td>
+      <td>2026-08-01</td>
+      <td>2</td>
+      <td>Datáfono</td>
+      <td>Contado</td>
+      <td>67,773,622.20</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id2">
+<h3>Interpretación<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>Todos los medios de pago que aparecen en los datos existen en el catálogo; se usan 19 de los 26. De aquí en adelante solo se ve el código anonimizado del negocio (<code class="docutils literal notranslate"><span class="pre">N###</span></code>) y el <code class="docutils literal notranslate"><span class="pre">Biz.ID</span></code> original no aparece en ninguna salida.</p>
+</section>
+</section>
+<section id="corte-temporal-se-excluye-el-24-de-septiembre">
+<h2>✂️ 2.4 Corte temporal: se excluye el 24 de septiembre<a class="headerlink" href="#corte-temporal-se-excluye-el-24-de-septiembre" title="Permalink to this heading">#</a></h2>
+<p>El último archivo se descargó el 25 de septiembre, así que el 24 puede estar incompleto. Lo reviso con el número de negocios que tienen al menos un registro cada día.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">negocios_dia</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;fecha&quot;</span><span class="p">)[</span><span class="s2">&quot;negocio&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">negocios_dia</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">negocios_dia</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ultimo</span> <span class="o">=</span> <span class="n">negocios_dia</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="n">ultimo</span><span class="p">],</span> <span class="p">[</span><span class="n">negocios_dia</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;24 sep: </span><span class="si">{</span><span class="n">negocios_dia</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> negocios&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">ultimo</span><span class="p">,</span> <span class="n">negocios_dia</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">150</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#0b0b0b&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Negocios con al menos un registro por día&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Número de negocios&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Fecha&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">460</span><span class="p">)</span>
+<span class="n">ticks</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">negocios_dia</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">day</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">)]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">day</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">MESES</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">month</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">negocios_dia</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()[[</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;50%&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2d3b4ba9b23971b35797878df341a300b8db7c77dc0dfc8435b461940bff4c08.png" src="_images/2d3b4ba9b23971b35797878df341a300b8db7c77dc0dfc8435b461940bff4c08.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;min&#39;: 439.0, &#39;50%&#39;: 444.0, &#39;max&#39;: 448.0}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FECHA_FIN</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2026-09-23&quot;</span><span class="p">)</span>
+<span class="n">filas_antes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">FECHA_FIN</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;filas eliminadas del 24 sep: </span><span class="si">{</span><span class="n">filas_antes</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">; quedan </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas y </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> días&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>filas eliminadas del 24 sep: 1,552; quedan 141,815 filas y 85 días
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id3">
+<h3>Interpretación<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<p>Entre el 1 jul y el 23 sep el número de negocios con registro se mantiene muy estable (entre 439 y 448). El 24 cae a 369: el día quedó a medio cargar cuando se exportaron los datos. Si se incluyera, parecería una caída real de la venta ese día y además sería el último dato de la prueba.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><strong>Decisión:</strong> el periodo de análisis va del <strong>1 de julio al 23 de septiembre de 2026</strong> (85 días). El 24 se excluye por completo porque su carga está incompleta, no porque sea un valor atípico.</p>
+</div>
+</section>
+</section>
+<section id="controles-de-calidad-por-fila">
+<h2>🔍 2.5 Controles de calidad por fila<a class="headerlink" href="#controles-de-calidad-por-fila" title="Permalink to this heading">#</a></h2>
+<p>Reviso nulos, duplicados, ceros y negativos. También el caso de negocios que aparecen en más de una fuente (sistema de origen).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nulos por columna:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;filas idénticas:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;duplicados (fuente, negocio, fecha, medio):&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">([</span><span class="s2">&quot;fuente&quot;</span><span class="p">,</span> <span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">,</span> <span class="s2">&quot;pm_id&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;filas cuyo (negocio, fecha, medio) se repite en otra fuente:&quot;</span><span class="p">,</span>
+      <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">([</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">,</span> <span class="s2">&quot;pm_id&quot;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>nulos por columna: {&#39;archivo&#39;: 0, &#39;fuente&#39;: 0, &#39;negocio&#39;: 0, &#39;fecha&#39;: 0, &#39;pm_id&#39;: 0, &#39;medio&#39;: 0, &#39;categoria&#39;: 0, &#39;monto&#39;: 0}
+filas idénticas: 0
+duplicados (fuente, negocio, fecha, medio): 0
+filas cuyo (negocio, fecha, medio) se repite en otra fuente: 5012
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fuentes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;fuente&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">filas</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;monto&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">),</span> <span class="n">negocios</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span> <span class="n">valor</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;monto&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">))</span>
+<span class="n">fuentes</span><span class="p">[</span><span class="s2">&quot;% valor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">fuentes</span><span class="p">[</span><span class="s2">&quot;valor&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">fuentes</span><span class="p">[</span><span class="s2">&quot;valor&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fuentes</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;valor&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;% valor&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>filas</th>
+      <th>negocios</th>
+      <th>% valor</th>
+    </tr>
+    <tr>
+      <th>fuente</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>TPos Recibos</th>
+      <td>85704</td>
+      <td>218</td>
+      <td>88.94</td>
+    </tr>
+    <tr>
+      <th>Sckuba</th>
+      <td>40892</td>
+      <td>156</td>
+      <td>6.18</td>
+    </tr>
+    <tr>
+      <th>Satelite Ventas GNV</th>
+      <td>11925</td>
+      <td>76</td>
+      <td>4.16</td>
+    </tr>
+    <tr>
+      <th>Satelite Ventas LIQ</th>
+      <td>524</td>
+      <td>2</td>
+      <td>0.67</td>
+    </tr>
+    <tr>
+      <th>Satelite Ventas Canastilla</th>
+      <td>2532</td>
+      <td>37</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>Manual</th>
+      <td>238</td>
+      <td>2</td>
+      <td>0.01</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [IA] negocios que aparecen en más de una fuente y qué combinación usan</span>
+<span class="n">fuentes_neg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;fuente&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="s2">&quot; + &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">unique</span><span class="p">())))</span>
+<span class="n">multi</span> <span class="o">=</span> <span class="n">fuentes_neg</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;fuente&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;negocios en 2 fuentes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">multi</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">multi</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;negocios&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>negocios en 2 fuentes: 38
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>negocios</th>
+    </tr>
+    <tr>
+      <th>fuente</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Satelite Ventas Canastilla + Satelite Ventas GNV</th>
+      <td>37</td>
+    </tr>
+    <tr>
+      <th>Sckuba + TPos Recibos</th>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Hay 37 negocios con <strong>Satélite Canastilla + Satélite GNV</strong>. Son dos líneas de venta distintas del mismo negocio, así que se suman.</p>
+<p>El negocio que combina <strong>Sckuba + TPos</strong> se ve distinto. Reviso su venta semanal por fuente:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neg_pos</span> <span class="o">=</span> <span class="n">multi</span><span class="p">[</span><span class="n">multi</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;TPos&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">semanal</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">neg_pos</span><span class="p">]</span>
+           <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">Grouper</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;fecha&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;W-SUN&quot;</span><span class="p">),</span> <span class="s2">&quot;fuente&quot;</span><span class="p">])[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+           <span class="o">.</span><span class="n">unstack</span><span class="p">()</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
+<span class="n">semanal</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">semanal</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">date</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">neg_pos</span><span class="p">,</span> <span class="s2">&quot;- venta semanal por fuente (millones)&quot;</span><span class="p">)</span>
+<span class="n">semanal</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N093 - venta semanal por fuente (millones)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>fuente</th>
+      <th>Sckuba</th>
+      <th>TPos Recibos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2026-07-05</th>
+      <td>11.90</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2026-07-12</th>
+      <td>18.30</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2026-07-19</th>
+      <td>17.20</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2026-07-26</th>
+      <td>16.60</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2026-08-02</th>
+      <td>16.30</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2026-08-09</th>
+      <td>14.00</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2026-08-16</th>
+      <td>18.10</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2026-08-23</th>
+      <td>15.50</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2026-08-30</th>
+      <td>16.40</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2026-09-06</th>
+      <td>16.00</td>
+      <td>453.00</td>
+    </tr>
+    <tr>
+      <th>2026-09-13</th>
+      <td>16.30</td>
+      <td>518.00</td>
+    </tr>
+    <tr>
+      <th>2026-09-20</th>
+      <td>17.20</td>
+      <td>490.50</td>
+    </tr>
+    <tr>
+      <th>2026-09-27</th>
+      <td>6.50</td>
+      <td>224.50</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Desde el 1 de septiembre este negocio empezó a reportar también por TPos, por un cambio de sistema POS. Si fuera un simple reemplazo, Sckuba debería bajar cuando aparece TPos. Pero Sckuba sigue en su nivel de siempre (~16 M/semana) y TPos agrega <strong>unas 30 veces más</strong> (~490 M/semana). No es coherente con la historia del negocio.</p>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p><strong>Decisión (área de negocio):</strong> el negocio se <strong>elimina</strong> del análisis por <strong>inconsistencias en el cambio de su sistema POS</strong>. Sus datos de septiembre no son comparables con los de julio y agosto, y el salto caería justo en el periodo de prueba, donde distorsionaría las métricas.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># elimino el negocio con el cambio de POS inconsistente</span>
+<span class="n">NEGOCIOS_EXCLUIDOS</span> <span class="o">=</span> <span class="p">[</span><span class="n">neg_pos</span><span class="p">]</span>
+<span class="n">filas_antes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">NEGOCIOS_EXCLUIDOS</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;excluidos: </span><span class="si">{</span><span class="n">NEGOCIOS_EXCLUIDOS</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">filas_antes</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> filas; quedan </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;negocio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> negocios&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>excluidos: [&#39;N093&#39;] -&gt; 398 filas; quedan 452 negocios
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ceros</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;filas con monto 0: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ceros</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">ceros</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;fuente&quot;</span><span class="p">,</span> <span class="s2">&quot;pm_id&quot;</span><span class="p">,</span> <span class="s2">&quot;medio&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;filas&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>filas con monto 0: 494
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>filas</th>
+    </tr>
+    <tr>
+      <th>fuente</th>
+      <th>pm_id</th>
+      <th>medio</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">TPos Recibos</th>
+      <th>4</th>
+      <th>Bonos Privados</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <th>Gopass</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <th>App Terpel</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <th>Consumo Propio</th>
+      <td>491</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neg</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;monto&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;filas negativas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">neg</span><span class="p">)</span><span class="si">}</span><span class="s2">, suman </span><span class="si">{</span><span class="n">neg</span><span class="p">[</span><span class="s1">&#39;monto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">neg</span><span class="p">[[</span><span class="s2">&quot;fecha&quot;</span><span class="p">,</span> <span class="s2">&quot;fuente&quot;</span><span class="p">,</span> <span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;medio&quot;</span><span class="p">,</span> <span class="s2">&quot;monto&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>filas negativas: 12, suman -117,323,334
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fecha</th>
+      <th>fuente</th>
+      <th>negocio</th>
+      <th>medio</th>
+      <th>monto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>88644</th>
+      <td>2026-09-01</td>
+      <td>TPos Recibos</td>
+      <td>N347</td>
+      <td>Efectivo</td>
+      <td>-84,045,650.00</td>
+    </tr>
+    <tr>
+      <th>41203</th>
+      <td>2026-07-06</td>
+      <td>TPos Recibos</td>
+      <td>N237</td>
+      <td>Efectivo</td>
+      <td>-22,602,172.00</td>
+    </tr>
+    <tr>
+      <th>4506</th>
+      <td>2026-08-31</td>
+      <td>TPos Recibos</td>
+      <td>N012</td>
+      <td>Efectivo</td>
+      <td>-9,123,487.00</td>
+    </tr>
+    <tr>
+      <th>4604</th>
+      <td>2026-07-31</td>
+      <td>TPos Recibos</td>
+      <td>N012</td>
+      <td>Efectivo</td>
+      <td>-542,091.00</td>
+    </tr>
+    <tr>
+      <th>73862</th>
+      <td>2026-08-21</td>
+      <td>TPos Recibos</td>
+      <td>N312</td>
+      <td>Efectivo</td>
+      <td>-483,428.00</td>
+    </tr>
+    <tr>
+      <th>74304</th>
+      <td>2026-09-17</td>
+      <td>TPos Recibos</td>
+      <td>N312</td>
+      <td>Efectivo</td>
+      <td>-410,188.00</td>
+    </tr>
+    <tr>
+      <th>70534</th>
+      <td>2026-07-10</td>
+      <td>TPos Recibos</td>
+      <td>N304</td>
+      <td>Bonos Privados</td>
+      <td>-37,722.00</td>
+    </tr>
+    <tr>
+      <th>79525</th>
+      <td>2026-09-22</td>
+      <td>Satelite Ventas GNV</td>
+      <td>N325</td>
+      <td>Efectivo</td>
+      <td>-29,999.00</td>
+    </tr>
+    <tr>
+      <th>73884</th>
+      <td>2026-08-24</td>
+      <td>TPos Recibos</td>
+      <td>N312</td>
+      <td>Efectivo</td>
+      <td>-27,425.00</td>
+    </tr>
+    <tr>
+      <th>52196</th>
+      <td>2026-09-10</td>
+      <td>Satelite Ventas GNV</td>
+      <td>N260</td>
+      <td>Efectivo</td>
+      <td>-20,949.00</td>
+    </tr>
+    <tr>
+      <th>4866</th>
+      <td>2026-08-10</td>
+      <td>TPos Recibos</td>
+      <td>N115</td>
+      <td>Efectivo</td>
+      <td>-200.00</td>
+    </tr>
+    <tr>
+      <th>116982</th>
+      <td>2026-07-21</td>
+      <td>Satelite Ventas GNV</td>
+      <td>N408</td>
+      <td>Efectivo</td>
+      <td>-23.46</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id4">
+<h3>Interpretación<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Control</p></th>
+<th class="head"><p>Resultado</p></th>
+<th class="head"><p>Decisión</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Nulos</p></td>
+<td><p>0 en todas las columnas</p></td>
+<td><p>Nada que imputar a nivel de fila</p></td>
+</tr>
+<tr class="row-odd"><td><p>Duplicados dentro de una fuente</p></td>
+<td><p>0</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>(negocio, día, medio) repetido entre fuentes</p></td>
+<td><p>Sí, en negocios con 2 fuentes</p></td>
+<td><p><strong>Se suman</strong>: son dos líneas de venta distintas (Canastilla + GNV)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Negocio con cambio de POS inconsistente</p></td>
+<td><p>1 negocio (Sckuba + TPos)</p></td>
+<td><p><strong>Se elimina</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Montos en 0</p></td>
+<td><p>Casi todos en <em>Consumo Propio</em> (TPos)</p></td>
+<td><p>Se conservan: registran consumo interno sin cobro</p></td>
+</tr>
+<tr class="row-odd"><td><p>Negativos</p></td>
+<td><p>12 filas (reversos)</p></td>
+<td><p><strong>Se conservan</strong>: un reverso anula una venta real y se registra tal como ocurre</p></td>
+</tr>
+</tbody>
+</table>
+<p>La fuente TPos concentra casi el 89 % del valor. Los negativos son reversos de cobros: la mayoría son pequeños, pero hay algunos de decenas de millones, lo bastante grandes para dejar un negocio-día con venta total negativa (lo veo en 2.8).</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><strong>Decisión (área de negocio):</strong> los reversos son movimientos reales y el pronóstico debe incluirlos tal como ocurren. No se borran ni se recortan aquí. Como <code class="docutils literal notranslate"><span class="pre">log1p</span></code> no está definido para valores ≤ −1, su tratamiento para la transformación log se decide en el preprocesamiento (cap. 7) con reglas ajustadas solo en train.</p>
+</div>
+</section>
+</section>
+<section id="agrupacion-de-medios-de-pago">
+<h2>💳 2.6 Agrupación de medios de pago<a class="headerlink" href="#agrupacion-de-medios-de-pago" title="Permalink to this heading">#</a></h2>
+<p>Los medios de pago solo entrarán al modelo como <strong>rezagos</strong> (la venta de ayer por medio), y tener 19 columnas casi vacías añade ruido sin aportar señal. Por eso conservo por separado los medios que pesan al menos 1 % del valor y agrupo el resto en <em>otros</em>.</p>
+<p>El peso de cada medio lo calculo <strong>solo con julio y agosto</strong>. Así la decisión usa únicamente datos que quedan dentro de train con la partición propuesta para el capítulo 3 (prueba = últimas 3 semanas de septiembre), y no mira el periodo de prueba. Si en el capítulo 3 el corte quedara antes del 31 de agosto, este cálculo se repetiría.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [IA] participación de cada medio usando solo jul-ago (queda dentro de train)</span>
+<span class="n">jul_ago</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="s2">&quot;2026-09-01&quot;</span><span class="p">]</span>
+<span class="n">peso</span> <span class="o">=</span> <span class="p">(</span><span class="n">jul_ago</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;pm_id&quot;</span><span class="p">,</span> <span class="s2">&quot;medio&quot;</span><span class="p">,</span> <span class="s2">&quot;categoria&quot;</span><span class="p">])[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">())</span>
+<span class="n">peso</span><span class="p">[</span><span class="s2">&quot;% valor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">peso</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">peso</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">peso</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">% a</span><span class="s2">cumulado&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">peso</span><span class="p">[</span><span class="s2">&quot;% valor&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+<span class="n">peso</span><span class="p">[</span><span class="s2">&quot;negocios que lo usan&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">peso</span><span class="p">[</span><span class="s2">&quot;pm_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">jul_ago</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;pm_id&quot;</span><span class="p">)[</span><span class="s2">&quot;negocio&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="n">peso</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;monto&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pm_id</th>
+      <th>medio</th>
+      <th>categoria</th>
+      <th>% valor</th>
+      <th>% acumulado</th>
+      <th>negocios que lo usan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Efectivo</td>
+      <td>Contado</td>
+      <td>48.72</td>
+      <td>48.72</td>
+      <td>447</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Datáfono</td>
+      <td>Contado</td>
+      <td>35.76</td>
+      <td>84.49</td>
+      <td>368</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>11</td>
+      <td>Rumbo</td>
+      <td>Credito Terpel</td>
+      <td>9.98</td>
+      <td>94.47</td>
+      <td>144</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>12</td>
+      <td>Mi Empresa</td>
+      <td>Credito Terpel</td>
+      <td>2.89</td>
+      <td>97.36</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>9</td>
+      <td>Credito Clientes</td>
+      <td>Credito Propio</td>
+      <td>1.40</td>
+      <td>98.76</td>
+      <td>126</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>10</td>
+      <td>Bono Fidelizacion</td>
+      <td>Contado</td>
+      <td>0.61</td>
+      <td>99.37</td>
+      <td>290</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>23</td>
+      <td>Rappi Delivery</td>
+      <td>Contado</td>
+      <td>0.20</td>
+      <td>99.57</td>
+      <td>52</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>5</td>
+      <td>Gopass</td>
+      <td>Contado</td>
+      <td>0.13</td>
+      <td>99.70</td>
+      <td>89</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>6</td>
+      <td>App Terpel</td>
+      <td>Contado</td>
+      <td>0.11</td>
+      <td>99.81</td>
+      <td>222</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>7</td>
+      <td>Kushki</td>
+      <td>Contado</td>
+      <td>0.08</td>
+      <td>99.89</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>3</td>
+      <td>Datáfono Privado</td>
+      <td>Contado</td>
+      <td>0.05</td>
+      <td>99.94</td>
+      <td>107</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>15</td>
+      <td>Consumo Propio</td>
+      <td>Credito Terpel</td>
+      <td>0.02</td>
+      <td>99.96</td>
+      <td>128</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>20</td>
+      <td>Bono Mercadeo</td>
+      <td>Contado</td>
+      <td>0.02</td>
+      <td>99.98</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>16</td>
+      <td>Rappi</td>
+      <td>Contado</td>
+      <td>0.02</td>
+      <td>100.00</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>4</td>
+      <td>Bonos Privados</td>
+      <td>Contado</td>
+      <td>0.00</td>
+      <td>100.00</td>
+      <td>73</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>22</td>
+      <td>Eventos Terpel</td>
+      <td>Contado</td>
+      <td>0.00</td>
+      <td>100.00</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>18</td>
+      <td>Didi</td>
+      <td>Contado</td>
+      <td>0.00</td>
+      <td>100.00</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>13</td>
+      <td>Bonos</td>
+      <td>Credito Terpel</td>
+      <td>0.00</td>
+      <td>100.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>26</td>
+      <td>Nequi</td>
+      <td>Contado</td>
+      <td>0.00</td>
+      <td>100.00</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">MEDIOS_SEPARADOS</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;efectivo&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;datafono&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="s2">&quot;rumbo&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;mi_empresa&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="s2">&quot;credito_clientes&quot;</span><span class="p">}</span>
+
+<span class="c1"># verifico que coincida con la regla del 1 %</span>
+<span class="n">regla</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">peso</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">peso</span><span class="p">[</span><span class="s2">&quot;% valor&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;pm_id&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;regla &gt;= 1 </span><span class="si">% e</span><span class="s2">n jul-ago:&quot;</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">regla</span><span class="p">),</span> <span class="s2">&quot;| coincide:&quot;</span><span class="p">,</span> <span class="n">regla</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">MEDIOS_SEPARADOS</span><span class="p">))</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;grupo_pm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;pm_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">MEDIOS_SEPARADOS</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;otros&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;grupo_pm&quot;</span><span class="p">)[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;% valor (todo el periodo)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>regla &gt;= 1 % en jul-ago: [1, 2, 9, 11, 12] | coincide: True
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>% valor (todo el periodo)</th>
+    </tr>
+    <tr>
+      <th>grupo_pm</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>efectivo</th>
+      <td>48.58</td>
+    </tr>
+    <tr>
+      <th>datafono</th>
+      <td>35.68</td>
+    </tr>
+    <tr>
+      <th>rumbo</th>
+      <td>10.11</td>
+    </tr>
+    <tr>
+      <th>mi_empresa</th>
+      <td>2.94</td>
+    </tr>
+    <tr>
+      <th>credito_clientes</th>
+      <td>1.43</td>
+    </tr>
+    <tr>
+      <th>otros</th>
+      <td>1.26</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id5">
+<h3>Interpretación<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>Cinco medios concentran cerca del 99 % del valor: <strong>Efectivo</strong> y <strong>Datáfono</strong> (contado), <strong>Rumbo</strong> y <strong>Mi Empresa</strong> (crédito empresa) y <strong>Crédito clientes</strong> (crédito propio). Los otros 14 pesan menos del 1 % cada uno y se agrupan en <code class="docutils literal notranslate"><span class="pre">otros</span></code>. Algunos los usan muchos negocios (por ejemplo, Bono Fidelización), pero mueven muy poco dinero, así que como rezago individual aportarían casi nada. Con el periodo completo la participación casi no cambia, lo que indica que la agrupación es estable.</p>
+<p>Los medios de crédito (Rumbo, Mi Empresa, Crédito clientes) se tratan igual que cualquier otro medio de pago: el objetivo es la <strong>venta total diaria</strong>, sin importar cuándo entra el dinero a caja. También guardo el total por <strong>categoría del catálogo</strong> (contado, crédito propio, crédito empresa), pero solo como información descriptiva para el EDA.</p>
+</section>
+</section>
+<section id="agregacion-a-negocio-dia">
+<h2>🧮 2.7 Agregación a negocio × día<a class="headerlink" href="#agregacion-a-negocio-dia" title="Permalink to this heading">#</a></h2>
+<p>Sumo sobre fuentes y medios para tener una fila por negocio y día, con una columna por grupo de medios, el total por categoría y la venta total. Las filas de fuentes distintas se suman (ver 2.5).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [IA] pivot: una fila por negocio-día, columnas por grupo de medio y por categoría</span>
+<span class="n">por_medio</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;grupo_pm&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;monto&quot;</span><span class="p">,</span>
+                           <span class="n">aggfunc</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">por_medio</span> <span class="o">=</span> <span class="n">por_medio</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">MEDIOS_SEPARADOS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;otros&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;pm_&quot;</span><span class="p">)</span>
+
+<span class="n">cat_col</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Contado&quot;</span><span class="p">:</span> <span class="s2">&quot;cat_contado&quot;</span><span class="p">,</span> <span class="s2">&quot;Credito Propio&quot;</span><span class="p">:</span> <span class="s2">&quot;cat_credito_propio&quot;</span><span class="p">}</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;grupo_cat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;categoria&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">cat_col</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;cat_credito_empresa&quot;</span><span class="p">)</span>
+<span class="n">por_cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;grupo_cat&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;monto&quot;</span><span class="p">,</span>
+                         <span class="n">aggfunc</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">panel</span> <span class="o">=</span> <span class="n">por_medio</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">por_cat</span><span class="p">)</span>
+<span class="n">panel</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">panel</span><span class="p">[[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">panel</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;pm_&quot;</span><span class="p">)]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">panel</span><span class="p">[</span><span class="s2">&quot;n_fuentes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">])[</span><span class="s2">&quot;fuente&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+<span class="n">panel</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># chequeo: no se pierde plata al agregar</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;diferencia vs. filas crudas:&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">panel</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;monto&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;diferencia medios vs. categorías:&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">((</span><span class="n">panel</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">like</span><span class="o">=</span><span class="s2">&quot;pm_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">panel</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">like</span><span class="o">=</span><span class="s2">&quot;cat_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;filas negocio-día observadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diferencia vs. filas crudas: 0.0
+diferencia medios vs. categorías: 0.0
+filas negocio-día observadas: 37,631
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dias-sin-registro-completar-el-panel">
+<h2>📅 2.8 Días sin registro: completar el panel<a class="headerlink" href="#dias-sin-registro-completar-el-panel" title="Permalink to this heading">#</a></h2>
+<p>No todos los negocios tienen fila todos los días. Según el área de negocio, un día sin fila significa cosas distintas según dónde cae:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Caso</p></th>
+<th class="head"><p>Significado</p></th>
+<th class="head"><p>Tratamiento</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Día sin fila <strong>entre</strong> el primer y el último registro del negocio</p></td>
+<td><p>El negocio no vendió ese día</p></td>
+<td><p>Se agrega la fila con <strong>venta 0</strong> y marca <code class="docutils literal notranslate"><span class="pre">sin_registro</span> <span class="pre">=</span> <span class="pre">1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Días <strong>antes</strong> del primer registro</p></td>
+<td><p>El negocio aún no se había recibido de franquicia</p></td>
+<td><p>No se agregan filas (no existía en la operación)</p></td>
+</tr>
+<tr class="row-even"><td><p>Días <strong>después</strong> del último registro</p></td>
+<td><p>El negocio se entregó en franquicia</p></td>
+<td><p>No se agregan filas</p></td>
+</tr>
+</tbody>
+</table>
+<p>Es una regla del negocio, no una estadística de los datos, así que no genera fuga.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [IA] rango activo de cada negocio y reindexado diario dentro de ese rango</span>
+<span class="n">rango</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">inicio</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">fin</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">)</span>
+<span class="n">indice</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span>
+    <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rango</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;inicio&quot;</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;fin&quot;</span><span class="p">])],</span>
+    <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">])</span>
+
+<span class="n">completo</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">indice</span><span class="p">)</span>
+<span class="n">completo</span><span class="p">[</span><span class="s2">&quot;sin_registro&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">completo</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">completo</span> <span class="o">=</span> <span class="n">completo</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">completo</span><span class="p">[</span><span class="s2">&quot;n_fuentes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">completo</span><span class="p">[</span><span class="s2">&quot;n_fuentes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">INICIO</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;filas agregadas como día sin venta: </span><span class="si">{</span><span class="n">completo</span><span class="p">[</span><span class="s1">&#39;sin_registro&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;negocios con huecos internos: </span><span class="si">{</span><span class="n">completo</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;negocio&#39;</span><span class="p">)[</span><span class="s1">&#39;sin_registro&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;negocios con los 85 días: </span><span class="si">{</span><span class="p">(</span><span class="n">completo</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;negocio&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">85</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;entran después del 1 jul: </span><span class="si">{</span><span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="s1">&#39;inicio&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">INICIO</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">  |  salen antes del 23 sep: </span><span class="si">{</span><span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="s1">&#39;fin&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">FECHA_FIN</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>filas agregadas como día sin venta: 197
+negocios con huecos internos: 44
+negocios con los 85 días: 431
+entran después del 1 jul: 12  |  salen antes del 23 sep: 9
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [IA] mapa de cobertura, solo negocios con cobertura incompleta (los demás son 85 días seguidos)</span>
+<span class="n">fechas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">INICIO</span><span class="p">,</span> <span class="n">FECHA_FIN</span><span class="p">)</span>
+<span class="n">n_huecos</span> <span class="o">=</span> <span class="n">completo</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;sin_registro&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">incompletos</span> <span class="o">=</span> <span class="n">rango</span><span class="p">[(</span><span class="n">rango</span><span class="p">[</span><span class="s2">&quot;inicio&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">INICIO</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="s2">&quot;fin&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">FECHA_FIN</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">n_huecos</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span>
+<span class="n">incompletos</span> <span class="o">=</span> <span class="n">incompletos</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">huecos</span><span class="o">=</span><span class="n">n_huecos</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;inicio&quot;</span><span class="p">,</span> <span class="s2">&quot;fin&quot;</span><span class="p">,</span> <span class="s2">&quot;huecos&quot;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+
+<span class="n">estado</span> <span class="o">=</span> <span class="p">(</span><span class="n">completo</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">completo</span><span class="p">[</span><span class="s2">&quot;sin_registro&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+          <span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;fecha&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;v&quot;</span><span class="p">)</span>
+          <span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">incompletos</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">fechas</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">ListedColormap</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">estado</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+          <span class="n">cmap</span><span class="o">=</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s2">&quot;#f1f0ec&quot;</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">]),</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ticks</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fechas</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">day</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">)]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fechas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">day</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">MESES</span><span class="p">[</span><span class="n">fechas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">month</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Negocios con cobertura incompleta (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">estado</span><span class="p">)</span><span class="si">}</span><span class="s2"> de </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rango</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Fecha&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Negocio (ordenado por fecha de inicio)&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Con registro&quot;</span><span class="p">),</span>
+                    <span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sin registro → venta 0&quot;</span><span class="p">),</span>
+                    <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;#f1f0ec&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;#8a8983&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fuera de operación (franquicia)&quot;</span><span class="p">)],</span>
+           <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower center&quot;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/56f2828a25676d8d69731c4109b19accb4cc1955908f2b71ebd6576781abd532.png" src="_images/56f2828a25676d8d69731c4109b19accb4cc1955908f2b71ebd6576781abd532.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cómo se reparten los huecos entre negocios</span>
+<span class="n">huecos</span> <span class="o">=</span> <span class="n">completo</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;sin_registro&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">huecos</span> <span class="o">=</span> <span class="n">huecos</span><span class="p">[</span><span class="n">huecos</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;huecos por negocio (solo los que tienen):&quot;</span><span class="p">,</span> <span class="n">huecos</span><span class="o">.</span><span class="n">describe</span><span class="p">()[[</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="s2">&quot;50%&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;negocios con más de 10 días sin venta:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">huecos</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">activos</span> <span class="o">=</span> <span class="n">rango</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">dias</span><span class="o">=</span><span class="p">(</span><span class="n">rango</span><span class="p">[</span><span class="s2">&quot;fin&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">rango</span><span class="p">[</span><span class="s2">&quot;inicio&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;negocios con menos de 30 días de historia:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">activos</span><span class="p">[</span><span class="s2">&quot;dias&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;negocio-días con venta total &lt;= 0 (sin contar los agregados):&quot;</span><span class="p">,</span>
+      <span class="p">((</span><span class="n">completo</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">completo</span><span class="p">[</span><span class="s2">&quot;sin_registro&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>huecos por negocio (solo los que tienen): {&#39;count&#39;: 44.0, &#39;50%&#39;: 2.0, &#39;max&#39;: 26.0}
+negocios con más de 10 días sin venta: 6
+negocios con menos de 30 días de historia: 5
+negocio-días con venta total &lt;= 0 (sin contar los agregados): 2
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id6">
+<h3>Interpretación<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La gran mayoría de los negocios (394 de 452) opera los 85 días sin ningún hueco. La figura muestra solo los que no.</p></li>
+<li><p>Los huecos internos (naranja) son pocos y se concentran en unos cuantos negocios: casi siempre 1 o 2 días sueltos, aunque hay negocios con varias semanas sin venta. Ahora son filas con venta 0 y marca <code class="docutils literal notranslate"><span class="pre">sin_registro</span></code>, para que el modelo pueda distinguir «no vendió» de «vendió poco».</p></li>
+<li><p>Algunos negocios entran tarde (recibidos de franquicia) y otros salen antes (entregados). Varios de los que entran en agosto y septiembre tienen menos de 30 días de historia, lo que limita los rezagos largos que se pueden calcular para ellos.</p></li>
+<li><p>Hay negocio-días con venta total ≤ 0 aunque sí tienen registro, por el efecto de los reversos grandes (2.5).</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p><strong>Limitaciones que se arrastran:</strong> (1) los días con venta 0 y los negativos impiden aplicar <code class="docutils literal notranslate"><span class="pre">log1p</span></code> directamente, y se resuelve en el capítulo 7. (2) Los negocios con historia corta tendrán rezagos faltantes al inicio de su serie. (3) El 0 de un día sin fila está confirmado por el negocio, pero no se puede distinguir de un día en que el sistema no reportó.</p>
+</div>
+</section>
+</section>
+<section id="panel-limpio-y-guardado">
+<h2>💾 2.9 Panel limpio y guardado<a class="headerlink" href="#panel-limpio-y-guardado" title="Permalink to this heading">#</a></h2>
+<p>El panel se guarda en <code class="docutils literal notranslate"><span class="pre">Data/processed/</span></code>, fuera del repositorio. La tabla de equivalencias de negocios también queda ahí y <strong>nunca se publica</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SALIDA</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">completo</span> <span class="o">=</span> <span class="n">completo</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># redondeo a centavos (la suma deja ruido de punto flotante)</span>
+<span class="n">montos</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">completo</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;pm_&quot;</span><span class="p">,</span> <span class="s2">&quot;cat_&quot;</span><span class="p">,</span> <span class="s2">&quot;venta&quot;</span><span class="p">))]</span>
+<span class="n">completo</span><span class="p">[</span><span class="n">montos</span><span class="p">]</span> <span class="o">=</span> <span class="n">completo</span><span class="p">[</span><span class="n">montos</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">completo</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">SALIDA</span> <span class="o">/</span> <span class="s2">&quot;panel_negocio_dia.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">mapa_negocios</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">SALIDA</span> <span class="o">/</span> <span class="s2">&quot;mapa_negocios_PRIVADO.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;panel: </span><span class="si">{</span><span class="n">completo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas x </span><span class="si">{</span><span class="n">completo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;negocios: </span><span class="si">{</span><span class="n">completo</span><span class="p">[</span><span class="s1">&#39;negocio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">, días: </span><span class="si">{</span><span class="n">completo</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;del </span><span class="si">{</span><span class="n">completo</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> al </span><span class="si">{</span><span class="n">completo</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">completo</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;tipo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>panel: 37,828 filas x 14 columnas
+negocios: 452, días: 85, del 2026-07-01 al 2026-09-23
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>negocio</th>
+      <th>fecha</th>
+      <th>pm_efectivo</th>
+      <th>pm_datafono</th>
+      <th>pm_rumbo</th>
+      <th>pm_mi_empresa</th>
+      <th>pm_credito_clientes</th>
+      <th>pm_otros</th>
+      <th>cat_contado</th>
+      <th>cat_credito_empresa</th>
+      <th>cat_credito_propio</th>
+      <th>venta_total</th>
+      <th>n_fuentes</th>
+      <th>sin_registro</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>tipo</th>
+      <td>object</td>
+      <td>datetime64[ns]</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>float64</td>
+      <td>int64</td>
+      <td>int64</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># vistazo a un negocio de ejemplo (montos en millones)</span>
+<span class="n">ejemplo</span> <span class="o">=</span> <span class="n">completo</span><span class="p">[</span><span class="n">completo</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;N001&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;fecha&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;negocio&quot;</span><span class="p">)</span>
+<span class="n">montos</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ejemplo</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;pm_&quot;</span><span class="p">,</span> <span class="s2">&quot;cat_&quot;</span><span class="p">,</span> <span class="s2">&quot;venta&quot;</span><span class="p">))]</span>
+<span class="n">ejemplo</span><span class="p">[</span><span class="n">montos</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ejemplo</span><span class="p">[</span><span class="n">montos</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ejemplo</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pm_efectivo</th>
+      <th>pm_datafono</th>
+      <th>pm_rumbo</th>
+      <th>pm_mi_empresa</th>
+      <th>pm_credito_clientes</th>
+      <th>pm_otros</th>
+      <th>cat_contado</th>
+      <th>cat_credito_empresa</th>
+      <th>cat_credito_propio</th>
+      <th>venta_total</th>
+      <th>n_fuentes</th>
+      <th>sin_registro</th>
+    </tr>
+    <tr>
+      <th>fecha</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2026-07-01</th>
+      <td>18.37</td>
+      <td>55.37</td>
+      <td>66.41</td>
+      <td>24.84</td>
+      <td>0.37</td>
+      <td>0.66</td>
+      <td>74.40</td>
+      <td>91.25</td>
+      <td>0.37</td>
+      <td>166.01</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2026-07-02</th>
+      <td>26.63</td>
+      <td>64.78</td>
+      <td>76.04</td>
+      <td>28.07</td>
+      <td>0.60</td>
+      <td>0.15</td>
+      <td>91.42</td>
+      <td>104.25</td>
+      <td>0.60</td>
+      <td>196.27</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2026-07-03</th>
+      <td>23.32</td>
+      <td>63.14</td>
+      <td>65.48</td>
+      <td>23.04</td>
+      <td>0.10</td>
+      <td>0.57</td>
+      <td>87.02</td>
+      <td>88.52</td>
+      <td>0.10</td>
+      <td>175.64</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2026-07-04</th>
+      <td>23.84</td>
+      <td>60.83</td>
+      <td>39.43</td>
+      <td>24.00</td>
+      <td>0.00</td>
+      <td>0.67</td>
+      <td>85.33</td>
+      <td>63.43</td>
+      <td>0.00</td>
+      <td>148.76</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2026-07-05</th>
+      <td>25.99</td>
+      <td>45.75</td>
+      <td>34.42</td>
+      <td>24.06</td>
+      <td>0.23</td>
+      <td>0.13</td>
+      <td>71.88</td>
+      <td>58.48</td>
+      <td>0.23</td>
+      <td>130.59</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2026-07-06</th>
+      <td>24.41</td>
+      <td>39.79</td>
+      <td>43.62</td>
+      <td>18.00</td>
+      <td>0.00</td>
+      <td>0.88</td>
+      <td>65.08</td>
+      <td>61.62</td>
+      <td>0.00</td>
+      <td>126.70</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2026-07-07</th>
+      <td>17.99</td>
+      <td>55.85</td>
+      <td>49.64</td>
+      <td>17.18</td>
+      <td>0.45</td>
+      <td>0.29</td>
+      <td>74.12</td>
+      <td>66.82</td>
+      <td>0.45</td>
+      <td>141.39</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="resumen-del-capitulo">
+<h2>✅ Resumen del capítulo<a class="headerlink" href="#resumen-del-capitulo" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspecto</p></th>
+<th class="head"><p>Resultado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Filas crudas (1 jul – 24 sep)</p></td>
+<td><p>143 367</p></td>
+</tr>
+<tr class="row-odd"><td><p>Periodo de análisis</p></td>
+<td><p>1 jul – 23 sep 2026 (85 días)</p></td>
+</tr>
+<tr class="row-even"><td><p>Unidad de observación</p></td>
+<td><p>negocio × día</p></td>
+</tr>
+<tr class="row-odd"><td><p>Negocios (entidades independientes)</p></td>
+<td><p>452 (453 originales, 1 excluido)</p></td>
+</tr>
+<tr class="row-even"><td><p>Filas del panel</p></td>
+<td><p>37 828 (37 631 observadas + 197 días sin venta)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Columnas</p></td>
+<td><p>6 grupos de medio (<code class="docutils literal notranslate"><span class="pre">pm_*</span></code>), 3 categorías (<code class="docutils literal notranslate"><span class="pre">cat_*</span></code>), <code class="docutils literal notranslate"><span class="pre">venta_total</span></code>, <code class="docutils literal notranslate"><span class="pre">n_fuentes</span></code>, <code class="docutils literal notranslate"><span class="pre">sin_registro</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<section id="decisiones-y-el-hallazgo-que-las-motiva">
+<h3>Decisiones y el hallazgo que las motiva<a class="headerlink" href="#decisiones-y-el-hallazgo-que-las-motiva" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Decisión</p></th>
+<th class="head"><p>Hallazgo</p></th>
+<th class="head"><p>Sección</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Reemplazar la coma por punto en el monto</p></td>
+<td><p>11 % de las filas trae decimales con coma; borrarla infla los montos</p></td>
+<td><p>2.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Filtrar por <code class="docutils literal notranslate"><span class="pre">Date</span></code> y no por nombre de archivo</p></td>
+<td><p>Los nombres de archivo no coinciden con sus fechas</p></td>
+<td><p>2.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Excluir el 24 sep</p></td>
+<td><p>Solo 369 negocios ese día, contra 439–448 los demás</p></td>
+<td><p>2.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sumar entre fuentes</p></td>
+<td><p>Los repetidos entre fuentes son líneas de venta distintas, no duplicados</p></td>
+<td><p>2.5</p></td>
+</tr>
+<tr class="row-even"><td><p>Eliminar el negocio con cambio de POS</p></td>
+<td><p>Su venta se multiplica ~30 veces desde sep sin que baje el sistema anterior</p></td>
+<td><p>2.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>Conservar reversos y ceros</p></td>
+<td><p>Son movimientos reales (decisión del negocio)</p></td>
+<td><p>2.5</p></td>
+</tr>
+<tr class="row-even"><td><p>Agrupar 14 medios en <code class="docutils literal notranslate"><span class="pre">otros</span></code></p></td>
+<td><p>Pesan &lt; 1 % cada uno (calculado con jul–ago)</p></td>
+<td><p>2.6</p></td>
+</tr>
+<tr class="row-odd"><td><p>Días sin fila dentro del rango = venta 0</p></td>
+<td><p>Regla del negocio: no hubo venta</p></td>
+<td><p>2.8</p></td>
+</tr>
+<tr class="row-even"><td><p>No crear filas fuera del rango activo</p></td>
+<td><p>Entradas y salidas son cambios de franquicia</p></td>
+<td><p>2.8</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Truco</p>
+<p>Ninguna de estas reglas usa medias, cuantiles ni umbrales calculados con los datos. La única decisión que depende de los datos (la agrupación de medios) se tomó con julio y agosto, que quedan dentro de train. Lo demás se ajusta después de la partición del capítulo 3.</p>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_base_de_datos.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">📘 1. Base de datos</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_particion_y_objetivo.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">✂️ 3. Partición y variable objetivo</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lectura-de-los-archivos">📂 2.1 Lectura de los archivos</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parseo-del-monto-recibo-total">💲 2.2 Parseo del monto (<code class="docutils literal notranslate"><span class="pre">Recibo.Total</span></code>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-catalogo-de-medios-de-pago-y-anonimizacion">🗂️ 2.3 Tipos, catálogo de medios de pago y anonimización</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#corte-temporal-se-excluye-el-24-de-septiembre">✂️ 2.4 Corte temporal: se excluye el 24 de septiembre</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controles-de-calidad-por-fila">🔍 2.5 Controles de calidad por fila</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agrupacion-de-medios-de-pago">💳 2.6 Agrupación de medios de pago</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agregacion-a-negocio-dia">🧮 2.7 Agregación a negocio × día</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dias-sin-registro-completar-el-panel">📅 2.8 Días sin registro: completar el panel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#panel-limpio-y-guardado">💾 2.9 Panel limpio y guardado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-del-capitulo">✅ Resumen del capítulo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiones-y-el-hallazgo-que-las-motiva">Decisiones y el hallazgo que las motiva</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
