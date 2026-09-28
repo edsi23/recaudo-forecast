@@ -1,0 +1,7 @@
+book/_build/
+.ipynb_checkpoints/
+.DS_Store
+__pycache__/
+*.csv
+*.parquet
+Data/
