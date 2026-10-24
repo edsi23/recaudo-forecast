@@ -1,0 +1,16 @@
+/* estilo del dashboard: tipografía, tarjetas e insights */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+body { font-family: "Inter", system-ui, sans-serif; background: #f6f6f3; color: #1f2a37; }
+.card { border: 1px solid #e4e3df; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.kpi-valor { font-size: 1.8rem; font-weight: 700; color: #1f2a37; }
+.kpi-nota { font-size: .8rem; color: #6b6a66; }
+.insight { border-left: 4px solid #2a78d6; background: #eef4fc; padding: .55rem .8rem; border-radius: 6px;
+           font-size: .9rem; margin-top: .3rem; }
+.insight-alerta { border-left-color: #eb6834; background: #fdf1eb; }
+.hero { background: linear-gradient(135deg, #1f2a37 0%, #2a78d6 100%); color: white; border-radius: 14px; padding: 2rem; }
+.hero h1 { font-weight: 700; }
+.paso { border-radius: 10px; padding: .7rem; text-align: center; color: white; font-weight: 600; font-size: .85rem; min-height: 70px;
+        display: flex; align-items: center; justify-content: center; }
+.flecha { font-size: 1.4rem; color: #8a8983; text-align: center; }
+pre.pseudo { background: #1f2a37; color: #e4e3df; padding: 1rem; border-radius: 8px; font-size: .82rem; white-space: pre-wrap; }
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner th { background: #1f2a37 !important; color: white !important; }

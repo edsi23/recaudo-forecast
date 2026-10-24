@@ -1,0 +1,36 @@
+Model name,p MCS,en el conjunto,pérdida media
+Random Forest · Grid,1.0,True,0.7995366411296717
+Random Forest · Random,0.5665,True,0.8090089777311068
+Random Forest · Bayes,0.5665,True,0.810515153223802
+XGBoost · Random,0.5345,True,0.8112155028897353
+ACS (original),0.5665,True,0.8187377465163682
+XGBoost · Genético,0.4895,True,0.8190267881879164
+Random Forest · Genético,0.5665,True,0.8199638278023091
+XGBoost · Bayes,0.5665,True,0.8210418613520618
+HistGradientBoosting · Random,0.1165,True,0.8322438941760548
+HistGradientBoosting · Bayes,0.2155,True,0.8338007861378598
+HistGradientBoosting · Grid,0.011,False,0.8394346063500499
+XGBoost · Grid,0.1165,True,0.8468394210344726
+HistGradientBoosting · Genético,0.0185,False,0.8526625461784585
+KNN · Genético,0.0055,False,0.8768798368416428
+KNN · Bayes,0.007,False,0.8880900064051229
+KNN · Random,0.0015,False,0.8932123077138077
+KNN · Grid,0.0,False,0.9018104467975935
+Lasso · Bayes,0.0085,False,0.9072517972090614
+Lasso · Genético,0.0085,False,0.9072769554966217
+Lasso · Random,0.0085,False,0.9074208173764625
+Lasso · Grid,0.0085,False,0.9075023299217548
+Ridge · Genético,0.008,False,0.9082118297705183
+Ridge · Grid,0.007,False,0.9093425003401044
+Ridge · Random,0.007,False,0.9093801783413412
+Ridge · Bayes,0.007,False,0.909594025335917
+Árbol · Bayes,0.0,False,0.9155005954637223
+Árbol · Grid,0.0,False,0.9293565498203954
+Árbol · Genético,0.0,False,0.9374118891001703
+Árbol · Random,0.0,False,0.9601047803394566
+SVR lineal · Grid,0.0,False,0.9837201103148779
+SVR lineal · Bayes,0.0,False,0.9845445230768889
+SVR lineal · Genético,0.0,False,0.9846047369611657
+SVR lineal · Random,0.0,False,0.9873957919613651
+Persistencia,0.0,False,1.2706442116683838
+Ingenuo estacional,0.0,False,1.7502876413163222

@@ -1,0 +1,128 @@
+[
+ {
+  "buscado": "Multivariable sales prediction for filling stations via GA improved BiLSTM",
+  "titulo": "Multivariable sales prediction for filling stations via GA improved BiLSTM",
+  "anio": 2022,
+  "autores": "Shiyuan Pan, Qi Liao, Yongtu Liang",
+  "revista": "Petroleum Science",
+  "doi": "https://doi.org/10.1016/j.petsci.2022.05.005",
+  "resumen": "Accurate sales prediction in filling stations is the basis to fill in the refined oil in time and avoid the out-of-stock as much as possible. Considering the defect of great “lag” in the general time series model, this paper summarizes the multiple factors that influence the oil sales and develops a multivariable long short-term memory (LSTM) neural network, with the hyper-parameters being improved by the genetic algorithm (GA). To further improve the prediction accuracy, the proposed LSTM neural network is generalized to bidirectional LSTM (BiLSTM), in which the impact of future factors on present sales can be taken into account by backward training. Finally, different LSTM structures and genetic algorithm parameters are tested to discuss their impact on prediction accuracy. Results demonstrated that genetic algorithm improved BiLSTM model is superior to extreme gradient boosting, ARIMA, and artificial neural network, having the highest accuracy of 89%."
+ },
+ {
+  "buscado": "Dynamic Model Selection Based on Demand Pattern Classification in Retail Sales Forecasting",
+  "titulo": "Dynamic Model Selection Based on Demand Pattern Classification in Retail Sales Forecasting",
+  "anio": 2022,
+  "autores": "E Erjiang, Ming Yang Yu, Xin Tian",
+  "revista": "Mathematics",
+  "doi": "https://doi.org/10.3390/math10173179",
+  "resumen": "Many forecasting techniques have been applied to sales forecasts in the retail industry. However, no one prediction model is applicable to all cases. For demand forecasting of the same item, the different results of prediction models often confuse retailers. For large retail companies with a wide variety of products, it is difficult to find a suitable prediction model for each item. This study aims to propose a dynamic model selection approach that combines individual selection and combination forecasts based on both the demand patterns and the out-of-sample performance for each item. Firstly, based on both metrics of the squared coefficient of variation (CV2) and the average inter-demand interval (ADI), we divide the demand patterns of items into four types: smooth, intermittent, erratic, and lumpy. Secondly, we select nine classical forecasting methods in the M-Competitions to build a pool of models. Thirdly, we design two dynamic weighting strategies to determine the final prediction, namely DWS-A and DWS-B. Finally, we verify the effectiveness of this approach by using two large datasets from an offline retailer and an online retailer in China. The empirical results show that these two strategies can effectively improve the accuracy of demand forecasting. The DWS-A method is suitable for items with the demand patterns of intermittent and lumpy, while the DWS-B method is suitable for items with the demand patterns of smooth and erratic."
+ },
+ {
+  "buscado": "Cluster-based demand forecasting using Bayesian model averaging: An ensemble learning approach",
+  "titulo": "Cluster-based demand forecasting using Bayesian model averaging: An ensemble learning approach",
+  "anio": 2022,
+  "autores": "Mahya Seyedan, Fereshteh Mafakheri, Chun Wang",
+  "revista": "Decision Analytics Journal",
+  "doi": "https://doi.org/10.1016/j.dajour.2022.100033",
+  "resumen": "Demand forecasting is an important aspect in supply chain management that could contribute to enhancing the profit and increasing the efficiency by aligning the supply channels with anticipated demand. In the retail industry, customers and their needs are diverse making demand forecasting a challenging task. In this regard, this study aims at developing a three-step data-driven cluster-based demand forecasting approach for the retail industry. First, customers are segmented based on their recency, frequency, and monetary (RFM) characteristics. Customers with similar buying behaviors are recognized as a segment, creating an ordered relationship between transactions made by them. In the second step, time-series analysis techniques are used to forecast demand for each customer segment. Finally, Bayesian model averaging (BMA) is adopted to ensemble the forecasting results obtained from alternative time series techniques. The applicability of the proposed approach is presented through a comparative case study analysis with presented improvement in the accuracy of daily demand prediction."
+ },
+ {
+  "buscado": "SETAR-Tree: a novel and accurate tree algorithm for global time series forecasting",
+  "titulo": "SETAR-Tree: a novel and accurate tree algorithm for global time series forecasting",
+  "anio": 2023,
+  "autores": "Rakshitha Godahewa, Geoffrey I. Webb, Daniel Francis Schmidt",
+  "revista": "Machine Learning",
+  "doi": "https://doi.org/10.1007/s10994-023-06316-x",
+  "resumen": "Abstract Threshold Autoregressive (TAR) models have been widely used by statisticians for non-linear time series forecasting during the past few decades, due to their simplicity and mathematical properties. On the other hand, in the forecasting community, general-purpose tree-based regression algorithms (forests, gradient-boosting) have become popular recently due to their ease of use and accuracy. In this paper, we explore the close connections between TAR models and regression trees. These enable us to use the rich methodology from the literature on TAR models to define a hierarchical TAR model as a regression tree that trains globally across series, which we call SETAR-Tree. In contrast to the general-purpose tree-based models that do not primarily focus on forecasting, and calculate averages at the leaf nodes, we introduce a new forecasting-specific tree algorithm that trains global Pooled Regression (PR) models in the leaves allowing the models to learn cross-series information and also uses some time-series-specific splitting and stopping procedures. The depth of the tree is controlled by conducting a statistical linearity test commonly employed in TAR models, as well as measuring the error reduction percentage at each node split. Thus, the proposed tree model requires minimal external hyperparameter tuning and provides competitive results under its default configuration. We also use this tree algorithm to develop a forest where the forecasts provided by a collection of diverse SETAR-Trees are combined during the forecasting process. In our evaluation on eight publicly available datasets, the proposed tree and forest models are able to achieve significantly higher accuracy than a set of state-of-the-art tree-based algorithms and forecasting benchmarks across four evaluation metrics."
+ },
+ {
+  "buscado": "Bayesian forecast combination using time-varying features",
+  "titulo": "Bayesian forecast combination using time-varying features",
+  "anio": 2022,
+  "autores": "Li Li, Yanfei Kang, Feng Li",
+  "revista": "International Journal of Forecasting",
+  "doi": "https://doi.org/10.1016/j.ijforecast.2022.06.002",
+  "resumen": ""
+ },
+ {
+  "buscado": "Forecast combinations: An over 50-year review",
+  "titulo": "Forecast combinations: An over 50-year review",
+  "anio": 2022,
+  "autores": "Xiaoqian Wang, Rob J. Hyndman, Feng Li",
+  "revista": "International Journal of Forecasting",
+  "doi": "https://doi.org/10.1016/j.ijforecast.2022.11.005",
+  "resumen": ""
+ },
+ {
+  "buscado": "Hybrid Demand Forecasting in Fuel Supply Chains: ARIMA with Non-Homogeneous Markov Chains and Feature-Conditioned Evaluation",
+  "titulo": "Hybrid Demand Forecasting in Fuel Supply Chains: ARIMA with Non-Homogeneous Markov Chains and Feature-Conditioned Evaluation",
+  "anio": 2025,
+  "autores": "Daniel Kubek, Paweł Więcek",
+  "revista": "Energies",
+  "doi": "https://doi.org/10.3390/en18226044",
+  "resumen": "In the context of growing data availability and increasing complexity of demand patterns in retail fuel distribution, selecting effective forecasting models for large collections of time series is becoming a key operational challenge. This study investigates the effectiveness of a hybrid forecasting approach combining ARIMA models with dynamically updated Markov Chains. Unlike many existing studies that focus on isolated or small-scale experiments, this research evaluates the hybrid model across a full set of approximately 150 time series collected from multiple petrol stations, without pre-clustering or manual selection. A comprehensive set of statistical and structural features is extracted from each time series to analyze their relation to forecast performance. The results show that the hybrid ARIMA–Markov approach significantly outperforms both individual statistical models and commonly applied machine learning methods in many cases, particularly for non-stationary or regime-shifting series. In 100% of cases, the hybrid model reduced the error compared to both baseline models—the median RMSE improvement over ARIMA was 13.03%, and 15.64% over the Markov model, with statistical significance confirmed by the Wilcoxon signed-rank test. The analysis also highlights specific time series features—such as entropy, regime shift frequency, and autocorrelation structure—as strong indicators of whether hybrid modeling yields performance gains. Feature-conditioning analyses (e.g., lag-1 autocorrelation, volatility, entropy) explain when hybridization helps, enabling a feature-aware workflow that selectively deploys model components and narrows parameter searches. The greatest benefits of applying the hybrid model were observed for time series characterized by high variability, moderate entropy of differences, and a well-defined temporal dependency structure—the correlation values between these features and the improvement in hybrid performance relative to ARIMA and Markov models reached 0.55–0.58, ensuring adequate statistical significance. Such approaches are particularly valuable in enterprise environments dealing with thousands of time series, where automated model configuration becomes essential. The findings position interpretable, adaptive hybrids as a practical default for short-horizon demand forecasting in fuel supply chains and, more broadly, in energy-use applications characterized by heterogeneous profiles and evolving regimes."
+ },
+ {
+  "buscado": "Forecasting Daily Supermarkets Sales with Machine Learning",
+  "titulo": "Forecasting Daily Supermarkets Sales with Machine Learning",
+  "anio": 2020,
+  "autores": "Daniel Fredén, Hampus Larsson",
+  "revista": "KTH Publication Database DiVA (KTH Royal Institute of Technology)",
+  "doi": null,
+  "resumen": "Improved sales forecasts for individual products in retail stores can have a positive effect both environmentally and economically. Historically these forecasts have been done through a combination of statistical measurements and experience. However, with the increased computational power available in modern computers, there has been an interest in applying machine learning for this problem. The aim of this thesis was to utilize two years of sales data, yearly calendar events, and weather data to investigate which machine learning method could forecast sales the best. The investigated methods were XGBoost, ARIMAX, LSTM, and Facebook Prophet. Overall the XGBoost and LSTM models performed the best and had a lower mean absolute value and symmetric mean percentage absolute error compared to the other models. However, Facebook Prophet performed the best in regards to root mean squared error and mean absolute error during the holiday season, indicating that Facebook Prophet was the best model for the holidays. The LSTM model could however quickly adapt during the holiday season improved the performance. Furthermore, the inclusion of weather did not improve the models significantly, and in some cases, the results were worsened. Thus, the results are inconclusive but indicate that the best model is dependent on the time period and goal of the forecast."
+ },
+ {
+  "buscado": "Reinforcement Learning Based Dynamic Model Combination for Time Series Forecasting",
+  "titulo": "Reinforcement Learning Based Dynamic Model Combination for Time Series Forecasting",
+  "anio": 2022,
+  "autores": "Yuwei Fu, Di Wu, Benoît Boulet",
+  "revista": "Proceedings of the AAAI Conference on Artificial Intelligence",
+  "doi": "https://doi.org/10.1609/aaai.v36i6.20618",
+  "resumen": "Time series data appears in many real-world fields such as energy, transportation, communication systems. Accurate modelling and forecasting of time series data can be of significant importance to improve the efficiency of these systems. Extensive research efforts have been taken for time series problems. Different types of approaches, including both statistical-based methods and machine learning-based methods, have been investigated. Among these methods, ensemble learning has shown to be effective and robust. However, it is still an open question that how we should determine weights for base models in the ensemble. Sub-optimal weights may prevent the final model from reaching its full potential. To deal with this challenge, we propose a reinforcement learning (RL) based model combination (RLMC) framework for determining model weights in an ensemble for time series forecasting tasks. By formulating model selection as a sequential decision-making problem, RLMC learns a deterministic policy to output dynamic model weights for non-stationary time series data. RLMC further leverages deep learning to learn hidden features from raw time series data to adapt fast to the changing data distribution. Extensive experiments on multiple real-world datasets have been implemented to showcase the effectiveness of the proposed method."
+ },
+ {
+  "buscado": "FFORMA: Feature-based forecast model averaging",
+  "titulo": "FFORMA: Feature-based forecast model averaging",
+  "anio": 2019,
+  "autores": "Pablo Montero‐Manso, George A. Athanasopoulos, Rob J. Hyndman",
+  "revista": "International Journal of Forecasting",
+  "doi": "https://doi.org/10.1016/j.ijforecast.2019.02.011",
+  "resumen": ""
+ },
+ {
+  "buscado": "Forecast Combination for Tail Risk with Regulator-Aware Decision Trees",
+  "titulo": "Forecast Combination for Tail Risk with Regulator-Aware Decision Trees",
+  "anio": 2026,
+  "autores": "Anastasija Tetereva, Ekaterina Kazak",
+  "revista": "",
+  "doi": "10.2139/ssrn.6187441",
+  "resumen": "In this paper, we address the challenge of combining forecasts for Value-at-Risk (VaR) and Expected Shortfall (ES) by employing nonparametric weights which are functions of macro-financial state variables. We develop a tailor-made, tree-based machine learning procedure in which optimal combination weights remain constant within economic regimes but vary across them. The continuously varying regimes themselves are identified in a fully data-driven manner. To ensure consistency with supervisory practice, we align the tree construction process with liquidity-horizonspecific risk factors defined by the Basel Committee on Banking Supervision. We further reduce the influence of correlated covariates by proposing a methodology of cluster-wise random variable draws when building each tree. In an application to daily returns of 24 large-cap U.S. stocks from 2000 to 2023, the proposed marketdriven forecast combination delivers significantly lower out-of-sample VaR-ES losses than the standard relative-score benchmark for up to 22 out of 24 assets across multiple liquidity horizons, while also improving coverage properties and economic interpretability."
+ },
+ {
+  "buscado": "Optimal forecast combination under regime switching",
+  "titulo": "OPTIMAL FORECAST COMBINATION UNDER REGIME SWITCHING*",
+  "anio": 2005,
+  "autores": "Graham Elliott, Allan Timmermann",
+  "revista": "International Economic Review",
+  "doi": "10.1111/j.1468-2354.2005.00361.x",
+  "resumen": "This article proposes a new forecast combination method that lets the combination weights be driven by regime switching in a latent state variable. An empirical application that combines forecasts from survey data and time series models finds that the proposed regime switching combination scheme performs well for a variety of macroeconomic variables. Monte Carlo simulations shed light on the type of data‐generating processes for which the proposed combination method can be expected to perform better than a range of alternative combination schemes. Finally, we show how time variations in the combination weights arise when the target variable and the predictors share a common factor structure driven by a hidden Markov process."
+ },
+ {
+  "buscado": "Time Series Modeling and Forecasting of Petrol Sales at a Fuel Station in Zimbabwe",
+  "titulo": "Time Series Modeling and Forecasting of Petrol Sales at a Fuel Station in Zimbabwe",
+  "anio": 2026,
+  "autores": "H., Samambgwa, Simbarashe, C., T., Musora",
+  "revista": "African Journal of Mathematics and Statistics Studies",
+  "doi": "10.52589/ajmss-hsz2hi0h",
+  "resumen": "Petrol is an important commodity in the Zimbabwean economy. Its availability, shortage and pricing have a significant impact on key economic indicators and the livelihoods of the general population in the country. This study focuses on petrol sales volumes at a fuel station in Zimbabwe. There are costs and negative implications that emanate from overstocking or understocking of petrol at the fuel station. This makes it necessary to forecast future demand, so as to plan and maintain adequate volumes of petrol. This study sought to fit a SARIMA model using monthly sales data from January 2015 to December 2024. Minimal information criteria were used to compare and select from candidate models. Parameter p-values were then used to identify and eliminate likely insignificant parameters. This was because insignificant parameters contribute to model overfitting. The best fitting model was then used to forecast petrol sales volumes for the months from January to December 2025."
+ },
+ {
+  "buscado": "Shrinkage of Weights Towards Subset Selection in Forecast Combination",
+  "titulo": "Shrinkage of Weights Towards Subset Selection in Forecast Combination",
+  "anio": 2023,
+  "autores": "Felix Schulz, Thomas Setzer",
+  "revista": "",
+  "doi": "10.2139/ssrn.4485995",
+  "resumen": ""
+ }
+]

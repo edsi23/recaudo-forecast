@@ -24,3 +24,13 @@ parts:
   - file: 13_clasificacion_resultados
   - file: 14_interpretabilidad
   - file: 15_conclusiones
+- caption: Dashboard y modelo original (tercera entrega)
+  chapters:
+  - file: 16_trazabilidad
+  - file: 17_mejores_combinaciones
+  - file: 18_literatura
+  - file: 19_modelo_original
+  - file: 20_validacion_estadistica
+  - file: 21_dashboard
+  - file: 22_conclusiones_e3
+  - file: 23_reproducibilidad

@@ -1,0 +1,7 @@
+prueba,H0,supuestos,estadístico,p crudo,conclusión,IC 95 % (bootstrap estacionario),d de Cohen,delta de Cliff,magnitud,ACS mejor en (% negocios),p Holm,p BH,métrica
+Model Confidence Set (35 modelos),el ACS pertenece al conjunto de los mejores (igual pérdida esperada),pérdida diaria estacionaria; bootstrap por bloques de 3 días,,1.0,ACS en el conjunto de confianza al 90 %; único modelo en el conjunto: False,,,,,,1.0,1.0,MAE log
+Diebold-Mariano (HLN) vs Random Forest · Grid,igual pérdida esperada (bilateral),"diferencia de pérdida estacionaria (ADF), h = 1",-1.0489488429932676,0.3035008044643822,,"[-0.0077, 0.0027]",-0.19823269832779453,,,,1.0,0.47998374103097874,MAE log
+Giacomini-White vs Random Forest · Grid,igual habilidad predictiva condicional,instrumentos: constante y diferencia del día anterior,2.2270013784342604,0.32840729456313716,,,-0.19823269832779453,,,,1.0,0.47998374103097874,MAE log
+SPA de Hansen (benchmark Random Forest · Grid),el ACS no es mejor que el benchmark,"bootstrap estacionario, bloques de 3",,0.135,,,,,,,0.81,0.47998374103097874,MAE log
+Wilcoxon por negocio vs Random Forest · Grid,mediana de la diferencia por negocio = 0,negocios independientes; diferencias simétricas,47764.0,0.39998645085914897,,,,0.007752403545385844,despreciable,47.20357941834452,1.0,0.47998374103097874,MAE log
+Permutación pareada por negocio vs Random Forest · Grid,intercambiabilidad de las pérdidas,negocios independientes,-0.0027395556983007122,0.3677,,,,,,,1.0,0.47998374103097874,MAE log

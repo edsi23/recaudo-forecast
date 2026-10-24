@@ -1,0 +1,124 @@
+{
+  "modelo": "hgb",
+  "optimizador": "random",
+  "semilla": 42,
+  "hiperparametros": {
+    "max_iter": 178,
+    "learning_rate": 0.04891065903176344,
+    "max_leaf_nodes": 16,
+    "min_samples_leaf": 16,
+    "l2_regularization": 0.5397539297668067
+  },
+  "esquema_entrada": [
+    {
+      "nombre": "lag1",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.451178575072152,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "lag7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.451178575072152,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "lag14",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.451178575072152,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "media7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.203128851608735,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "std7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 8.437516721337396,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "nivel",
+      "tipo": "real",
+      "min": 1.6004999540414544,
+      "max": 19.141174642355526,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "part_efectivo",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 1.0,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_datafono",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.9368585929599399,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_rumbo",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.6023059719277669,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_mi_empresa",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.28614331817460675,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_credito_clientes",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.4167477934355891,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "dias_sin_venta7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 7.0,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "festivo",
+      "tipo": "entero",
+      "min": 0.0,
+      "max": 1.0,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "dia_semana",
+      "tipo": "entero",
+      "min": 0.0,
+      "max": 6.0,
+      "admite_nulos": false
+    }
+  ],
+  "prueba_ida_y_vuelta": true,
+  "versiones": {
+    "python": "3.9.25",
+    "scikit-learn": "1.3.0"
+  },
+  "metricas_bucle_externo": {
+    "rmse_log": {
+      "media": 0.9047463554888516,
+      "desv": 0.1345988563137599
+    }
+  },
+  "mb_en_disco": 0.09218
+}

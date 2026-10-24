@@ -1,0 +1,211 @@
+id,base,rango,titulo,anio,doi_o_url
+C1,OpenAlex,1,Forecasting aggregate retail sales: The case of South Africa,2014,https://doi.org/10.1016/j.ijpe.2014.09.033
+C1,OpenAlex,2,Multi-objective probabilistic forecast combination for inventory demand,2026,https://doi.org/10.48550/arxiv.2606.04900
+C1,OpenAlex,3,Predicting the Public: Nowcasting Turkey’s Consumer Confidence with Google Trends and Machine Learning,2026,https://doi.org/10.58830/ozgur.pub1405.c5668
+C1,OpenAlex,4,Machine learning and oil price point and density forecasting,2021,https://doi.org/10.1016/j.eneco.2021.105494
+C1,OpenAlex,5,Advances in Demand Forecasting: Machine Learning Algorithms for Revenue Projection and Financial Planning Accuracy,2021,https://doi.org/10.32628/gisrrj120361
+C1,OpenAlex,6,Combinations of time series forecasts : when and why are they beneficial?,2010,
+C1,OpenAlex,7,Forecasting Global Inflation: The Rise of Machine Learning,2026,https://doi.org/10.2139/ssrn.7300498
+C1,OpenAlex,8,Forecasting Inflation with Microdata: An Adaptive Machine Learning Approach,2026,https://doi.org/10.48550/arxiv.2607.12345
+C1,OpenAlex,9,Fuzzy time series analysis and prediction using swarm optimized hybrid model.,2020,
+C1,OpenAlex,10,Applications of hybrid neural networks and genetic programming in financial forecasting,2013,
+C1,Semantic Scholar,1,Sale Forecast and Analysis of Public’s Attitude of EV Base on Combination of BP and LSTM Network and Decision Tree,2022,10.1109/MLISE57402.2022.00017
+C1,Semantic Scholar,2,A Risk-Aware Multi-Agent Decision Support System for Stock Trading on the Warsaw Stock Exchange: A Forecast-Combination Approach With Walk-Forward Evaluation,2026,10.1109/ACCESS.2026.3735585
+C1,Semantic Scholar,3,Dynamic asset allocation with asset-specific regime forecasts,2024,10.1007/s10479-024-06266-0
+C1,Semantic Scholar,4,MODERN METHODS OF SALES FORECASTING: APPLICATION OF ARTIFICIAL INTELLIGENCE AND BSC (BALANCED SCORECARD),2025,10.54351/25876074-2025-2-50-141
+C1,Semantic Scholar,5,Comparative Analysis of Supervised Machine Learning Techniques for Sales Forecasting,2021,10.14569/ijacsa.2021.0121112
+C1,Semantic Scholar,6,Forecasting Tobacco Sales Trends Based on Combined Xgboost-Lightgbm Modeling,2025,10.54097/wzjqpb47
+C1,Semantic Scholar,7,Integrating Climate and Plant Variables with Machine Learning Models to Forecast Tomato Yield at Different Soil Moisture Levels,2024,10.21608/ejss.2024.308236.1829
+C1,Semantic Scholar,8,"Machine learning–based prediction of long-term farm economic performance: financial, risk, and operational indicators",2026,10.1590/1678-992x-2025-0054
+C1,Semantic Scholar,9,Forecasting aggregate retail sales : the case of South Africa,2015,10.1016/J.IJPE.2014.09.033
+C1,Semantic Scholar,10,Precommercial Thinning but Not Commercial Thinning Increases the Merchantable and Large Sawlog Volume Production of Lodgepole Pine on Fair Sites,2024,10.1093/forsci/fxae025
+C1,Crossref,1,"Backcasting, Nowcasting, and Forecasting Residential Repeat-Sales Returns: Forecast Combination meets Mixed Frequency",2021,10.2139/ssrn.3798356
+C1,Crossref,2,Sales Forecast,,10.1007/springerreference_2427
+C1,Crossref,3,OPTIMAL FORECAST COMBINATION UNDER REGIME SWITCHING*,2005,10.1111/j.1468-2354.2005.00361.x
+C1,Crossref,4,"A Feature Engineering Approach for Tree-based Machine Learning Sales Forecast, Optimized by a Genetic Algorithm Based Sales Feature Framework",2022,10.1109/icaibd55127.2022.9820532
+C1,Crossref,5,AUTOMOBILE SALES FORECAST USING SOCIAL LISTENING AND CONDITIONS TO FORECAST SALES,2023,10.33965/is2023_202301l015
+C1,Crossref,6,Increased sales of combination drugs in type 2 DM forecast by 2011,2002,10.1007/bf03279707
+C1,Crossref,7,How to Create a Sales Forecast,2019,10.4135/9781529702422
+C1,Crossref,8,Research on Apparel Sales Forecast Based on ID3 Decision Tree Algorithm,2015,10.2991/icmii-15.2015.122
+C1,Crossref,9,Research on Sales Forecast Based on Prophet-SARIMA Combination Model,2020,10.1088/1742-6596/1616/1/012069
+C1,Crossref,10,Table 9: Sales forecast 4th run testing results.,,10.7717/peerj-cs.3058/table-9
+C2,OpenAlex,1,CRPS-based online learning for nonlinear probabilistic forecast combination,2024,https://doi.org/10.1016/j.ijforecast.2023.12.005
+C2,OpenAlex,2,Double spike Dirichlet priors for structured weighting,2020,https://doi.org/10.48550/arxiv.2007.04387
+C2,OpenAlex,3,Decision-focused linear pooling for probabilistic forecast combination,2024,https://doi.org/10.1016/j.ijforecast.2024.11.006
+C2,OpenAlex,4,Structure combination of forecasting models with application in the energy sector,2016,
+C2,OpenAlex,5,Adaptive Ensemble Weight Optimization for Natural Gas Consumption Forecasting: A Hybrid Stochastic–Deep Learning Framework Applied to the Czech Market,2026,https://doi.org/10.3390/math14050900
+C2,OpenAlex,6,Reinforcement Learning Based Dynamic Model Combination for Time Series Forecasting,2022,https://doi.org/10.1609/aaai.v36i6.20618
+C2,OpenAlex,7,Adaptive management under structural uncertainty: A linear opinion pool approach to expanding the model set,2025,https://doi.org/10.1111/2041-210x.70137
+C2,OpenAlex,8,"What composition selection buys in heterogeneous ensembles, and why oracle bounds overstate it",2026,https://doi.org/10.21203/rs.3.rs-10666378/v1
+C2,OpenAlex,9,PIPE-SOGI: an intelligent decision-support framework for risk-consistent steel-price forecasting in oil and gas procurement,2026,https://doi.org/10.2139/ssrn.7238268
+C2,OpenAlex,10,Graphon-Level Bayesian Predictive Synthesis for Random Network,2025,https://doi.org/10.48550/arxiv.2512.18587
+C2,Crossref,1,Shrinkage of Weights Towards Subset Selection in Forecast Combination,2023,10.2139/ssrn.4485995
+C2,Crossref,2,System-based weights versus series-specific weights in the combination of forecasts,1996,10.1002/(sici)1099-131x(199609)15:5<369::aid-for629>3.0.co;2-w
+C2,Crossref,3,Too Similar to Combine? On Negative Weights in Forecast Combination,2020,10.2139/ssrn.3647603
+C2,Crossref,4,Forecast Combination for Tail Risk with Regulator-Aware Decision Trees,2026,10.2139/ssrn.6187441
+C2,Crossref,5,Sale Forecast and Analysis of Public’s Attitude of EV Base on Combination of BP and LSTM Network and Decision Tree,2022,10.1109/mlise57402.2022.00017
+C2,Crossref,6,Bias–Variance Trade-Off and Shrinkage of Weights in Forecast Combination,2020,10.1287/mnsc.2019.3476
+C2,Crossref,7,Table 2: Weights of criterion solved using the simplex method.,,10.7717/peerj-cs.2111/table-2
+C2,Crossref,8,A Classification Algorithm of CART Decision Tree based on MapReduce Attribute Weights,2018,10.23940/ijpe.18.01.p3.1725
+C2,Crossref,9,Long-Term Load Forecast Using Decision Tree Method,2006,10.1109/psce.2006.296529
+C2,Crossref,10,Too similar to combine? On negative weights in forecast combination,2023,10.1016/j.ijforecast.2021.08.002
+C3,OpenAlex,1,Model-Based Recursive Partitioning of Patients’ Return Visits to Multispecialty Clinic During the 2009 H1N1 Pandemic Influenza (pH1N1),2020,https://doi.org/10.5210/ojphi.v12i1.10576
+C3,OpenAlex,2,Integration of model-based recursive partitioning with bias reduction estimation: a case study assessing the impact of Oliver’s four factors on the probability of winning a basketball game,2022,https://doi.org/10.1007/s10182-022-00456-6
+C3,OpenAlex,3,Spatiotemporal mapping of mountain pine beetle infestation severity and probability of new infestation in the central U.S. Rocky Mountains,2018,
+C3,OpenAlex,4,Distributional regression forests for probabilistic precipitation forecasting in complex terrain,2019,https://doi.org/10.1214/19-aoas1247
+C3,OpenAlex,5,Circular regression trees and forests with an application to probabilistic wind direction forecasting,2020,https://doi.org/10.1111/rssc.12437
+C3,OpenAlex,6,Circular Regression Trees and Forests with an Application to Probabilistic Wind Direction Forecasting,2020,https://doi.org/10.1111/rssc.12437
+C3,OpenAlex,7,SETAR-Tree: a novel and accurate tree algorithm for global time series forecasting,2023,https://doi.org/10.1007/s10994-023-06316-x
+C3,OpenAlex,8,Rank‐based data synthesis of common bean on‐farm trials across four Central American countries,2022,https://doi.org/10.1002/csc2.20817
+C3,OpenAlex,9,Recent methods from statistics and machine learning for credit scoring,2014,https://doi.org/10.5282/edoc.17143
+C3,OpenAlex,10,"Predicting Prices of Staple Crops Using Machine Learning: A Systematic Review of Studies on Wheat, Corn, and Rice",2025,https://doi.org/10.3390/su17125456
+C3,Crossref,1,Model-Based Recursive Partitioning with Adjustment for Measurement Error,2015,10.1007/978-3-658-08505-6
+C3,Crossref,2,Conclusion,2015,10.1007/978-3-658-08505-6_5
+C3,Crossref,3,Implementation,2015,10.1007/978-3-658-08505-6_3
+C3,Crossref,4,Introduction,2015,10.1007/978-3-658-08505-6_1
+C3,Crossref,5,Combination Forecast Model Based on RBF Neural Network and Its Application in Freight Volume Forecast,2011,10.1061/41177(415)34
+C3,Crossref,6,Theoretical Background,2015,10.1007/978-3-658-08505-6_2
+C3,Crossref,7,Simulation Study,2015,10.1007/978-3-658-08505-6_4
+C3,Crossref,8,RECURSIVE FORECAST COMBINATION FOR DEPENDENT HETEROGENEOUS DATA,2009,10.1017/s0266466609100105
+C3,Crossref,9,Recursive Partitioning,,10.1007/springerreference_205565
+C3,Crossref,10,"Review for ""Research on short‐term output power forecast model of wind farm based on neural network combination algorithm""",2022,10.1002/we.2763/v1/review1
+C4,OpenAlex,1,A dynamic ensemble selection method for bank telemarketing sales prediction,2021,https://doi.org/10.1016/j.jbusres.2021.09.067
+C4,OpenAlex,2,A New Feature Based Deep Attention Sales Forecasting Model for Enterprise Sustainable Development,2022,https://doi.org/10.3390/su141912224
+C4,OpenAlex,3,FraudFox: Adaptable Fraud Detection in the Real World,2026,
+C4,OpenAlex,4,Makine öğrenimi modellerinin sıralı veri tahmini için zaman ve bağlam duyarlı optimizasyonu,2024,
+C4,OpenAlex,5,Customer churn prediction from Internet banking transactions data using an ensemble meta-classifier algorithm,2022,https://doi.org/10.21203/rs.3.rs-1630808/v1
+C4,OpenAlex,6,Machine Learning and Marketing: A Systematic Literature Review,2022,https://doi.org/10.1109/access.2022.3202896
+C4,OpenAlex,7,Leveraging AI and NLP for Bank Marketing: A Systematic Review and Gap Analysis,2024,https://doi.org/10.48550/arxiv.2411.14463
+C4,OpenAlex,8,Artificial intelligence in sales (2017-early 2026): field consolidation and the rise of human-AI collaboration,2026,https://doi.org/10.1016/j.jbusres.2026.116580
+C4,OpenAlex,9,QAmplifyNet: Pushing the Boundaries of Supply Chain Backorder Prediction Using Interpretable Hybrid Quantum-Classical Neural Network,2023,https://doi.org/10.48550/arxiv.2307.12906
+C4,Crossref,1,Oceanic Niño Index forecasting based on dynamic ensemble selection,2023,10.59254/sbpo-2023-175032
+C4,Crossref,2,Dynamic Selection of Ensemble Members in Multi-model Hydrometeorological Ensemble Forecasting,2015,10.1016/j.procs.2015.11.026
+C4,Crossref,3,Dynamic Model Selection in a Hybrid Ensemble Framework for Robust Photovoltaic Power Forecasting,2025,10.20944/preprints202507.0775.v1
+C4,Crossref,4,"Ensemble Learning, Comparative Analysis and Further Improvements with Dynamic Ensemble Selection",,10.70675/97d237daz3673z44efz9966z518011aed5e6
+C4,Crossref,5,Dynamic Model Selection Based on Demand Pattern Classification in Retail Sales Forecasting,2022,10.3390/math10173179
+C4,Crossref,6,A Drift-Aware Dynamic Ensemble Model with Two-Stage Member Selection for Carbon Price Forecasting,2023,10.2139/ssrn.4653955
+C4,Crossref,7,Sales Forecasting Based on Ensemble Learning,2023,10.36227/techrxiv.24049452.v1
+C4,Crossref,8,Sales Forecasting Based on Ensemble Learning,2023,10.36227/techrxiv.24049452
+C4,Crossref,9,Dynamic Model Selection in a Hybrid Ensemble Framework for Robust Photovoltaic Power Forecasting,2025,10.3390/s25144489
+C4,Crossref,10,Attention score-based dynamic ensemble for time series forecasting with an importance greedy diversity model selection,2027,10.1016/j.inffus.2026.104656
+C5,OpenAlex,1,"Sales Forecasting Models: Comparison between ARIMA, LSTM and Prophet",2024,https://doi.org/10.3844/jcssp.2024.1222.1230
+C5,OpenAlex,2,"Fuel Sales Price Forecasting using Time Series, Machine Learning, and Deep Learning Models",2025,https://doi.org/10.48084/etasr.10348
+C5,OpenAlex,3,Comprehensive Lean Warehouse Service Model for Fuel Stations: A Case Study in Inventory Management and Operational Efficiency,2024,https://doi.org/10.46254/in04.20240018
+C5,OpenAlex,4,Algorithmic Pricing and Competition: Empirical Evidence from the German Retail Gasoline Market,2020,https://doi.org/10.1086/726906
+C5,OpenAlex,5,Multivariable sales prediction for filling stations via GA improved BiLSTM,2022,https://doi.org/10.1016/j.petsci.2022.05.005
+C5,OpenAlex,6,"Navigating business intelligence: Analyzing and visualizing KPIs of U.S. gas stations with C-store by applying MIS, BI tools charts, graphs, interactive dashboards",2025,https://doi.org/10.55214/2576-8484.v9i8.9610
+C5,OpenAlex,7,Hybrid Demand Forecasting in Fuel Supply Chains: ARIMA with Non-Homogeneous Markov Chains and Feature-Conditioned Evaluation,2025,https://doi.org/10.3390/en18226044
+C5,OpenAlex,8,Forecasting: theory and practice,2022,https://doi.org/10.1016/j.ijforecast.2021.11.001
+C5,OpenAlex,9,Forecasting Daily Supermarkets Sales with Machine Learning,2020,
+C5,OpenAlex,10,Second-Life EV Batteries for PV–SLB Hybrid Petrol Stations: A Roadmap for Malaysia’s Urban Energy Transition,2025,https://doi.org/10.3390/urbansci9100422
+C5,Crossref,1,Average Daily Processing Prediction of Artificial Hydropower Station Based on Machine Learning,2020,10.38007/ml.2020.010405
+C5,Crossref,2,Gas Station Angel,1400,10.5040/9781472584502.40000004
+C5,Crossref,3,Time Series Modeling and Forecasting of Petrol Sales at a Fuel Station in Zimbabwe,2026,10.52589/ajmss-hsz2hi0h
+C5,Crossref,4,Forecasting Short-Term Solar Irradiance and Power Generation of Solar Pv Power Station Through Machine Learning Models,2021,10.2139/ssrn.3912601
+C5,Crossref,5,Machine learning prediction and analysis of commercial wood fuel blends used in a typical biomass power station,2022,10.1016/j.fuel.2022.123364
+C5,Crossref,6,Short-term Load Forecasting Method of Power Distribution Station Area Integrating Multiple Temporal Characteristics,2023,10.1145/3635638.3635641
+C5,Crossref,7,Battery sales forecasting using traditional forecasting and machine learning techniques,,10.58837/chula.the.2023.840
+C5,Crossref,8,IoT-based Water Quality Monitoring Station and Forecasting System with Machine Learning,2025,10.1109/ieecon64081.2025.10987795
+C5,Crossref,9,Degas at the Gas Station,2025,10.1215/9781478061786-016
+C5,Crossref,10,"Fire Danger Forecasting on an Hourly Basis via Weather Station-Based Machine Learning in the Sunshine Coast, Australia",2024,10.21203/rs.3.rs-3857623/v1
+C6,OpenAlex,1,EVALUATION OF COMPUTATIONAL INTELLIGENCE TECHNIQUES FOR DAILY PRODUCT SALES FORECASTING,2015,https://doi.org/10.47839/ijc.14.3.814
+C6,OpenAlex,2,Assessment of the Impact of COVID-19 on Grocery Retail in Ukraine,2021,https://doi.org/10.18502/kss.v5i9.9894
+C6,OpenAlex,3,Data mining technique for grouping products using clustering based on association,2023,https://doi.org/10.11591/ijeecs.v31.i2.pp835-844
+C6,OpenAlex,4,Modeling of the Acceptable Waiting Time for EV Charging in Japan,2024,https://doi.org/10.3390/su16062536
+C6,OpenAlex,5,Know your competitor! Analyzing and predicting the location of competing stores: The case study of Valora at Swiss railway stations,2025,https://doi.org/10.18335/region.v12i2.573
+C6,OpenAlex,6,Uncovering traditional retail location competition with machine learning: The role of urban environments in light-asset and capital-intensive formats,2026,https://doi.org/10.1371/journal.pone.0358597
+C6,OpenAlex,7,Forecasting Retail Sales using Machine Learning Models,2025,https://doi.org/10.47672/ajsas.2679
+C6,OpenAlex,8,Forecast-driven discount optimization in FMCG distribution: an ensemble learning review,2026,https://doi.org/10.62132/ijdt.v9i3.404
+C6,OpenAlex,9,Dynamic Model Selection Based on Demand Pattern Classification in Retail Sales Forecasting,2022,https://doi.org/10.3390/math10173179
+C6,OpenAlex,10,Improving Sales Forecasting Models by Integrating Customers’ Feedbacks: A Case Study of Fashion Products,2023,https://doi.org/10.2991/978-94-6463-348-1_36
+C6,Crossref,1,The Effect of Legalized Sports Betting on Convenience Store Lottery Sales,2025,10.2139/ssrn.5447699
+C6,Crossref,2,Gray relation analysis and multilayer functional link network sales forecasting model for perishable food in convenience store,2009,10.1016/j.eswa.2008.08.034
+C6,Crossref,3,Evaluating promotional pricing effectiveness using convenience store daily sales data,2022,10.1057/s41272-022-00415-5
+C6,Crossref,4,Validity of an honeesty test in predicting theft among convenience store employees,1996,10.1016/0169-2070(95)00654-0
+C6,Crossref,5,Retracted: A hybrid artificial intelligence sales‐forecasting system in the convenience store industry,2011,10.1002/hfm.20272
+C6,Crossref,6,Online Store Web Software Engineering with Sales Forecasting  Implementation,2025,10.26740/jeisbi.v6i2.67215
+C6,Crossref,7,THE CONVENIENCE STORE AS COG: SUBVERTING NARRATIVE PROSTHETICS THROUGH FORM IN SAYAKA MURATA'S CONVENIENCE STORE WOMAN,2026,10.62441/actainnovations.vi.2019
+C6,Crossref,8,Convenience store cook died from smoke inhalation.,2012,10.26616/nioshsface11ia035
+C6,Crossref,9,Sales Forecasting Based on Ensemble Learning,2023,10.36227/techrxiv.24049452.v1
+C6,Crossref,10,Convenience Store,2004,10.4135/9781452229669.n819
+C7,OpenAlex,1,"Método de combinación de pronósticos usando modelos Bayesianos y una metaheurística, caso de estudio",2018,https://doi.org/10.15446/dyna.v85n207.68424
+C7,OpenAlex,2,Nowcasting de la inversión: una estimación en tiempo real con indicadores de alta frecuencia,2018,https://doi.org/10.35537/10915/67314
+C7,OpenAlex,3,"Diagnóstico, análisis y propuestas de mejora de procesos para una empresa panificadora",2025,
+C7,OpenAlex,4,"COMPARATIVO DE MODELOS DE PRONÓSTICO: CLÁSICOS, BAYESIANOS Y TÉCNICAS DE COMBINACIÓN",2017,https://doi.org/10.15446/rev.fac.cienc.v6n2.66085
+C7,OpenAlex,5,Pronóstico de la Volatilidad del Tipo de Cambio: el Desempeño Superior de Combinaciones Condicionales de Pronósticos de Series de Tiempo y Pronósticos Implícitos en Opciones,2009,https://doi.org/10.36095/banxico/di.2009.01
+C7,OpenAlex,6,Análisis comparativo de modelos tradicionales y modernos para pronóstico de la demanda: enfoques y características,2022,https://doi.org/10.23913/ride.v12i24.1203
+C7,OpenAlex,7,Inestabilidad macroeconómica en Argentina: crisis financieras e inflación,2009,https://doi.org/10.35537/10915/3424
+C7,OpenAlex,8,Marketing Operativo: Aplicación tecnológica orientada a la eficiencia en el control de inventario.,2025,https://doi.org/10.46377/dilemas.v13i1.4778
+C7,OpenAlex,9,Forecasting: necesidades desde la educación contable para su abordaje,2016,https://doi.org/10.15332/s0124-5805.2014.0023.06
+C7,OpenAlex,10,PROYECCIÓN DE LA TASA DE CAMBIO DE COLOMBIA BAJO CONDICIONES DE PPA: EVIDENCIA EMPÍRICA USANDO VAR,2009,https://doi.org/10.1016/s0123-5923(09)70095-6
+C7,Crossref,1,Combinación de pronósticos,2010,10.36095/banxico/di.2010.04
+C7,Crossref,2,Combinación de pronósticos de la inflación en presencia de cambios estructurales,2004,10.32468/be.286
+C7,Crossref,3,Métodos de combinación de pronósticos: una aplicación a la inflación Colombiana,1998,10.32468/be.109
+C7,Crossref,4,Forecast Combination with Entry and Exit of Experts,2006,10.36095/banxico/di.2006.08
+C7,Crossref,5,Combinación de pronósticos y variables predictoras con error,2010,10.17533/udea.le.n41a5041
+C7,Crossref,6,Métodos de combinación de pronósticos: una aplicación a la inflación colombiana,2010,10.17533/udea.le.n52a4903
+C7,Crossref,7,"Método de combinación de pronósticos usando modelos Bayesianos y una metaheurística, caso de estudio",2018,10.15446/dyna.v85n207.68424
+C7,Crossref,8,Pronósticos de ventas seguros asistencias en viaje utilizando un modelo vectorial de corrección de errores ”VEC”,2024,10.37511/apuntesci.v3n1a1
+C7,Crossref,9,PROMOCIÓN DE VENTAS DIRIGIDA A LA FUERZA DE VENTAS,2011,10.2307/j.ctv2d6js5t.8
+C7,Crossref,10,PROMOCIÓN DE VENTAS DEL DISTRIBUIDOR,2011,10.2307/j.ctv2d6js5t.7
+C8,OpenAlex,1,Business plan for the start up of a patio workshop with private fuel supply service for the transportation company lusitania s.a.,2017,
+C8,OpenAlex,2,Desarrollo e implementación de un sistema automatizado de pronóstico de demanda dentro del sector de la venta de neumáticos,2025,
+C8,OpenAlex,3,Análisis comparativo de los paradigmas de simulación,2016,https://doi.org/10.26439/ulima.tesis/3296
+C8,OpenAlex,4,Plan de negocios para la creación de un salón de belleza móvil,2020,https://doi.org/10.20511/usil.thesis/10545
+C8,OpenAlex,5,Plan de negocios para la producción de macerados de frutas en pisco en Lima Metropolitana para el 2018,2018,https://doi.org/10.20511/usil.thesis/3832
+C8,OpenAlex,6,Salón de belleza móvil para mujeres de Lima Metropolitana,2017,https://doi.org/10.20511/usil.thesis/3013
+C8,OpenAlex,7,Market survey to determine the feasibility of a new car washing delivery business,2015,
+C8,OpenAlex,8,Plan de Marketing Empresa McDonald AutoMac,2023,
+C8,OpenAlex,9,"Business Plan, Proquimsa, Lubricating Greases, Nurex.",2016,
+C8,OpenAlex,10,Proyecto Fashion Truck Perú: Diseño y elaboración de un plan de negocios para la comercialización de prendas de vestir y accesorios de moda mediante el formato de una boutique móvil,2017,https://doi.org/10.20511/usil.thesis/2793
+C8,Crossref,1,El pronóstico de ventas.,2019,10.32457/isbn9789568454487482019-ed1
+C8,Crossref,2,Efectos del desarrollo gastronómico en estaciones de servicio sobre el consumo de combustibles,,10.35537/10915/189504
+C8,Crossref,3,"MoviLab: Programa de calidad de combustibles en estaciones de servicio y grifos, analizados con equipo portatil",,10.26439/ulima.tesis/6058
+C8,Crossref,4,Estaciones de servicio: Chile,2006,10.4067/s0717-69962006000100012
+C8,Crossref,5,"Tendencia de venta, composición y pronóstico de ventas de un trimestre del mercado de estatinas en Colombia entre 2007 y 2017",,10.11144/javeriana.10554.43671
+C8,Crossref,6,Evaluación del actual procedimiento de inspección de frenos de servicio en tractores (vehículos de categoría T) en estaciones ITV,2022,10.5944/bicim2022.243
+C8,Crossref,7,Estúdio Comparativo de Modelos de Pronóstico de Ventas,2014,10.13084/2175-8018/ijie.v6n11p113-134
+C8,Crossref,8,El potencial efecto competitivo de las estaciones de servicio automáticas en España,2020,10.32796/bice.2020.3126.7071
+C8,Crossref,9,"Calidad de servicio al cliente y las ventas en el centro comercial San Pedro – Chorrillos, 2022",,10.59590/upsjb/fcyca.adm.neg/tesis/5487
+C8,Crossref,10,Seguimiento ambiental y normativo en estaciones de servicio afiliadas a la empresa ESOCOL COLOMBIA,2019,10.15332/tg.pre.2019.00336
+C9,OpenAlex,1,A study on Ensemble Learning for Time Series Forecasting and the need for Meta-Learning,2021,https://doi.org/10.1109/ijcnn52387.2021.9533378
+C9,OpenAlex,2,Two-Step Meta-Learning for Time-Series Forecasting Ensemble,2021,https://doi.org/10.1109/access.2021.3074891
+C9,OpenAlex,3,Late Meta-learning Fusion Using Representation Learning for Time Series Forecasting,2023,https://doi.org/10.23919/fusion52260.2023.10224217
+C9,OpenAlex,4,"Evaluating State-of-the-Art, Forecasting Ensembles and Meta-Learning Strategies for Model Fusion",2022,https://doi.org/10.3390/forecast4030040
+C9,OpenAlex,5,Reinforcement Learning Based Dynamic Model Combination for Time Series Forecasting,2022,https://doi.org/10.1609/aaai.v36i6.20618
+C9,OpenAlex,6,Bayesian forecast combination using time-varying features,2022,https://doi.org/10.1016/j.ijforecast.2022.06.002
+C9,OpenAlex,7,Conditional Temporal Aggregation for Time Series Forecasting Using Feature-Based Meta-Learning,2023,https://doi.org/10.3390/a16040206
+C9,OpenAlex,8,Kaggle forecasting competitions: An overlooked learning opportunity,2020,https://doi.org/10.1016/j.ijforecast.2020.07.007
+C9,OpenAlex,9,For2For: Learning to forecast from forecasts,2020,https://doi.org/10.48550/arxiv.2001.04601
+C9,OpenAlex,10,Forecast combinations: An over 50-year review,2022,https://doi.org/10.1016/j.ijforecast.2022.11.005
+C9,arXiv,1,Late Meta-learning Fusion Using Representation Learning for Time Series Forecasting,2023,http://arxiv.org/abs/2303.11000v1
+C9,Crossref,1,Shrinkage of Weights Towards Subset Selection in Forecast Combination,2023,10.2139/ssrn.4485995
+C9,Crossref,2,System-based weights versus series-specific weights in the combination of forecasts,1996,10.1002/(sici)1099-131x(199609)15:5<369::aid-for629>3.0.co;2-w
+C9,Crossref,3,Meta-learning for time series forecasting and forecast combination,2010,10.1016/j.neucom.2009.09.020
+C9,Crossref,4,HORIZON-OPTIMIZED WEIGHTS FOR FORECAST COMBINATION WITH CROSS-LEARNING,2021,10.1590/0101-7438.2021.041.00245564
+C9,Crossref,5,Too Similar to Combine? On Negative Weights in Forecast Combination,2020,10.2139/ssrn.3647603
+C9,Crossref,6,Bias–Variance Trade-Off and Shrinkage of Weights in Forecast Combination,2020,10.1287/mnsc.2019.3476
+C9,Crossref,7,Forecast combination with meta possibilistic fuzzy functions,2021,10.1016/j.ins.2021.01.024
+C9,Crossref,8,profoc: Probabilistic Forecast Combination Using CRPS Learning,2021,10.32614/cran.package.profoc
+C9,Crossref,9,Machine Learning and Forecast Combination in Incomplete Panels,2013,10.2139/ssrn.2359523
+C9,Crossref,10,Introducing time series features based dynamic weights estimation framework for hydrologic forecast merging,2025,10.1016/j.jhydrol.2025.132872
+C10,OpenAlex,1,Adaptable Regression Method for Ensemble Consensus Forecasting,2016,https://doi.org/10.1609/aaai.v30i1.9913
+C10,OpenAlex,2,"ESSAYS CONCERNING INFLATION FORECASTING: DISAGGREGATION, COMBINATION OF FORECASTS, AND UNSTRUCTURED DATA",2023,https://doi.org/10.17771/pucrio.acad.63548
+C10,OpenAlex,3,Entropy Application for Forecasting,2020,https://doi.org/10.3390/books978-3-03936-488-6
+C10,OpenAlex,4,Forecasting Global Inflation: The Rise of Machine Learning,2026,https://doi.org/10.2139/ssrn.7300498
+C10,OpenAlex,5,Can deep learning predict risky retail investors? A case study in financial risk behavior forecasting,2019,https://doi.org/10.1016/j.ejor.2019.11.007
+C10,OpenAlex,6,ARTIFICIAL INTELLIGENCE-ENHANCED PREDICTIVE ANALYTICS FOR DEMAND FORECASTING IN U.S. RETAIL SUPPLY CHAINS,2025,https://doi.org/10.63125/gbkf5c16
+C10,OpenAlex,7,Can Deep Learning Predict Risky Retail Investors? A Case Study in Financial Risk Behavior Forecasting,2018,https://doi.org/10.48550/arxiv.1812.06175
+C10,OpenAlex,8,Cluster-based demand forecasting using Bayesian model averaging: An ensemble learning approach,2022,https://doi.org/10.1016/j.dajour.2022.100033
+C10,OpenAlex,9,Implied Cost of Capital and Mutual Fund Performance,2020,https://doi.org/10.2139/ssrn.3550450
+C10,OpenAlex,10,Joint Bottom-up Method for Probabilistic Forecasting of Hierarchical Time Series,2025,https://doi.org/10.1287/opre.2022.0113
+C10,Crossref,1,Too Similar to Combine? On Negative Weights in Forecast Combination,2020,10.2139/ssrn.3647603
+C10,Crossref,2,Shrinkage of Weights Towards Subset Selection in Forecast Combination,2023,10.2139/ssrn.4485995
+C10,Crossref,3,Too similar to combine? On negative weights in forecast combination,2023,10.1016/j.ijforecast.2021.08.002
+C10,Crossref,4,System-based weights versus series-specific weights in the combination of forecasts,1996,10.1002/(sici)1099-131x(199609)15:5<369::aid-for629>3.0.co;2-w
+C10,Crossref,5,"Forecast Combination, Non-Linear Dynamics, and the Macroeconomy",2014,10.2139/ssrn.2507525
+C10,Crossref,6,A Non-Linear Forecast Combination Procedure for Binary Outcomes,2015,10.2139/ssrn.2559742
+C10,Crossref,7,Bias–Variance Trade-Off and Shrinkage of Weights in Forecast Combination,2020,10.1287/mnsc.2019.3476
+C10,Crossref,8,Modified Lms and Nlms Algorithms With Non-Negative Weights,2024,10.2139/ssrn.4732736
+C10,Crossref,9,"Forecast Combination, Non-linear Dynamics, and the Macroeconomy",2015,10.2139/ssrn.2575480
+C10,Crossref,10,Non-Negative Forecast Reconciliation: Optimal Methods and Operational Solutions,2025,10.3390/forecast7040064

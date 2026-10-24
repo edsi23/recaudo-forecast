@@ -1,0 +1,158 @@
+{
+  "modelo": "svr",
+  "optimizador": "grid",
+  "semilla": 42,
+  "versiones": {
+    "python": "3.9.25",
+    "numpy": "1.26.4",
+    "pandas": "2.1.0",
+    "scikit-learn": "1.3.0",
+    "xgboost": "2.1.4",
+    "joblib": "1.3.2"
+  },
+  "hiperparametros": {
+    "C": 0.0071968567300115215,
+    "epsilon": 0.0
+  },
+  "objetivo": "venta_total (COP), entrenado en log1p",
+  "entrenado_con": "2026-07-15 a 2026-09-02 (22205 filas)",
+  "esquema_entrada": [
+    {
+      "nombre": "lag1",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.451178575072152,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "lag7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.451178575072152,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "lag14",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.451178575072152,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "media7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.203128851608735,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "std7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 8.437516721337396,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "nivel",
+      "tipo": "real",
+      "min": 1.6004999540414544,
+      "max": 19.141174642355526,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "part_efectivo",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 1.0,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_datafono",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.9368585929599399,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_rumbo",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.6023059719277669,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_mi_empresa",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.28614331817460675,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_credito_clientes",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.4167477934355891,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "dias_sin_venta7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 7.0,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "festivo",
+      "tipo": "entero",
+      "min": 0.0,
+      "max": 1.0,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "dia_semana",
+      "tipo": "entero",
+      "min": 0.0,
+      "max": 6.0,
+      "admite_nulos": false
+    }
+  ],
+  "metricas_bucle_externo": {
+    "rmse_log": {
+      "media": 0.9882657522753813,
+      "desv": 0.0963478559813852
+    },
+    "mae_log": {
+      "media": 0.30827139134024206,
+      "desv": 0.02720349499472412
+    },
+    "rmse": {
+      "media": 7226796.795705043,
+      "desv": 1070794.2250030288
+    },
+    "mae": {
+      "media": 2951835.0234192875,
+      "desv": 325094.9535072144
+    },
+    "wape": {
+      "media": 0.12800511957552857,
+      "desv": 0.016708336745145234
+    },
+    "r2": {
+      "media": 0.960201575635025,
+      "desv": 0.012049390782575602
+    }
+  },
+  "metricas_test": {
+    "rmse": 6483491.946879293,
+    "mae": 2643947.539701255,
+    "rmse_log": 0.6894242236675925,
+    "mae_log": 0.24467300353649946,
+    "wape": 0.11151371773670761,
+    "r2": 0.9696550534728839,
+    "r2_log": 0.9079256137037766
+  },
+  "seg_entrenamiento": 0.04019112499999977,
+  "seg_inferencia_test": 0.014298790999999866,
+  "prueba_ida_y_vuelta": true,
+  "mb_en_disco": 0.002789
+}

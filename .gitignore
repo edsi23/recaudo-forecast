@@ -4,7 +4,10 @@ book/_build/
 __pycache__/
 *.csv
 *.parquet
-Data/
 docs_privado/
 # la tabla maestra de experimentos solo tiene métricas y tiempos (sin datos de negocios)
 !book/resultados/maestra.csv
+# datos livianos del dashboard y tablas de resultados (con autorización de la empresa)
+!data/*.csv
+!data/*.csv.gz
+!book/resultados/*.csv

@@ -1,0 +1,7 @@
+prueba,H0,supuestos,estadístico,p crudo,conclusión,IC 95 % (bootstrap estacionario),d de Cohen,delta de Cliff,magnitud,ACS mejor en (% negocios),p Holm,p BH,métrica
+Model Confidence Set (35 modelos),el ACS pertenece al conjunto de los mejores (igual pérdida esperada),pérdida diaria estacionaria; bootstrap por bloques de 3 días,,0.5665,ACS en el conjunto de confianza al 90 %; único modelo en el conjunto: False,,,,,,1.0,0.84975,RMSE log
+Diebold-Mariano (HLN) vs Random Forest · Grid,igual pérdida esperada (bilateral),"diferencia de pérdida estacionaria (ADF), h = 1",1.2889767601093494,0.20834086383863426,,"[-0.0064, 0.0446]",0.24359371092793566,,,,1.0,0.6250225915159028,RMSE log
+Giacomini-White vs Random Forest · Grid,igual habilidad predictiva condicional,instrumentos: constante y diferencia del día anterior,2.2331770884929747,0.32739478449360854,,,0.24359371092793566,,,,1.0,0.6547895689872171,RMSE log
+SPA de Hansen (benchmark Random Forest · Grid),el ACS no es mejor que el benchmark,"bootstrap estacionario, bloques de 3",,0.9225,,,,,,,1.0,0.9225,RMSE log
+Wilcoxon por negocio vs Random Forest · Grid,mediana de la diferencia por negocio = 0,negocios independientes; diferencias simétricas,45564.0,0.0996202209933288,,,,0.004689478451921585,despreciable,44.966442953020135,0.5977213259599728,0.5977213259599728,RMSE log
+Permutación pareada por negocio vs Random Forest · Grid,intercambiabilidad de las pérdidas,negocios independientes,0.0013309239486066977,0.7313,,,,,,,1.0,0.8775599999999999,RMSE log

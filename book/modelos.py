@@ -5,7 +5,7 @@ import numpy as np
 from imblearn.over_sampling import ADASYN, SMOTE
 from imblearn.pipeline import Pipeline as ImbPipeline
 from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestClassifier, RandomForestRegressor
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import Lasso, LogisticRegression, Ridge
 from sklearn.naive_bayes import GaussianNB
@@ -40,6 +40,10 @@ ESPACIOS = {
             ("max_depth", "int", 3, 10, False), ("subsample", "float", 0.6, 1.0, False),
             ("colsample_bytree", "float", 0.6, 1.0, False), ("min_child_weight", "float", 1, 50, True)],
     "svr": [("C", "float", 1e-3, 1, True), ("epsilon", "float", 0.0, 0.5, False)],
+    # entrega 3: boosting por histogramas (estilo LightGBM), referencia del estado del arte
+    "hgb": [("max_iter", "int", 100, 500, False), ("learning_rate", "float", 0.01, 0.3, True),
+            ("max_leaf_nodes", "int", 15, 127, True), ("min_samples_leaf", "int", 10, 200, True),
+            ("l2_regularization", "float", 1e-3, 10, True)],
     "svm": [("C", "float", 1e-4, 10, True)],
 }
 
@@ -56,6 +60,7 @@ REJILLAS = {
     "xgb": {"n_estimators": [150, 400], "learning_rate": [0.03, 0.1], "max_depth": [4, 8],
             "subsample": [0.7, 1.0]},
     "svr": {"C": list(np.logspace(-3, 0, 8)), "epsilon": [0.0, 0.1]},
+    "hgb": {"max_iter": [150, 400], "learning_rate": [0.03, 0.1], "max_leaf_nodes": [31, 63], "min_samples_leaf": [20, 100]},
     "svm": {"C": list(np.logspace(-4, 1, 16))},
 }
 
@@ -97,6 +102,8 @@ def _regresor(nombre, p, semilla):
         return RandomForestRegressor(max_samples=0.5, random_state=semilla, n_jobs=1, **p)
     if nombre == "xgb":
         return XGBRegressor(tree_method="hist", random_state=semilla, n_jobs=1, **p)
+    if nombre == "hgb":
+        return HistGradientBoostingRegressor(random_state=semilla, **p)
     if nombre == "svr":
         return LinearSVR(dual=True, max_iter=20000, random_state=semilla, **p)
     raise ValueError(nombre)

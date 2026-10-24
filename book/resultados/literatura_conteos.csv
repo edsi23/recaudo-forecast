@@ -1,0 +1,41 @@
+fecha,id,cadena,base,resultados,revisados
+2026-10-24,C1,"""forecast combination"" regime tree ""sales""",OpenAlex,99.0,10
+2026-10-24,C1,"""forecast combination"" regime tree ""sales""",Semantic Scholar,57.0,10
+2026-10-24,C1,"""forecast combination"" regime tree ""sales""",arXiv,0.0,0
+2026-10-24,C1,"""forecast combination"" regime tree ""sales""",Crossref,796903.0,10
+2026-10-24,C2,"""forecast combination"" simplex weights decision tree",OpenAlex,34.0,10
+2026-10-24,C2,"""forecast combination"" simplex weights decision tree",Semantic Scholar,,0
+2026-10-24,C2,"""forecast combination"" simplex weights decision tree",arXiv,0.0,0
+2026-10-24,C2,"""forecast combination"" simplex weights decision tree",Crossref,1427047.0,10
+2026-10-24,C3,"""model-based recursive partitioning"" forecast combination",OpenAlex,86.0,10
+2026-10-24,C3,"""model-based recursive partitioning"" forecast combination",Semantic Scholar,,0
+2026-10-24,C3,"""model-based recursive partitioning"" forecast combination",arXiv,0.0,0
+2026-10-24,C3,"""model-based recursive partitioning"" forecast combination",Crossref,9714157.0,10
+2026-10-24,C4,"""dynamic ensemble selection"" ""sales forecasting""",OpenAlex,9.0,9
+2026-10-24,C4,"""dynamic ensemble selection"" ""sales forecasting""",Semantic Scholar,,0
+2026-10-24,C4,"""dynamic ensemble selection"" ""sales forecasting""",arXiv,0.0,0
+2026-10-24,C4,"""dynamic ensemble selection"" ""sales forecasting""",Crossref,1772279.0,10
+2026-10-24,C5,"""gas station"" OR ""fuel station"" daily sales forecasting machine learning",OpenAlex,45223.0,10
+2026-10-24,C5,"""gas station"" OR ""fuel station"" daily sales forecasting machine learning",Semantic Scholar,,0
+2026-10-24,C5,"""gas station"" OR ""fuel station"" daily sales forecasting machine learning",arXiv,0.0,0
+2026-10-24,C5,"""gas station"" OR ""fuel station"" daily sales forecasting machine learning",Crossref,4823811.0,10
+2026-10-24,C6,"""convenience store"" daily sales forecasting ensemble",OpenAlex,49.0,10
+2026-10-24,C6,"""convenience store"" daily sales forecasting ensemble",Semantic Scholar,,0
+2026-10-24,C6,"""convenience store"" daily sales forecasting ensemble",arXiv,0.0,0
+2026-10-24,C6,"""convenience store"" daily sales forecasting ensemble",Crossref,644698.0,10
+2026-10-24,C7,"""combinación de pronósticos"" ventas diarias",OpenAlex,19.0,10
+2026-10-24,C7,"""combinación de pronósticos"" ventas diarias",Semantic Scholar,,0
+2026-10-24,C7,"""combinación de pronósticos"" ventas diarias",arXiv,0.0,0
+2026-10-24,C7,"""combinación de pronósticos"" ventas diarias",Crossref,10338666.0,10
+2026-10-24,C8,"""pronóstico de ventas"" ""estaciones de servicio""",OpenAlex,21.0,10
+2026-10-24,C8,"""pronóstico de ventas"" ""estaciones de servicio""",Semantic Scholar,,0
+2026-10-24,C8,"""pronóstico de ventas"" ""estaciones de servicio""",arXiv,0.0,0
+2026-10-24,C8,"""pronóstico de ventas"" ""estaciones de servicio""",Crossref,10339983.0,10
+2026-10-24,C9,meta-learning forecast combination weights features FFORMA,OpenAlex,84.0,10
+2026-10-24,C9,meta-learning forecast combination weights features FFORMA,Semantic Scholar,,0
+2026-10-24,C9,meta-learning forecast combination weights features FFORMA,arXiv,1.0,1
+2026-10-24,C9,meta-learning forecast combination weights features FFORMA,Crossref,3987688.0,10
+2026-10-24,C10,"stacking non-negative weights partition ""forecast combination"" retail",OpenAlex,41.0,10
+2026-10-24,C10,"stacking non-negative weights partition ""forecast combination"" retail",Semantic Scholar,,0
+2026-10-24,C10,"stacking non-negative weights partition ""forecast combination"" retail",arXiv,0.0,0
+2026-10-24,C10,"stacking non-negative weights partition ""forecast combination"" retail",Crossref,2508160.0,10

@@ -1,0 +1,160 @@
+{
+  "modelo": "rf",
+  "optimizador": "grid",
+  "semilla": 42,
+  "versiones": {
+    "python": "3.9.25",
+    "numpy": "1.26.4",
+    "pandas": "2.1.0",
+    "scikit-learn": "1.3.0",
+    "xgboost": "2.1.4",
+    "joblib": "1.3.2"
+  },
+  "hiperparametros": {
+    "max_depth": 16,
+    "max_features": 0.6,
+    "min_samples_leaf": 2,
+    "n_estimators": 150
+  },
+  "objetivo": "venta_total (COP), entrenado en log1p",
+  "entrenado_con": "2026-07-15 a 2026-09-02 (22205 filas)",
+  "esquema_entrada": [
+    {
+      "nombre": "lag1",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.451178575072152,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "lag7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.451178575072152,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "lag14",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.451178575072152,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "media7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 19.203128851608735,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "std7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 8.437516721337396,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "nivel",
+      "tipo": "real",
+      "min": 1.6004999540414544,
+      "max": 19.141174642355526,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "part_efectivo",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 1.0,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_datafono",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.9368585929599399,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_rumbo",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.6023059719277669,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_mi_empresa",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.28614331817460675,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "part_credito_clientes",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 0.4167477934355891,
+      "admite_nulos": true
+    },
+    {
+      "nombre": "dias_sin_venta7",
+      "tipo": "real",
+      "min": 0.0,
+      "max": 7.0,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "festivo",
+      "tipo": "entero",
+      "min": 0.0,
+      "max": 1.0,
+      "admite_nulos": false
+    },
+    {
+      "nombre": "dia_semana",
+      "tipo": "entero",
+      "min": 0.0,
+      "max": 6.0,
+      "admite_nulos": false
+    }
+  ],
+  "metricas_bucle_externo": {
+    "rmse_log": {
+      "media": 0.8873742786596416,
+      "desv": 0.12655602685238956
+    },
+    "mae_log": {
+      "media": 0.2906122887888193,
+      "desv": 0.05051768902413424
+    },
+    "rmse": {
+      "media": 6584506.005576535,
+      "desv": 1492375.1693919888
+    },
+    "mae": {
+      "media": 2688509.330077301,
+      "desv": 668217.1091522699
+    },
+    "wape": {
+      "media": 0.11708542147409394,
+      "desv": 0.03259414294278792
+    },
+    "r2": {
+      "media": 0.965632655790728,
+      "desv": 0.01714837768288043
+    }
+  },
+  "metricas_test": {
+    "rmse": 4202464.394436064,
+    "mae": 1855178.788219959,
+    "rmse_log": 0.6221257493278395,
+    "mae_log": 0.21642461433109988,
+    "wape": 0.07824583530279249,
+    "r2": 0.9872509885803551,
+    "r2_log": 0.9250240272581547
+  },
+  "seg_entrenamiento": 4.130597458,
+  "seg_inferencia_test": 0.09755720799999956,
+  "prueba_ida_y_vuelta": true,
+  "mb_en_disco": 17.784842
+}
