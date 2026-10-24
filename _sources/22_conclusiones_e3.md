@@ -50,14 +50,12 @@
 
 **Autor:** Edgar De Jesús Siado Ferrer — usuario de GitHub `edsi23`.
 
-**Uso de herramientas de IA.** En las tres entregas se usó un asistente de IA generativa (Claude, de Anthropic, a través de Claude Code) como apoyo de programación y redacción. En concreto, el asistente:
+**Uso de herramientas de IA.** Durante las tres entregas usé un asistente de IA generativa (Claude, de Anthropic, a través de Claude Code) de dos formas:
 
-- propuso y escribió buena parte del código (limpieza de datos, módulos `comun.py`, `datos.py`, `modelos.py`, `optimizadores.py`, `estadistica.py`, `experimentos.py`, la clase del modelo original `src/original_model.py`, sus pruebas unitarias y el tablero en Dash);
-- propuso el diseño del modelo original y las demostraciones de sus propiedades;
-- ejecutó la búsqueda de literatura por API y redactó borradores de las interpretaciones de tablas y figuras;
-- detectó y corrigió errores propios durante el desarrollo (por ejemplo, la falta de convergencia del primer solver, cap. 19.11).
+- **Como guía:** para discutir el diseño del proyecto y del modelo original, explicarme conceptos, el código y las pruebas estadísticas, y revisar la redacción del libro.
+- **Como apoyo principal en la programación:** el asistente escribió gran parte del código (módulos de los experimentos, el modelo original y sus pruebas unitarias, y el tablero), que yo revisé, ejecuté y validé. También ejecutó por API la búsqueda de literatura y propuso borradores de las interpretaciones de tablas y figuras.
 
-**Responsabilidad del autor.** El autor definió el problema, aportó y autorizó los datos, tomó las decisiones del proyecto (tarea, métricas, criterio de veredicto, reportar R3 como no cumplida), revisó los resultados y es responsable de comprender y poder defender cada línea entregada, como exige la guía. Todas las cifras del libro se generan con el código incluido.
+**Responsabilidad del autor.** Definí el problema, aporté y gestioné la autorización de los datos, tomé las decisiones del proyecto (tarea, métricas, criterio de veredicto y reportar la condición R3 como no cumplida), revisé los resultados y soy responsable de comprender y poder defender cada línea entregada, como exige la guía. Todas las cifras del libro se generan con el código incluido.
 
 Firma: ______________________   Fecha: 25 de octubre de 2026
 ```
