@@ -1,12 +1,26 @@
 # Tabla de contenido del libro
 format: jb-book
 root: intro
-chapters:
-- file: 01_base_de_datos
-- file: 02_carga_y_limpieza
-- file: 03_particion_y_objetivo
-- file: 04_eda_uni_bi_multivariado
-- file: 05_auditoria_fuga
-- file: 06_eda_temporal
-- file: 07_preprocesamiento
-- file: 08_modelo_base
+parts:
+- caption: Datos y análisis exploratorio
+  chapters:
+  - file: 01_base_de_datos
+  - file: 02_carga_y_limpieza
+  - file: 03_particion_y_objetivo
+  - file: 04_eda_uni_bi_multivariado
+  - file: 04b_eda_multivariado
+  - file: 05_auditoria_fuga
+  - file: 06_eda_temporal
+  - file: 07_preprocesamiento
+- caption: Modelo base (primera entrega)
+  chapters:
+  - file: 08_modelo_base
+- caption: Modelos y resultados (segunda entrega)
+  chapters:
+  - file: 09_diseno_experimental
+  - file: 10_optimizacion_hiperparametros
+  - file: 11_optimizacion_computacional
+  - file: 12_regresion_resultados
+  - file: 13_clasificacion_resultados
+  - file: 14_interpretabilidad
+  - file: 15_conclusiones

@@ -1,4 +1,5 @@
 # Python 3.9 (entorno conda ml_venv). Versiones exactas usadas para ejecutar el libro.
+# En macOS, XGBoost necesita OpenMP: conda install -c conda-forge llvm-openmp
 numpy==1.26.4
 pandas==2.1.0
 scipy==1.11.2
@@ -12,3 +13,12 @@ nbclient==0.7.4
 jupyter-book==0.15.1
 myst-nb==0.17.2
 ghp-import==2.1.0
+# segunda entrega
+xgboost==2.1.4
+imbalanced-learn==0.12.4
+optuna==4.2.1
+deap==1.4.2
+shap==0.46.0
+lime==0.2.0.1
+arch==7.0.0
+faiss-cpu==1.8.0

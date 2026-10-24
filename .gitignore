@@ -6,3 +6,5 @@ __pycache__/
 *.parquet
 Data/
 docs_privado/
+# la tabla maestra de experimentos solo tiene métricas y tiempos (sin datos de negocios)
+!book/resultados/maestra.csv
