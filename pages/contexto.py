@@ -8,7 +8,7 @@ from data import DESCRIPCION, lideres, tabla
 
 dash.register_page(__name__, path="/", name="Contexto", title="Contexto · Pronóstico de ventas")
 
-AUTOR = "edsi23"  # autor del proyecto
+AUTOR = "Edgar De Jesús Siado Ferrer"  # autor del proyecto
 VERSION, FECHA = "3.0 (tercera entrega)", "25 de octubre de 2026"
 
 panel = tabla("panel.csv.gz")
