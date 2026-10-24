@@ -48,7 +48,7 @@
 ```{admonition} Declaración
 :class: important
 
-**Autor:** [nombre completo del estudiante] — usuario de GitHub `edsi23`.
+**Autor:** Edgar De Jesús Siado Ferrer — usuario de GitHub `edsi23`.
 
 **Uso de herramientas de IA.** En las tres entregas se usó un asistente de IA generativa (Claude, de Anthropic, a través de Claude Code) como apoyo de programación y redacción. En concreto, el asistente:
 
