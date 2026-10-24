@@ -1,0 +1,2032 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>🔍 10. Comparación de los métodos de optimización &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '10_optimizacion_hiperparametros';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="⚙️ 11. Optimización computacional" href="11_optimizacion_computacional.html" />
+    <link rel="prev" title="🧪 9. Diseño experimental de la segunda entrega" href="09_diseno_experimental.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/10_optimizacion_hiperparametros.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>🔍 10. Comparación de los métodos de optimización</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-tabla-maestra">📋 10.1 La tabla maestra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algun-optimizador-encuentra-mejores-modelos">⚖️ 10.2 ¿Algún optimizador encuentra mejores modelos?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergencia-en-el-experimento-principal-anytime-performance">📈 10.3 Convergencia en el experimento principal (<em>anytime performance</em>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-la-diferencia-esta-en-la-velocidad-de-convergencia">Interpretación: la diferencia está en la velocidad de convergencia</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estudio-con-mas-presupuesto-60-evaluaciones-y-3-semillas">🔬 10.4 Estudio con más presupuesto: 60 evaluaciones y 3 semillas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-con-60-evaluaciones">Interpretación: con 60 evaluaciones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Interpretación</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#donde-busca-cada-metodo">Dónde busca cada método</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diversidad-genetica">🧬 10.5 Diversidad genética</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-fidelidad-successive-halving">✂️ 10.6 Multi-fidelidad: Successive Halving</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Interpretación</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="comparacion-de-los-metodos-de-optimizacion">
+<h1>🔍 10. Comparación de los métodos de optimización<a class="headerlink" href="#comparacion-de-los-metodos-de-optimizacion" title="Permalink to this heading">#</a></h1>
+<p>Este capítulo responde: <strong>¿qué método de búsqueda de hiperparámetros conviene, y por qué?</strong> Se usan dos fuentes:</p>
+<ol class="arabic simple">
+<li><p>El <strong>experimento principal</strong>: 140 combinaciones, cada búsqueda con 16 evaluaciones, dentro de la validación anidada (cap. 9).</p></li>
+<li><p>Un <strong>estudio aparte con más presupuesto</strong> (<code class="docutils literal notranslate"><span class="pre">estudio_optimizadores.py</span></code>): XGBoost en las dos tareas, 60 evaluaciones por búsqueda y 3 semillas por método, en el fold externo 4. Sirve para ver la convergencia, la diversidad del genético y la estabilidad ante semillas, cosas que con 16 evaluaciones apenas se notan.</p></li>
+</ol>
+<p>Todas las métricas de calidad son del <strong>bucle externo</strong> (o de la semana de validación externa del fold 4 en el estudio), nunca el mejor valor interno.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="kn">from</span> <span class="nn">comun</span> <span class="kn">import</span> <span class="n">estilo</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">SEED</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="n">VERDE</span><span class="p">,</span> <span class="n">AMARILLO</span><span class="p">,</span> <span class="n">GRIS</span><span class="p">,</span> <span class="n">PALETA</span>
+<span class="kn">from</span> <span class="nn">experimentos</span> <span class="kn">import</span> <span class="n">armar_maestra</span><span class="p">,</span> <span class="n">cargar</span><span class="p">,</span> <span class="n">combinaciones</span>
+<span class="kn">from</span> <span class="nn">estadistica</span> <span class="kn">import</span> <span class="n">friedman_nemenyi</span><span class="p">,</span> <span class="n">diagrama_cd</span><span class="p">,</span> <span class="n">holm</span>
+
+<span class="n">estilo</span><span class="p">()</span>
+<span class="n">maestra</span> <span class="o">=</span> <span class="n">armar_maestra</span><span class="p">()</span>
+<span class="n">COLOR</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="n">GRIS</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">:</span> <span class="n">AZUL</span><span class="p">,</span> <span class="s2">&quot;bayes&quot;</span><span class="p">:</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="s2">&quot;genetico&quot;</span><span class="p">:</span> <span class="n">VERDE</span><span class="p">}</span>
+<span class="n">NOMBRE</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="s2">&quot;Grid&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">:</span> <span class="s2">&quot;Random&quot;</span><span class="p">,</span> <span class="s2">&quot;bayes&quot;</span><span class="p">:</span> <span class="s2">&quot;Bayes (TPE)&quot;</span><span class="p">,</span> <span class="s2">&quot;genetico&quot;</span><span class="p">:</span> <span class="s2">&quot;Genético&quot;</span><span class="p">}</span>
+<span class="c1"># métrica principal de cada tarea, expresada como pérdida (menor es mejor)</span>
+<span class="n">maestra</span><span class="p">[</span><span class="s2">&quot;perdida_media&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">maestra</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="n">maestra</span><span class="p">[</span><span class="s2">&quot;rmse_log_media&quot;</span><span class="p">],</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">maestra</span><span class="p">[</span><span class="s2">&quot;f1_media&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">maestra</span><span class="p">)</span><span class="si">}</span><span class="s2"> combinaciones en la tabla maestra &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="p">(</span><span class="n">maestra</span><span class="p">[</span><span class="s1">&#39;tarea&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;reg&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> de regresión, </span><span class="si">{</span><span class="p">(</span><span class="n">maestra</span><span class="p">[</span><span class="s1">&#39;tarea&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;clf&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> de clasificación)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;evaluaciones totales: </span><span class="si">{</span><span class="n">maestra</span><span class="p">[</span><span class="s1">&#39;n_evals&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> (cada una = 3 ajustes) | &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;tiempo de cómputo sumado: </span><span class="si">{</span><span class="n">maestra</span><span class="p">[</span><span class="s1">&#39;seg_total&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3600</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> h&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>140 combinaciones en la tabla maestra (28 de regresión, 112 de clasificación)
+evaluaciones totales: 11,100 (cada una = 3 ajustes) | tiempo de cómputo sumado: 6.9 h
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
+</div>
+</div>
+</div>
+<section id="la-tabla-maestra">
+<h2>📋 10.1 La tabla maestra<a class="headerlink" href="#la-tabla-maestra" title="Permalink to this heading">#</a></h2>
+<p>Cada fila es una combinación. Se muestran las columnas principales; el archivo completo (<code class="docutils literal notranslate"><span class="pre">resultados/maestra.csv</span></code>) tiene todas las métricas del bucle externo (media y desviación), las de test, los tiempos y los hiperparámetros finales.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;modelo&quot;</span><span class="p">,</span> <span class="s2">&quot;balanceo&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">,</span> <span class="s2">&quot;n_evals&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse_log_media&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse_log_desv&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;f1_media&quot;</span><span class="p">,</span> <span class="s2">&quot;f1_desv&quot;</span><span class="p">,</span> <span class="s2">&quot;auc_media&quot;</span><span class="p">,</span> <span class="s2">&quot;seg_total&quot;</span><span class="p">,</span> <span class="s2">&quot;seg_por_eval&quot;</span><span class="p">,</span> <span class="s2">&quot;params_final&quot;</span><span class="p">]</span>
+<span class="c1"># las 5 mejores de cada tarea según la métrica del bucle externo</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">maestra</span><span class="p">[</span><span class="n">maestra</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;perdida_media&quot;</span><span class="p">)[</span><span class="n">cols</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;clf&quot;</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarea</th>
+      <th>modelo</th>
+      <th>balanceo</th>
+      <th>optimizador</th>
+      <th>n_evals</th>
+      <th>rmse_log_media</th>
+      <th>rmse_log_desv</th>
+      <th>f1_media</th>
+      <th>f1_desv</th>
+      <th>auc_media</th>
+      <th>seg_total</th>
+      <th>seg_por_eval</th>
+      <th>params_final</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>16</th>
+      <td>reg</td>
+      <td>rf</td>
+      <td>ninguno</td>
+      <td>grid</td>
+      <td>80</td>
+      <td>0.89</td>
+      <td>0.13</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>446.71</td>
+      <td>4.53</td>
+      <td>{"max_depth": 16, "max_features": 0.6, "min_sa...</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>reg</td>
+      <td>rf</td>
+      <td>ninguno</td>
+      <td>random</td>
+      <td>80</td>
+      <td>0.89</td>
+      <td>0.13</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>386.72</td>
+      <td>4.05</td>
+      <td>{"n_estimators": 63, "max_depth": 12, "min_sam...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>reg</td>
+      <td>xgb</td>
+      <td>ninguno</td>
+      <td>random</td>
+      <td>80</td>
+      <td>0.89</td>
+      <td>0.12</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>134.88</td>
+      <td>1.60</td>
+      <td>{"n_estimators": 373, "learning_rate": 0.01608...</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>reg</td>
+      <td>rf</td>
+      <td>ninguno</td>
+      <td>bayes</td>
+      <td>80</td>
+      <td>0.89</td>
+      <td>0.12</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>539.90</td>
+      <td>5.35</td>
+      <td>{"n_estimators": 110, "max_depth": 16, "min_sa...</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>reg</td>
+      <td>xgb</td>
+      <td>ninguno</td>
+      <td>genetico</td>
+      <td>80</td>
+      <td>0.90</td>
+      <td>0.13</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>168.22</td>
+      <td>1.90</td>
+      <td>{"n_estimators": 434, "learning_rate": 0.01142...</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>clf</td>
+      <td>xgb</td>
+      <td>balanced</td>
+      <td>bayes</td>
+      <td>80</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.29</td>
+      <td>0.07</td>
+      <td>0.86</td>
+      <td>155.93</td>
+      <td>1.78</td>
+      <td>{"n_estimators": 381, "learning_rate": 0.11082...</td>
+    </tr>
+    <tr>
+      <th>120</th>
+      <td>clf</td>
+      <td>xgb</td>
+      <td>balanced</td>
+      <td>grid</td>
+      <td>80</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.29</td>
+      <td>0.07</td>
+      <td>0.85</td>
+      <td>153.14</td>
+      <td>1.73</td>
+      <td>{"learning_rate": 0.03, "max_depth": 8, "n_est...</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>clf</td>
+      <td>xgb</td>
+      <td>balanced</td>
+      <td>random</td>
+      <td>80</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.28</td>
+      <td>0.07</td>
+      <td>0.85</td>
+      <td>137.83</td>
+      <td>1.55</td>
+      <td>{"n_estimators": 382, "learning_rate": 0.14230...</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>clf</td>
+      <td>rf</td>
+      <td>balanced</td>
+      <td>genetico</td>
+      <td>80</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.27</td>
+      <td>0.04</td>
+      <td>0.86</td>
+      <td>347.67</td>
+      <td>3.78</td>
+      <td>{"n_estimators": 119, "max_depth": 15, "min_sa...</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>clf</td>
+      <td>xgb</td>
+      <td>balanced</td>
+      <td>genetico</td>
+      <td>80</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.27</td>
+      <td>0.06</td>
+      <td>0.85</td>
+      <td>185.27</td>
+      <td>2.19</td>
+      <td>{"n_estimators": 423, "learning_rate": 0.11964...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="algun-optimizador-encuentra-mejores-modelos">
+<h2>⚖️ 10.2 ¿Algún optimizador encuentra mejores modelos?<a class="headerlink" href="#algun-optimizador-encuentra-mejores-modelos" title="Permalink to this heading">#</a></h2>
+<p>Para comparar optimizadores de forma justa, cada <strong>bloque</strong> es una misma configuración (modelo en regresión; modelo × balanceo en clasificación) y dentro de cada bloque se ordenan los 4 optimizadores por la métrica del bucle externo. Si un método fuera mejor, tendría consistentemente el rango 1. Se aplica la prueba de <strong>Friedman</strong> sobre esos rangos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resumen</span><span class="p">,</span> <span class="n">pruebas</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">tarea</span><span class="p">,</span> <span class="n">bloque</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">]),</span> <span class="p">(</span><span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">,</span> <span class="s2">&quot;balanceo&quot;</span><span class="p">])]:</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">maestra</span><span class="p">[</span><span class="n">maestra</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tarea</span><span class="p">]</span>
+    <span class="n">tabla</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">bloque</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;optimizador&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;perdida_media&quot;</span><span class="p">)</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">friedman_nemenyi</span><span class="p">(</span><span class="n">tabla</span><span class="p">)</span>
+    <span class="n">pruebas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;tarea&quot;</span><span class="p">:</span> <span class="n">tarea</span><span class="p">,</span> <span class="s2">&quot;bloques&quot;</span><span class="p">:</span> <span class="n">fn</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">],</span> <span class="s2">&quot;chi² Friedman&quot;</span><span class="p">:</span> <span class="n">fn</span><span class="p">[</span><span class="s2">&quot;chi2&quot;</span><span class="p">],</span> <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="n">fn</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">],</span> <span class="s2">&quot;CD Nemenyi&quot;</span><span class="p">:</span> <span class="n">fn</span><span class="p">[</span><span class="s2">&quot;cd&quot;</span><span class="p">]})</span>
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">tabla</span><span class="p">:</span>
+        <span class="n">resumen</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;tarea&quot;</span><span class="p">:</span> <span class="n">tarea</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">:</span> <span class="n">NOMBRE</span><span class="p">[</span><span class="n">o</span><span class="p">],</span> <span class="s2">&quot;rango medio&quot;</span><span class="p">:</span> <span class="n">fn</span><span class="p">[</span><span class="s2">&quot;rangos&quot;</span><span class="p">][</span><span class="n">o</span><span class="p">],</span>
+                        <span class="s2">&quot;veces el mejor&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">((</span><span class="n">tabla</span><span class="o">.</span><span class="n">idxmin</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+                        <span class="s2">&quot;pérdida media&quot;</span><span class="p">:</span> <span class="n">tabla</span><span class="p">[</span><span class="n">o</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+                        <span class="s2">&quot;seg por evaluación&quot;</span><span class="p">:</span> <span class="n">sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;optimizador&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">o</span><span class="p">,</span> <span class="s2">&quot;seg_por_eval&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+                        <span class="s2">&quot;min por combinación&quot;</span><span class="p">:</span> <span class="n">sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;optimizador&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">o</span><span class="p">,</span> <span class="s2">&quot;seg_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span><span class="p">})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pruebas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;tarea&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resumen</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bloques</th>
+      <th>chi² Friedman</th>
+      <th>p</th>
+      <th>CD Nemenyi</th>
+    </tr>
+    <tr>
+      <th>tarea</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>reg</th>
+      <td>7</td>
+      <td>0.94</td>
+      <td>0.82</td>
+      <td>1.77</td>
+    </tr>
+    <tr>
+      <th>clf</th>
+      <td>28</td>
+      <td>5.38</td>
+      <td>0.15</td>
+      <td>0.89</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>rango medio</th>
+      <th>veces el mejor</th>
+      <th>pérdida media</th>
+      <th>seg por evaluación</th>
+      <th>min por combinación</th>
+    </tr>
+    <tr>
+      <th>tarea</th>
+      <th>optimizador</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">reg</th>
+      <th>Bayes (TPE)</th>
+      <td>2.29</td>
+      <td>2</td>
+      <td>0.94</td>
+      <td>1.28</td>
+      <td>2.05</td>
+    </tr>
+    <tr>
+      <th>Genético</th>
+      <td>2.29</td>
+      <td>2</td>
+      <td>0.94</td>
+      <td>1.04</td>
+      <td>1.67</td>
+    </tr>
+    <tr>
+      <th>Grid</th>
+      <td>2.57</td>
+      <td>2</td>
+      <td>0.94</td>
+      <td>1.24</td>
+      <td>1.92</td>
+    </tr>
+    <tr>
+      <th>Random</th>
+      <td>2.86</td>
+      <td>1</td>
+      <td>0.94</td>
+      <td>1.01</td>
+      <td>1.55</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">clf</th>
+      <th>Bayes (TPE)</th>
+      <td>2.38</td>
+      <td>5</td>
+      <td>0.79</td>
+      <td>2.21</td>
+      <td>3.42</td>
+    </tr>
+    <tr>
+      <th>Genético</th>
+      <td>2.68</td>
+      <td>7</td>
+      <td>0.79</td>
+      <td>2.14</td>
+      <td>3.22</td>
+    </tr>
+    <tr>
+      <th>Grid</th>
+      <td>2.84</td>
+      <td>5</td>
+      <td>0.79</td>
+      <td>2.09</td>
+      <td>3.17</td>
+    </tr>
+    <tr>
+      <th>Random</th>
+      <td>2.11</td>
+      <td>11</td>
+      <td>0.79</td>
+      <td>2.07</td>
+      <td>3.15</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">tarea</span><span class="p">,</span> <span class="n">etiqueta</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;RMSE log (bucle externo)&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="s2">&quot;1 − F1 (bucle externo)&quot;</span><span class="p">)]):</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">maestra</span><span class="p">[</span><span class="n">maestra</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tarea</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tarea</span> <span class="o">==</span> <span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="s2">&quot;·&quot;</span> <span class="o">+</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;balanceo&quot;</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">tabla</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;optimizador&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;perdida_media&quot;</span><span class="p">)</span>
+    <span class="c1"># diferencia contra el mejor optimizador de cada configuración (0 = fue el mejor)</span>
+    <span class="n">rel</span> <span class="o">=</span> <span class="n">tabla</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">tabla</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;genetico&quot;</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rel</span><span class="p">),</span> <span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rel</span><span class="p">))</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rel</span><span class="p">[</span><span class="n">o</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLOR</span><span class="p">[</span><span class="n">o</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">rel</span><span class="p">[</span><span class="n">o</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">j</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#0b0b0b&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">o</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;genetico&quot;</span><span class="p">]])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">etiqueta</span><span class="si">}</span><span class="se">\n</span><span class="s2">menos la del mejor método&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Regresión&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">tarea</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;reg&#39;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Clasificación&#39;</span><span class="si">}</span><span class="s2">: distancia al mejor optimizador&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/74bf767aaffeee84cc2920b2eefd1da542a96467f0995cda1c34563e157ce580.png" src="_images/74bf767aaffeee84cc2920b2eefd1da542a96467f0995cda1c34563e157ce580.png" />
+</div>
+</div>
+<section id="interpretacion">
+<h3>Interpretación<a class="headerlink" href="#interpretacion" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>En el experimento principal ningún optimizador es significativamente mejor.</strong> Friedman no rechaza ni en regresión (p = 0,82, 7 bloques) ni en clasificación (p = 0,15, 28 bloques). La pérdida media es prácticamente la misma con los 4 métodos (0,94 en regresión y 0,79 en clasificación) y los puntos de la figura se concentran cerca de 0.</p></li>
+<li><p>Hay tres razones, y las tres son parte del resultado:</p>
+<ol class="arabic simple">
+<li><p><strong>Con 16 evaluaciones los métodos inteligentes casi no alcanzan a aprender.</strong> El TPE dedica 5 a explorar al azar y el genético solo hace 2 generaciones.</p></li>
+<li><p><strong>La mayoría de los modelos tiene 1 o 2 hiperparámetros</strong> (Ridge, Lasso, NB, SVM, SVR, árbol, KNN). En un espacio de 1 dimensión una rejilla de 16 puntos ya lo cubre bien y no hay nada que «aprender».</p></li>
+<li><p><strong>La superficie de pérdida es plana</strong> cerca del óptimo, como se vio con el SVR en la entrega 1: muchas configuraciones son casi igual de buenas.</p></li>
+</ol>
+</li>
+<li><p>El <strong>costo por evaluación</strong> es parecido entre métodos (1,0–1,3 s en regresión y 2,1–2,2 s en clasificación). La sobrecarga del TPE (ajustar sus densidades) es despreciable frente a entrenar un modelo. Que Bayes y Grid tarden un poco más se explica por <strong>las configuraciones que eligen</strong> (más árboles o más profundos), no por el algoritmo de búsqueda.</p></li>
+</ul>
+</section>
+</section>
+<section id="convergencia-en-el-experimento-principal-anytime-performance">
+<h2>📈 10.3 Convergencia en el experimento principal (<em>anytime performance</em>)<a class="headerlink" href="#convergencia-en-el-experimento-principal-anytime-performance" title="Permalink to this heading">#</a></h2>
+<p>Para cada búsqueda se guardó la pérdida de cada evaluación. La curva <em>anytime</em> es el <strong>mejor valor encontrado hasta la evaluación <span class="math notranslate nohighlight">\(t\)</span></strong>. Como las pérdidas de modelos distintos no son comparables, se normalizan: para cada (combinación, fold) se resta la mejor pérdida que encontró <strong>cualquiera</strong> de los 4 métodos en ese mismo problema y se divide por el rango. Así 0 = el mejor valor encontrado por alguien y 1 = el peor punto evaluado. La curva promedio es el <strong>arrepentimiento normalizado</strong> (<em>normalized regret</em>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">curvas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">tarea</span><span class="p">,</span> <span class="n">modelo</span><span class="p">,</span> <span class="n">balanceo</span><span class="p">,</span> <span class="n">metodo</span> <span class="ow">in</span> <span class="n">combinaciones</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">cargar</span><span class="p">(</span><span class="n">tarea</span><span class="p">,</span> <span class="n">modelo</span><span class="p">,</span> <span class="n">balanceo</span><span class="p">,</span> <span class="n">metodo</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;folds&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[{</span><span class="s2">&quot;fold&quot;</span><span class="p">:</span> <span class="s2">&quot;final&quot;</span><span class="p">,</span> <span class="s2">&quot;historial&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;historial_final&quot;</span><span class="p">]}]:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;historial&quot;</span><span class="p">])</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="s2">&quot;perdida&quot;</span><span class="p">])]</span>
+        <span class="n">curvas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;tarea&quot;</span><span class="p">:</span> <span class="n">tarea</span><span class="p">,</span> <span class="s2">&quot;problema&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">modelo</span><span class="si">}</span><span class="s2">·</span><span class="si">{</span><span class="n">balanceo</span><span class="si">}</span><span class="s2">·</span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;fold&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">:</span> <span class="n">metodo</span><span class="p">,</span>
+                                    <span class="s2">&quot;eval&quot;</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">&quot;eval&quot;</span><span class="p">],</span> <span class="s2">&quot;perdida&quot;</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">&quot;perdida&quot;</span><span class="p">],</span> <span class="s2">&quot;mejor&quot;</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">&quot;perdida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cummin</span><span class="p">(),</span>
+                                    <span class="s2">&quot;seg&quot;</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">&quot;seg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()}))</span>
+<span class="n">curvas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">curvas</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ref</span> <span class="o">=</span> <span class="n">curvas</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;problema&quot;</span><span class="p">])[</span><span class="s2">&quot;perdida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">])</span>
+<span class="n">curvas</span> <span class="o">=</span> <span class="n">curvas</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;problema&quot;</span><span class="p">])</span>
+<span class="n">curvas</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">curvas</span><span class="p">[</span><span class="s2">&quot;mejor&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">curvas</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">curvas</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">curvas</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
+<span class="n">anytime</span> <span class="o">=</span> <span class="n">curvas</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">,</span> <span class="s2">&quot;eval&quot;</span><span class="p">])[</span><span class="s2">&quot;regret&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tarea</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;clf&quot;</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;genetico&quot;</span><span class="p">]:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">anytime</span><span class="p">[(</span><span class="n">anytime</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tarea</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">anytime</span><span class="p">[</span><span class="s2">&quot;optimizador&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">o</span><span class="p">)]</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;eval&quot;</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLOR</span><span class="p">[</span><span class="n">o</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">o</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;evaluación t&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;arrepentimiento normalizado medio&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Regresión&quot;</span> <span class="k">if</span> <span class="n">tarea</span> <span class="o">==</span> <span class="s2">&quot;reg&quot;</span> <span class="k">else</span> <span class="s2">&quot;Clasificación&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Mejor valor hasta la evaluación t (0 = mejor encontrado por cualquier método)&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b7a88ea299a3572d343cb8306423bc7872424ff8bfa3d417a79c895970c3bae7.png" src="_images/b7a88ea299a3572d343cb8306423bc7872424ff8bfa3d417a79c895970c3bae7.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># resumen cuantitativo: área bajo la curva de arrepentimiento (menor = converge antes) y</span>
+<span class="c1"># % de problemas en los que el método llega al 1 % del mejor valor conocido</span>
+<span class="n">final</span> <span class="o">=</span> <span class="n">curvas</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;eval&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;problema&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">tarea</span><span class="p">,</span> <span class="n">o</span><span class="p">),</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">curvas</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">]):</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;problema&quot;</span><span class="p">)[</span><span class="s2">&quot;regret&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">fin</span> <span class="o">=</span> <span class="n">final</span><span class="p">[(</span><span class="n">final</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tarea</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">final</span><span class="p">[</span><span class="s2">&quot;optimizador&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">o</span><span class="p">)]</span>
+    <span class="n">llega</span> <span class="o">=</span> <span class="p">(</span><span class="n">fin</span><span class="p">[</span><span class="s2">&quot;mejor&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">fin</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="p">(</span><span class="n">fin</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">fin</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]))</span>
+    <span class="n">t_eval</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;problema&quot;</span><span class="p">)[</span><span class="s2">&quot;seg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="n">g</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;problema&quot;</span><span class="p">)[</span><span class="s2">&quot;eval&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;tarea&quot;</span><span class="p">:</span> <span class="n">tarea</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">:</span> <span class="n">NOMBRE</span><span class="p">[</span><span class="n">o</span><span class="p">],</span> <span class="s2">&quot;área bajo el regret (media)&quot;</span><span class="p">:</span> <span class="n">area</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+                  <span class="s2">&quot;regret final (media)&quot;</span><span class="p">:</span> <span class="n">fin</span><span class="p">[</span><span class="s2">&quot;regret&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="s2">&quot;</span><span class="si">% d</span><span class="s2">e problemas en el mejor (±1 %)&quot;</span><span class="p">:</span> <span class="n">llega</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                  <span class="s2">&quot;seg por evaluación (mediana)&quot;</span><span class="p">:</span> <span class="n">t_eval</span><span class="o">.</span><span class="n">median</span><span class="p">()})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>área bajo el regret (media)</th>
+      <th>regret final (media)</th>
+      <th>% de problemas en el mejor (±1 %)</th>
+      <th>seg por evaluación (mediana)</th>
+    </tr>
+    <tr>
+      <th>tarea</th>
+      <th>optimizador</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">clf</th>
+      <th>Bayes (TPE)</th>
+      <td>0.14</td>
+      <td>0.06</td>
+      <td>60.71</td>
+      <td>0.66</td>
+    </tr>
+    <tr>
+      <th>Genético</th>
+      <td>0.24</td>
+      <td>0.16</td>
+      <td>28.57</td>
+      <td>0.73</td>
+    </tr>
+    <tr>
+      <th>Grid</th>
+      <td>0.29</td>
+      <td>0.09</td>
+      <td>35.00</td>
+      <td>0.61</td>
+    </tr>
+    <tr>
+      <th>Random</th>
+      <td>0.18</td>
+      <td>0.11</td>
+      <td>30.00</td>
+      <td>0.67</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">reg</th>
+      <th>Bayes (TPE)</th>
+      <td>0.04</td>
+      <td>0.01</td>
+      <td>74.29</td>
+      <td>0.45</td>
+    </tr>
+    <tr>
+      <th>Genético</th>
+      <td>0.08</td>
+      <td>0.03</td>
+      <td>54.29</td>
+      <td>0.41</td>
+    </tr>
+    <tr>
+      <th>Grid</th>
+      <td>0.11</td>
+      <td>0.02</td>
+      <td>57.14</td>
+      <td>0.44</td>
+    </tr>
+    <tr>
+      <th>Random</th>
+      <td>0.07</td>
+      <td>0.03</td>
+      <td>45.71</td>
+      <td>0.40</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="interpretacion-la-diferencia-esta-en-la-velocidad-de-convergencia">
+<h3>Interpretación: la diferencia está en la velocidad de convergencia<a class="headerlink" href="#interpretacion-la-diferencia-esta-en-la-velocidad-de-convergencia" title="Permalink to this heading">#</a></h3>
+<p>Aunque la calidad final es parecida, <strong>el TPE llega antes y más seguido a lo mejor</strong>. Esta es la evidencia cuantitativa de eficiencia que pide la guía:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Bayes (TPE)</p></th>
+<th class="head"><p>Random</p></th>
+<th class="head"><p>Genético</p></th>
+<th class="head"><p>Grid</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Área bajo el <em>regret</em>, regresión (menor = converge antes)</p></td>
+<td><p><strong>0,04</strong></p></td>
+<td><p>0,07</p></td>
+<td><p>0,08</p></td>
+<td><p>0,11</p></td>
+</tr>
+<tr class="row-odd"><td><p>Área bajo el <em>regret</em>, clasificación</p></td>
+<td><p><strong>0,14</strong></p></td>
+<td><p>0,18</p></td>
+<td><p>0,24</p></td>
+<td><p>0,29</p></td>
+</tr>
+<tr class="row-even"><td><p>% de problemas en que llega al mejor valor conocido (±1 %), regresión</p></td>
+<td><p><strong>74 %</strong></p></td>
+<td><p>46 %</p></td>
+<td><p>54 %</p></td>
+<td><p>57 %</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ídem, clasificación</p></td>
+<td><p><strong>61 %</strong></p></td>
+<td><p>30 %</p></td>
+<td><p>29 %</p></td>
+<td><p>35 %</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>Con el <strong>mismo presupuesto y el mismo costo por evaluación</strong>, el TPE acumula menos <em>regret</em> en todo el recorrido. Su curva baja más rápido después de las 5 evaluaciones iniciales al azar, que es justo cuando su modelo sustituto empieza a funcionar.</p></li>
+<li><p><strong>El Grid es el más lento:</strong> recorre la rejilla en un orden fijo, que no tiene nada que ver con dónde está lo bueno, y en los modelos de 4–6 hiperparámetros solo prueba 2 valores por dimensión.</p></li>
+<li><p><strong>El genético</strong> queda por detrás del aleatorio en clasificación. Con 16 evaluaciones (6 iniciales + 2 generaciones de 5), es casi una búsqueda aleatoria con un poco de refinamiento local, que a veces se concentra antes de tiempo.</p></li>
+</ul>
+</section>
+</section>
+<section id="estudio-con-mas-presupuesto-60-evaluaciones-y-3-semillas">
+<h2>🔬 10.4 Estudio con más presupuesto: 60 evaluaciones y 3 semillas<a class="headerlink" href="#estudio-con-mas-presupuesto-60-evaluaciones-y-3-semillas" title="Permalink to this heading">#</a></h2>
+<p>Con 16 evaluaciones los métodos inteligentes apenas tienen tiempo de aprender: el TPE usa 5 puntos al azar y le quedan 11; el genético alcanza a hacer 2 generaciones. Aquí se repite la búsqueda de <strong>XGBoost</strong> (6 hiperparámetros en Random/Bayes/Genético; rejilla de 60 puntos en 3 de ellos para el Grid) con <strong>60 evaluaciones</strong> y <strong>3 semillas</strong> (42, 7, 2026).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">DATA</span> <span class="o">/</span> <span class="s2">&quot;processed&quot;</span> <span class="o">/</span> <span class="s2">&quot;estudio_optimizadores.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+    <span class="n">estudio</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">corr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;historial&quot;</span><span class="p">,</span> <span class="s2">&quot;diversidad&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">)}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">estudio</span><span class="p">[</span><span class="s2">&quot;corridas&quot;</span><span class="p">]])</span>
+<span class="n">hist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;historial&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">tarea</span><span class="o">=</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">],</span> <span class="n">metodo</span><span class="o">=</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;metodo&quot;</span><span class="p">],</span> <span class="n">semilla</span><span class="o">=</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;semilla&quot;</span><span class="p">])</span>
+                  <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">estudio</span><span class="p">[</span><span class="s2">&quot;corridas&quot;</span><span class="p">]],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="s2">&quot;perdida&quot;</span><span class="p">])]</span>
+<span class="n">hist</span><span class="p">[</span><span class="s2">&quot;mejor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hist</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;metodo&quot;</span><span class="p">,</span> <span class="s2">&quot;semilla&quot;</span><span class="p">])[</span><span class="s2">&quot;perdida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cummin</span><span class="p">()</span>
+<span class="n">hist</span><span class="p">[</span><span class="s2">&quot;seg_acum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hist</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;metodo&quot;</span><span class="p">,</span> <span class="s2">&quot;semilla&quot;</span><span class="p">])[</span><span class="s2">&quot;seg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">tarea</span><span class="p">,</span> <span class="n">etiqueta</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;RMSE log interno&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="s2">&quot;1 − F1 interno&quot;</span><span class="p">)]):</span>
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;genetico&quot;</span><span class="p">]:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">hist</span><span class="p">[(</span><span class="n">hist</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tarea</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="s2">&quot;metodo&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">o</span><span class="p">)]</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;eval&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;semilla&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;mejor&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">COLOR</span><span class="p">[</span><span class="n">o</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">o</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">h</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">COLOR</span><span class="p">[</span><span class="n">o</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;evaluación t&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mejor </span><span class="si">{</span><span class="n">etiqueta</span><span class="si">}</span><span class="s2"> hasta t&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;XGBoost </span><span class="si">{</span><span class="s1">&#39;regresión&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">tarea</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;reg&#39;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;clasificación&#39;</span><span class="si">}</span><span class="s2"> (banda = rango de 3 semillas)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ed8a529c3c1a7c4b3de40a17f73d71e3cc734a871df551748f4540642d190f8a.png" src="_images/ed8a529c3c1a7c4b3de40a17f73d71e3cc734a871df551748f4540642d190f8a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calidad alcanzada con distintos presupuestos y evaluaciones necesarias para llegar cerca del mejor</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">tarea</span><span class="p">,</span> <span class="n">o</span><span class="p">),</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">hist</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;metodo&quot;</span><span class="p">]):</span>
+    <span class="n">mejor_global</span> <span class="o">=</span> <span class="n">hist</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hist</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tarea</span><span class="p">,</span> <span class="s2">&quot;perdida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="n">fila</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tarea&quot;</span><span class="p">:</span> <span class="n">tarea</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">:</span> <span class="n">NOMBRE</span><span class="p">[</span><span class="n">o</span><span class="p">]}</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">]:</span>
+        <span class="n">fila</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;mejor a t=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;eval&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;semilla&quot;</span><span class="p">)[</span><span class="s2">&quot;perdida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="c1"># evaluaciones hasta quedar a menos del 1 % (relativo) del mejor valor visto por cualquier método</span>
+    <span class="n">umbral</span> <span class="o">=</span> <span class="n">mejor_global</span> <span class="o">*</span> <span class="mf">1.01</span>
+    <span class="n">llega</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;mejor&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">umbral</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;semilla&quot;</span><span class="p">)[</span><span class="s2">&quot;eval&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="n">fila</span><span class="p">[</span><span class="s2">&quot;evals hasta el 1 </span><span class="si">% d</span><span class="s2">el mejor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">llega</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;semilla&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">fila</span><span class="p">[</span><span class="s2">&quot;semillas que llegan&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">llega</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;semilla&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">fila</span><span class="p">[</span><span class="s2">&quot;seg por evaluación&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;seg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fila</span><span class="p">)</span>
+<span class="n">eficiencia</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">])</span>
+<span class="n">eficiencia</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>mejor a t=10</th>
+      <th>mejor a t=20</th>
+      <th>mejor a t=40</th>
+      <th>mejor a t=60</th>
+      <th>evals hasta el 1 % del mejor</th>
+      <th>semillas que llegan</th>
+      <th>seg por evaluación</th>
+    </tr>
+    <tr>
+      <th>tarea</th>
+      <th>optimizador</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">clf</th>
+      <th>Bayes (TPE)</th>
+      <td>0.66</td>
+      <td>0.66</td>
+      <td>0.65</td>
+      <td>0.64</td>
+      <td>41.50</td>
+      <td>2/3</td>
+      <td>3.85</td>
+    </tr>
+    <tr>
+      <th>Genético</th>
+      <td>0.66</td>
+      <td>0.65</td>
+      <td>0.64</td>
+      <td>0.64</td>
+      <td>36.50</td>
+      <td>2/3</td>
+      <td>3.18</td>
+    </tr>
+    <tr>
+      <th>Grid</th>
+      <td>0.75</td>
+      <td>0.70</td>
+      <td>0.66</td>
+      <td>0.66</td>
+      <td>NaN</td>
+      <td>0/1</td>
+      <td>4.22</td>
+    </tr>
+    <tr>
+      <th>Random</th>
+      <td>0.67</td>
+      <td>0.67</td>
+      <td>0.66</td>
+      <td>0.64</td>
+      <td>43.00</td>
+      <td>2/3</td>
+      <td>3.21</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">reg</th>
+      <th>Bayes (TPE)</th>
+      <td>0.88</td>
+      <td>0.88</td>
+      <td>0.88</td>
+      <td>0.87</td>
+      <td>28.67</td>
+      <td>3/3</td>
+      <td>4.34</td>
+    </tr>
+    <tr>
+      <th>Genético</th>
+      <td>0.89</td>
+      <td>0.88</td>
+      <td>0.88</td>
+      <td>0.88</td>
+      <td>19.00</td>
+      <td>2/3</td>
+      <td>4.08</td>
+    </tr>
+    <tr>
+      <th>Grid</th>
+      <td>0.91</td>
+      <td>0.91</td>
+      <td>0.91</td>
+      <td>0.91</td>
+      <td>NaN</td>
+      <td>0/1</td>
+      <td>7.05</td>
+    </tr>
+    <tr>
+      <th>Random</th>
+      <td>0.88</td>
+      <td>0.88</td>
+      <td>0.88</td>
+      <td>0.88</td>
+      <td>14.50</td>
+      <td>2/3</td>
+      <td>4.32</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ¿lo encontrado en el bucle interno se mantiene en la semana de validación externa? y estabilidad entre semillas</span>
+<span class="n">tabla</span> <span class="o">=</span> <span class="n">corr</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;metodo&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">interna_media</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;perdida_interna&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">),</span> <span class="n">interna_desv</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;perdida_interna&quot;</span><span class="p">,</span> <span class="s2">&quot;std&quot;</span><span class="p">),</span>
+    <span class="n">externa_media</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;perdida_externa&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">),</span> <span class="n">externa_desv</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;perdida_externa&quot;</span><span class="p">,</span> <span class="s2">&quot;std&quot;</span><span class="p">),</span>
+    <span class="n">minutos</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;seg&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span><span class="p">))</span>
+<span class="n">tabla</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">tabla</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">set_levels</span><span class="p">([</span><span class="n">tabla</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">o</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">tabla</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">1</span><span class="p">]]])</span>
+<span class="n">tabla</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>interna_media</th>
+      <th>interna_desv</th>
+      <th>externa_media</th>
+      <th>externa_desv</th>
+      <th>minutos</th>
+    </tr>
+    <tr>
+      <th>tarea</th>
+      <th>metodo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">clf</th>
+      <th>Bayes (TPE)</th>
+      <td>0.64</td>
+      <td>0.00</td>
+      <td>0.64</td>
+      <td>0.03</td>
+      <td>3.88</td>
+    </tr>
+    <tr>
+      <th>Genético</th>
+      <td>0.64</td>
+      <td>0.01</td>
+      <td>0.65</td>
+      <td>0.02</td>
+      <td>3.18</td>
+    </tr>
+    <tr>
+      <th>Grid</th>
+      <td>0.66</td>
+      <td>NaN</td>
+      <td>0.70</td>
+      <td>NaN</td>
+      <td>4.22</td>
+    </tr>
+    <tr>
+      <th>Random</th>
+      <td>0.64</td>
+      <td>0.01</td>
+      <td>0.66</td>
+      <td>0.01</td>
+      <td>3.21</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">reg</th>
+      <th>Bayes (TPE)</th>
+      <td>0.87</td>
+      <td>0.00</td>
+      <td>0.78</td>
+      <td>0.01</td>
+      <td>4.38</td>
+    </tr>
+    <tr>
+      <th>Genético</th>
+      <td>0.88</td>
+      <td>0.01</td>
+      <td>0.79</td>
+      <td>0.02</td>
+      <td>4.08</td>
+    </tr>
+    <tr>
+      <th>Grid</th>
+      <td>0.91</td>
+      <td>NaN</td>
+      <td>0.83</td>
+      <td>NaN</td>
+      <td>7.05</td>
+    </tr>
+    <tr>
+      <th>Random</th>
+      <td>0.88</td>
+      <td>0.01</td>
+      <td>0.79</td>
+      <td>0.02</td>
+      <td>4.32</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="interpretacion-con-60-evaluaciones">
+<h3>Interpretación: con 60 evaluaciones<a class="headerlink" href="#interpretacion-con-60-evaluaciones" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>El Grid es claramente el peor</strong> en las dos tareas: se estanca en RMSE log 0,91 (contra 0,87–0,88 de los demás) y en 1 − F1 = 0,66 (contra 0,64), y <strong>nunca</strong> llega a menos del 1 % del mejor valor. Su rejilla de 60 puntos solo varía 3 de los 6 hiperparámetros y deja <code class="docutils literal notranslate"><span class="pre">subsample</span></code>, <code class="docutils literal notranslate"><span class="pre">colsample_bytree</span></code> y <code class="docutils literal notranslate"><span class="pre">min_child_weight</span></code> fijos. Es la maldición de la dimensión: para cubrir 6 dimensiones con 4 valores harían falta 4 096 puntos.</p></li>
+<li><p><strong>Bayes (TPE) da el mejor valor final en las dos tareas</strong> (0,87 y 0,64) y es el <strong>más estable entre semillas</strong>: desviación entre semillas de 0,00 en el valor interno, frente a 0,01 de Random y Genético. En regresión es el único que llega al 1 % del mejor en <strong>las 3 semillas</strong> (en 29 evaluaciones en promedio).</p></li>
+<li><p><strong>Random llega rápido cuando tiene suerte</strong> (en 14,5 evaluaciones en 2 de 3 semillas en regresión), pero no siempre. Es lo que predice la teoría: en espacios donde pocos hiperparámetros importan (aquí sobre todo <em>learning rate</em> y número de árboles), el azar es sorprendentemente competitivo (Bergstra y Bengio, 2012).</p></li>
+<li><p><strong>En la validación externa</strong> se mantiene el orden: Bayes 0,78 (regresión) y 0,64 (clasificación), Random y Genético 0,79 / 0,65–0,66, Grid 0,83 / 0,70. Lo que el TPE gana en el bucle interno <strong>sí se traslada</strong> a datos nuevos.</p></li>
+<li><p><strong>Calidad por unidad de presupuesto:</strong> a igual número de evaluaciones y con un costo por evaluación igual o menor que el del Grid (3,9 s contra 4,2–7,1 s), el TPE encuentra configuraciones mejores y más estables. <strong>La ventaja frente a Random es real pero modesta</strong> en este problema (0,01 en RMSE log). La ventaja frente al Grid es grande.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hiperparámetros elegidos por cada semilla: ¿los métodos llegan a la misma zona?</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">estudio</span><span class="p">[</span><span class="s2">&quot;corridas&quot;</span><span class="p">]:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;tarea&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">],</span> <span class="s2">&quot;método&quot;</span><span class="p">:</span> <span class="n">NOMBRE</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;metodo&quot;</span><span class="p">]],</span> <span class="s2">&quot;semilla&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;semilla&quot;</span><span class="p">],</span>
+                  <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">items</span><span class="p">()}})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;método&quot;</span><span class="p">,</span> <span class="s2">&quot;semilla&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>learning_rate</th>
+      <th>max_depth</th>
+      <th>n_estimators</th>
+      <th>subsample</th>
+      <th>colsample_bytree</th>
+      <th>min_child_weight</th>
+    </tr>
+    <tr>
+      <th>tarea</th>
+      <th>método</th>
+      <th>semilla</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="10" valign="top">reg</th>
+      <th>Grid</th>
+      <th>42</th>
+      <td>0.03</td>
+      <td>3</td>
+      <td>300</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Random</th>
+      <th>42</th>
+      <td>0.01</td>
+      <td>6</td>
+      <td>413</td>
+      <td>0.80</td>
+      <td>0.97</td>
+      <td>9.36</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.05</td>
+      <td>3</td>
+      <td>388</td>
+      <td>1.00</td>
+      <td>0.95</td>
+      <td>36.04</td>
+    </tr>
+    <tr>
+      <th>2026</th>
+      <td>0.04</td>
+      <td>5</td>
+      <td>295</td>
+      <td>0.87</td>
+      <td>0.75</td>
+      <td>5.49</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Bayes (TPE)</th>
+      <th>42</th>
+      <td>0.01</td>
+      <td>5</td>
+      <td>375</td>
+      <td>0.75</td>
+      <td>0.90</td>
+      <td>6.49</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.04</td>
+      <td>4</td>
+      <td>407</td>
+      <td>0.69</td>
+      <td>0.72</td>
+      <td>20.00</td>
+    </tr>
+    <tr>
+      <th>2026</th>
+      <td>0.02</td>
+      <td>5</td>
+      <td>341</td>
+      <td>0.76</td>
+      <td>0.81</td>
+      <td>6.34</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Genético</th>
+      <th>42</th>
+      <td>0.01</td>
+      <td>5</td>
+      <td>446</td>
+      <td>0.70</td>
+      <td>0.89</td>
+      <td>5.62</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.03</td>
+      <td>8</td>
+      <td>226</td>
+      <td>0.73</td>
+      <td>0.84</td>
+      <td>7.77</td>
+    </tr>
+    <tr>
+      <th>2026</th>
+      <td>0.04</td>
+      <td>3</td>
+      <td>281</td>
+      <td>0.79</td>
+      <td>0.95</td>
+      <td>20.82</td>
+    </tr>
+    <tr>
+      <th rowspan="10" valign="top">clf</th>
+      <th>Grid</th>
+      <th>42</th>
+      <td>0.03</td>
+      <td>9</td>
+      <td>500</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Random</th>
+      <th>42</th>
+      <td>0.09</td>
+      <td>9</td>
+      <td>439</td>
+      <td>0.81</td>
+      <td>0.85</td>
+      <td>3.09</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.12</td>
+      <td>6</td>
+      <td>319</td>
+      <td>0.93</td>
+      <td>0.97</td>
+      <td>4.55</td>
+    </tr>
+    <tr>
+      <th>2026</th>
+      <td>0.07</td>
+      <td>7</td>
+      <td>285</td>
+      <td>0.80</td>
+      <td>0.96</td>
+      <td>2.01</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Bayes (TPE)</th>
+      <th>42</th>
+      <td>0.05</td>
+      <td>9</td>
+      <td>370</td>
+      <td>0.76</td>
+      <td>0.86</td>
+      <td>1.26</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.09</td>
+      <td>8</td>
+      <td>355</td>
+      <td>0.71</td>
+      <td>0.79</td>
+      <td>2.71</td>
+    </tr>
+    <tr>
+      <th>2026</th>
+      <td>0.07</td>
+      <td>9</td>
+      <td>459</td>
+      <td>0.85</td>
+      <td>0.66</td>
+      <td>3.62</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Genético</th>
+      <th>42</th>
+      <td>0.12</td>
+      <td>7</td>
+      <td>374</td>
+      <td>0.99</td>
+      <td>0.98</td>
+      <td>3.88</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.07</td>
+      <td>10</td>
+      <td>312</td>
+      <td>0.62</td>
+      <td>0.94</td>
+      <td>3.10</td>
+    </tr>
+    <tr>
+      <th>2026</th>
+      <td>0.07</td>
+      <td>9</td>
+      <td>272</td>
+      <td>0.83</td>
+      <td>0.64</td>
+      <td>2.54</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id1">
+<h3>Interpretación<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Las soluciones no coinciden entre semillas, pero sí su calidad.</strong> En regresión los métodos eligen <em>learning rates</em> entre 0,01 y 0,05, con 226–446 árboles y profundidades de 3 a 8, y todos tienen pérdidas a menos de 0,01 entre sí. Es la conocida <strong>compensación entre <em>learning rate</em> y número de árboles</strong> (menos <em>learning rate</em> × más árboles ≈ mismo modelo): la superficie de pérdida tiene un «valle» largo y plano, y cada semilla aterriza en un punto distinto del valle.</p></li>
+<li><p>En <strong>clasificación</strong> todas las búsquedas prefieren <strong>árboles más profundos (7–10) y <em>learning rates</em> más altos (0,05–0,12)</strong> que en regresión. Detectar una caída requiere interacciones de más variables (volatilidad × día × tipo de negocio) que predecir el nivel.</p></li>
+</ul>
+</section>
+<section id="donde-busca-cada-metodo">
+<h3>Dónde busca cada método<a class="headerlink" href="#donde-busca-cada-metodo" title="Permalink to this heading">#</a></h3>
+<p>La figura muestra todos los puntos evaluados en el plano <em>learning rate</em> × profundidad (regresión, semilla 42), coloreados por la pérdida. Es la forma más directa de ver la diferencia entre <strong>explorar</strong> (cubrir el espacio) y <strong>explotar</strong> (concentrarse cerca de lo mejor).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">hist</span><span class="p">[(</span><span class="n">hist</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;reg&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="s2">&quot;semilla&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">SEED</span><span class="p">)]</span>
+<span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="s2">&quot;perdida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.02</span><span class="p">),</span> <span class="n">h</span><span class="p">[</span><span class="s2">&quot;perdida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;genetico&quot;</span><span class="p">]):</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">h</span><span class="p">[</span><span class="s2">&quot;metodo&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">o</span><span class="p">]</span>
+    <span class="n">lr</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">]);</span> <span class="n">md</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">])</span>
+    <span class="n">sc</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">md</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)),</span> <span class="n">c</span><span class="o">=</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;perdida&quot;</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis_r&quot;</span><span class="p">,</span>
+                       <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span> <span class="o">+</span> <span class="mi">40</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;eval&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span><span class="p">))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">o</span><span class="p">]);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;learning rate&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;max_depth&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RMSE log interno (más claro = peor)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Puntos evaluados por cada método (tamaño = orden de la evaluación)&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.03</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.03, &#39;Puntos evaluados por cada método (tamaño = orden de la evaluación)&#39;)
+</pre></div>
+</div>
+<img alt="_images/c39ff3c13729c68d2930a1dde3c0c1456cf7b5c6250e17257394b728d85c1507.png" src="_images/c39ff3c13729c68d2930a1dde3c0c1456cf7b5c6250e17257394b728d85c1507.png" />
+</div>
+</div>
+</section>
+<section id="id2">
+<h3>Interpretación<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Grid:</strong> puntos en una retícula fija. Un tercio del presupuesto se gasta en profundidad 9 y un cuarto en <em>learning rate</em> 0,3, zonas malas (oscuras) que la rejilla visita igual que las buenas.</p></li>
+<li><p><strong>Random:</strong> cubre todo el plano de forma pareja. Encuentra la zona buena (abajo a la izquierda: <em>learning rate</em> bajo, profundidad 4–6) pero sigue gastando evaluaciones en zonas malas hasta el final.</p></li>
+<li><p><strong>Bayes (TPE):</strong> después de unos puntos dispersos (los 5 iniciales al azar y alguna exploración posterior), <strong>concentra las evaluaciones en la zona buena</strong>. Los puntos grandes (evaluaciones tardías) están casi todos en <em>learning rate</em> 0,01–0,03 y profundidad 4–6, y son los más claros. Es el balance entre explorar y explotar que da la mejora esperada.</p></li>
+<li><p><strong>Genético:</strong> concentra las evaluaciones <strong>todavía más</strong> en una zona pequeña (<em>learning rate</em> ≈ 0,01, profundidad 4–6). Explota mucho y explora poco. Funciona aquí porque la zona es buena, pero es la señal de la convergencia prematura que se ve abajo.</p></li>
+</ul>
+</section>
+</section>
+<section id="diversidad-genetica">
+<h2>🧬 10.5 Diversidad genética<a class="headerlink" href="#diversidad-genetica" title="Permalink to this heading">#</a></h2>
+<p>La <strong>diversidad</strong> de una generación es la distancia euclidiana media entre los genomas (en <span class="math notranslate nohighlight">\([0, 1]^6\)</span>) de sus individuos. Si cae a casi 0 en pocas generaciones, la población se copió a sí misma: <strong>convergencia prematura</strong>, y el algoritmo deja de explorar.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">estudio</span><span class="p">[</span><span class="s2">&quot;corridas&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;metodo&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;genetico&quot;</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;reg&quot;</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;diversidad&quot;</span><span class="p">])),</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;diversidad&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+               <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;semilla </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;semilla&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETA</span><span class="p">[[</span><span class="mi">42</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2026</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;semilla&quot;</span><span class="p">])])</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;regresión&quot;</span><span class="p">,</span> <span class="s2">&quot;clasificación&quot;</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;generación&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;distancia media entre individuos&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Diversidad de la población, XGBoost </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">6</span> <span class="o">/</span> <span class="mi">6</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">6</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span> <span class="s2">&quot;esperada para puntos al azar&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">div</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="s2">&quot;tarea&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">],</span> <span class="s2">&quot;semilla&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;semilla&quot;</span><span class="p">],</span> <span class="s2">&quot;inicial&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;diversidad&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                     <span class="s2">&quot;final&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;diversidad&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;generaciones&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;diversidad&quot;</span><span class="p">])}</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">estudio</span><span class="p">[</span><span class="s2">&quot;corridas&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;metodo&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;genetico&quot;</span><span class="p">])</span>
+<span class="n">div</span><span class="p">[</span><span class="s2">&quot;caída (%)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">div</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">div</span><span class="p">[</span><span class="s2">&quot;inicial&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">div</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarea</th>
+      <th>semilla</th>
+      <th>inicial</th>
+      <th>final</th>
+      <th>generaciones</th>
+      <th>caída (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>reg</td>
+      <td>42</td>
+      <td>0.98</td>
+      <td>0.00</td>
+      <td>18</td>
+      <td>99.66</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>reg</td>
+      <td>7</td>
+      <td>1.02</td>
+      <td>0.00</td>
+      <td>16</td>
+      <td>100.00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>reg</td>
+      <td>2026</td>
+      <td>0.92</td>
+      <td>0.00</td>
+      <td>17</td>
+      <td>100.00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>clf</td>
+      <td>42</td>
+      <td>0.98</td>
+      <td>0.00</td>
+      <td>18</td>
+      <td>100.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>clf</td>
+      <td>7</td>
+      <td>1.02</td>
+      <td>0.00</td>
+      <td>16</td>
+      <td>100.00</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>clf</td>
+      <td>2026</td>
+      <td>0.92</td>
+      <td>0.00</td>
+      <td>17</td>
+      <td>100.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/531df2db1de809f93dcef43a8cb05ca4fe04ed3addfcd1b0ccb6b23904c6b222.png" src="_images/531df2db1de809f93dcef43a8cb05ca4fe04ed3addfcd1b0ccb6b23904c6b222.png" />
+</div>
+</div>
+<section id="id3">
+<h3>Interpretación<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>La diversidad cae a 0 en las 6 corridas.</strong> Empieza en ~1 (lo esperado para puntos al azar en <span class="math notranslate nohighlight">\([0,1]^6\)</span>) y en 16–18 generaciones toda la población es copia del mismo individuo. Es <strong>convergencia prematura</strong>.</p></li>
+<li><p>Las causas son el diseño que impuso el presupuesto: <strong>población de 6</strong> con <strong>elitismo</strong> y <strong>torneo de 3</strong>. Con 6 individuos, un torneo de 3 elige casi siempre al mejor o al segundo, y el cruce de dos padres iguales da un hijo igual. La mutación (<span class="math notranslate nohighlight">\(\sigma = 0{,}15\)</span>, probabilidad 0,3) no alcanza a reponer la diversidad.</p></li>
+<li><p><strong>Consecuencia práctica:</strong> después de ~10 generaciones el genético deja de explorar y repite evaluaciones casi idénticas. Explica por qué en 60 evaluaciones no supera al TPE. <strong>Para usarlo bien</strong> haría falta una población de 20–50 (con presupuestos de cientos de evaluaciones), menor presión de selección (torneo de 2), más mutación o mecanismos de nicho (<em>fitness sharing</em>). Con presupuestos de decenas de evaluaciones, <strong>el TPE es la mejor opción</strong>.</p></li>
+</ul>
+</section>
+</section>
+<section id="multi-fidelidad-successive-halving">
+<h2>✂️ 10.6 Multi-fidelidad: Successive Halving<a class="headerlink" href="#multi-fidelidad-successive-halving" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">HalvingRandomSearchCV</span></code> con las <strong>mismas 60 configuraciones al azar</strong> que una búsqueda aleatoria completa. La fidelidad es el <strong>número de árboles</strong> de XGBoost: la ronda 1 evalúa las 60 configuraciones con 20 árboles, se queda con el mejor tercio (<span class="math notranslate nohighlight">\(\eta = 3\)</span>) y le da 60 árboles, después 180 y al final 540. La búsqueda aleatoria completa entrena las 60 con 540 árboles.</p>
+<p><strong>Por qué el número de árboles como fidelidad:</strong> el costo de XGBoost crece lineal con los árboles (cap. 11) y una configuración mala (<em>learning rate</em> muy bajo, profundidad inadecuada) ya se ve mala con pocos árboles. <strong>Por qué <span class="math notranslate nohighlight">\(\eta = 3\)</span>:</strong> es el valor recomendado por Jamieson y Talwalkar (2016) y Li et al. (2018); con 60 candidatos da 4 rondas (60 → 20 → 7 → 3), así que cada configuración que sobrevive recibe 27 veces el presupuesto inicial.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">tarea</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">estudio</span><span class="p">[</span><span class="s2">&quot;halving&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">metodo</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;tarea&quot;</span><span class="p">:</span> <span class="n">tarea</span><span class="p">,</span> <span class="s2">&quot;método&quot;</span><span class="p">:</span> <span class="n">metodo</span><span class="p">,</span> <span class="s2">&quot;minutos&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;seg&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;árboles entrenados&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;arboles_totales&quot;</span><span class="p">],</span>
+                      <span class="s2">&quot;mejor interno&quot;</span><span class="p">:</span> <span class="o">-</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;mejor_interno&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">tarea</span> <span class="o">==</span> <span class="s2">&quot;reg&quot;</span> <span class="k">else</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;mejor_interno&quot;</span><span class="p">],</span>
+                      <span class="s2">&quot;pérdida validación externa&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;perdida_externa&quot;</span><span class="p">],</span>
+                      <span class="s2">&quot;candidatos por ronda&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;rondas&quot;</span><span class="p">]})</span>
+<span class="n">halving</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;tarea&quot;</span><span class="p">,</span> <span class="s2">&quot;método&quot;</span><span class="p">])</span>
+<span class="n">halving</span><span class="p">[</span><span class="s2">&quot;ahorro de tiempo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">halving</span><span class="p">[</span><span class="s2">&quot;minutos&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">s</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">/</span> <span class="n">s</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">halving</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>minutos</th>
+      <th>árboles entrenados</th>
+      <th>mejor interno</th>
+      <th>pérdida validación externa</th>
+      <th>candidatos por ronda</th>
+      <th>ahorro de tiempo</th>
+    </tr>
+    <tr>
+      <th>tarea</th>
+      <th>método</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">reg</th>
+      <th>halving</th>
+      <td>0.42</td>
+      <td>15840</td>
+      <td>0.94</td>
+      <td>0.80</td>
+      <td>{0: 60, 1: 20, 2: 7, 3: 3}</td>
+      <td>0.74</td>
+    </tr>
+    <tr>
+      <th>random completo</th>
+      <td>1.65</td>
+      <td>97200</td>
+      <td>0.88</td>
+      <td>0.79</td>
+      <td>None</td>
+      <td>0.74</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">clf</th>
+      <th>halving</th>
+      <td>0.56</td>
+      <td>15840</td>
+      <td>0.33</td>
+      <td>0.71</td>
+      <td>{0: 60, 1: 20, 2: 7, 3: 3}</td>
+      <td>0.61</td>
+    </tr>
+    <tr>
+      <th>random completo</th>
+      <td>1.43</td>
+      <td>97200</td>
+      <td>0.34</td>
+      <td>0.67</td>
+      <td>None</td>
+      <td>0.61</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id4">
+<h3>Interpretación<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Successive Halving entrena 6 veces menos árboles</strong> (15 840 contra 97 200) y <strong>ahorra 74 % del tiempo en regresión y 61 % en clasificación</strong>.</p></li>
+<li><p><strong>En regresión la calidad casi no cambia</strong>: pérdida en la validación externa de 0,80 contra 0,79. El número de árboles es una buena fidelidad aquí: las configuraciones malas ya son malas con 20 árboles y se descartan pronto.</p></li>
+<li><p><strong>En clasificación pierde algo</strong> (0,71 contra 0,67 en 1 − F1). El F1 con pocos árboles es una señal ruidosa: depende de cuántos casos pasan el umbral de 0,5, y eso cambia mucho entre 20 y 540 árboles. Algunas configuraciones buenas se eliminaron en la primera ronda. <strong>La fidelidad funciona bien cuando el orden de las configuraciones con poco presupuesto se parece al orden con todo el presupuesto</strong>, y eso pasa más con una pérdida continua (RMSE log) que con una métrica umbralizada (F1).</p></li>
+<li><p><strong>Mejora posible:</strong> usar una métrica continua (<em>log-loss</em> o AUC) para las rondas tempranas o empezar con más árboles (<code class="docutils literal notranslate"><span class="pre">min_resources</span></code> mayor).</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="09_diseno_experimental.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">🧪 9. Diseño experimental de la segunda entrega</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="11_optimizacion_computacional.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">⚙️ 11. Optimización computacional</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-tabla-maestra">📋 10.1 La tabla maestra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algun-optimizador-encuentra-mejores-modelos">⚖️ 10.2 ¿Algún optimizador encuentra mejores modelos?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergencia-en-el-experimento-principal-anytime-performance">📈 10.3 Convergencia en el experimento principal (<em>anytime performance</em>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-la-diferencia-esta-en-la-velocidad-de-convergencia">Interpretación: la diferencia está en la velocidad de convergencia</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estudio-con-mas-presupuesto-60-evaluaciones-y-3-semillas">🔬 10.4 Estudio con más presupuesto: 60 evaluaciones y 3 semillas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-con-60-evaluaciones">Interpretación: con 60 evaluaciones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Interpretación</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#donde-busca-cada-metodo">Dónde busca cada método</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diversidad-genetica">🧬 10.5 Diversidad genética</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-fidelidad-successive-halving">✂️ 10.6 Multi-fidelidad: Successive Halving</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Interpretación</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

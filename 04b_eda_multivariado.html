@@ -1,0 +1,1965 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>🧭 4b. EDA multivariado y días sin venta &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '04b_eda_multivariado';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="🚨 5. Auditoría de fuga de datos" href="05_auditoria_fuga.html" />
+    <link rel="prev" title="🔎 4. EDA univariado, bivariado y multivariado" href="04_eda_uni_bi_multivariado.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/04b_eda_multivariado.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>🧭 4b. EDA multivariado y días sin venta</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-1-perfil-de-cada-negocio">🧱 4b.1 Perfil de cada negocio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-2-analisis-de-componentes-principales-pca">📉 4b.2 Análisis de componentes principales (PCA)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-3-agrupacion-de-negocios-k-means">🧩 4b.3 Agrupación de negocios (k-means)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-4-atipicos-multivariados">🚩 4b.4 Atípicos multivariados</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-5-dias-sin-venta-y-caidas-fuertes">🕳️ 4b.5 Días sin venta y caídas fuertes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Interpretación</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="b-eda-multivariado-y-dias-sin-venta">
+<h1>🧭 4b. EDA multivariado y días sin venta<a class="headerlink" href="#b-eda-multivariado-y-dias-sin-venta" title="Permalink to this heading">#</a></h1>
+<p>Este capítulo se agregó en la <strong>segunda entrega</strong> para responder a la retroalimentación de la primera: faltaba un análisis multivariado más completo (PCA, atípicos multivariados y agrupación de negocios) y estudiar los <strong>días sin venta</strong>, que concentran casi todo el error del modelo base (cap. 8).</p>
+<p>La unidad de análisis es el <strong>negocio</strong> (cap. 1): se resume cada negocio en un <strong>perfil</strong> de variables y se analizan los 452 perfiles. Todo se calcula <strong>solo con jul – ago</strong> (dentro de train), como en el capítulo 4.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span> <span class="nn">sklearn.covariance</span> <span class="kn">import</span> <span class="n">MinCovDet</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">IsolationForest</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">silhouette_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="kn">from</span> <span class="nn">comun</span> <span class="kn">import</span> <span class="n">estilo</span><span class="p">,</span> <span class="n">cargar_panel</span><span class="p">,</span> <span class="n">PALETA</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="n">VERDE</span><span class="p">,</span> <span class="n">GRIS</span><span class="p">,</span> <span class="n">DIAS</span><span class="p">,</span> <span class="n">SEED</span>
+<span class="kn">from</span> <span class="nn">datos</span> <span class="kn">import</span> <span class="n">preparar</span><span class="p">,</span> <span class="n">partir</span>
+
+<span class="n">estilo</span><span class="p">()</span>
+<span class="n">panel</span> <span class="o">=</span> <span class="n">cargar_panel</span><span class="p">()</span>
+<span class="n">jul_ago</span> <span class="o">=</span> <span class="n">panel</span><span class="p">[</span><span class="n">panel</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="s2">&quot;2026-09-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">jul_ago</span><span class="p">[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">jul_ago</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">jul_ago</span><span class="p">[</span><span class="s1">&#39;negocio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> negocios, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">jul_ago</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> negocio-días (jul – ago)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>448 negocios, 27,581 negocio-días (jul – ago)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="b-1-perfil-de-cada-negocio">
+<h2>🧱 4b.1 Perfil de cada negocio<a class="headerlink" href="#b-1-perfil-de-cada-negocio" title="Permalink to this heading">#</a></h2>
+<p>Para cada negocio se calculan 11 variables que describen <strong>cómo vende</strong>, no cuánto vendió un día puntual:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Qué mide</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nivel</span></code></p></td>
+<td><p>media de <span class="math notranslate nohighlight">\(\log(1 + \text{venta})\)</span> en días con venta</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">volatilidad</span></code></p></td>
+<td><p>desviación estándar de <span class="math notranslate nohighlight">\(\log(1 + \text{venta})\)</span> en días con venta</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pct_sin_venta</span></code></p></td>
+<td><p>porcentaje de días activos sin venta</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">finde</span></code></p></td>
+<td><p>venta media de sáb–dom sobre la de lun–vie (log del cociente)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">part_*</span></code></p></td>
+<td><p>participación de cada grupo de medios en la venta total</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">n_fuentes</span></code></p></td>
+<td><p>número medio de fuentes (sistemas POS) por día</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">medios</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;efectivo&quot;</span><span class="p">,</span> <span class="s2">&quot;datafono&quot;</span><span class="p">,</span> <span class="s2">&quot;rumbo&quot;</span><span class="p">,</span> <span class="s2">&quot;mi_empresa&quot;</span><span class="p">,</span> <span class="s2">&quot;credito_clientes&quot;</span><span class="p">,</span> <span class="s2">&quot;otros&quot;</span><span class="p">]</span>
+<span class="n">con_venta</span> <span class="o">=</span> <span class="n">jul_ago</span><span class="p">[</span><span class="n">jul_ago</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">con_venta</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)</span>
+<span class="n">perfil</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;nivel&quot;</span><span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+    <span class="s2">&quot;volatilidad&quot;</span><span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;y_log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+    <span class="s2">&quot;pct_sin_venta&quot;</span><span class="p">:</span> <span class="n">jul_ago</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;sin_registro&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;n_fuentes&quot;</span><span class="p">:</span> <span class="n">jul_ago</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;n_fuentes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+<span class="p">})</span>
+<span class="n">finde</span> <span class="o">=</span> <span class="n">con_venta</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">finde</span><span class="o">=</span><span class="n">con_venta</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">dayofweek</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;finde&quot;</span><span class="p">])[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span>
+<span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;finde&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">finde</span><span class="p">[</span><span class="kc">True</span><span class="p">]</span> <span class="o">/</span> <span class="n">finde</span><span class="p">[</span><span class="kc">False</span><span class="p">])</span>
+<span class="n">total</span> <span class="o">=</span> <span class="n">jul_ago</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[[</span><span class="sa">f</span><span class="s2">&quot;pm_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">medios</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">medios</span><span class="p">:</span>
+    <span class="n">perfil</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;part_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;pm_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span>
+<span class="n">perfil</span> <span class="o">=</span> <span class="n">perfil</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">perfil</span><span class="p">)</span><span class="si">}</span><span class="s2"> negocios con perfil completo&quot;</span><span class="p">)</span>
+<span class="n">perfil</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>447 negocios con perfil completo
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>nivel</th>
+      <td>447.00</td>
+      <td>15.51</td>
+      <td>2.02</td>
+      <td>9.39</td>
+      <td>14.68</td>
+      <td>15.47</td>
+      <td>17.21</td>
+      <td>19.13</td>
+    </tr>
+    <tr>
+      <th>volatilidad</th>
+      <td>447.00</td>
+      <td>0.31</td>
+      <td>0.21</td>
+      <td>0.08</td>
+      <td>0.18</td>
+      <td>0.25</td>
+      <td>0.36</td>
+      <td>1.82</td>
+    </tr>
+    <tr>
+      <th>pct_sin_venta</th>
+      <td>447.00</td>
+      <td>0.48</td>
+      <td>2.67</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>30.65</td>
+    </tr>
+    <tr>
+      <th>n_fuentes</th>
+      <td>447.00</td>
+      <td>1.06</td>
+      <td>0.24</td>
+      <td>0.69</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <th>finde</th>
+      <td>447.00</td>
+      <td>0.01</td>
+      <td>0.31</td>
+      <td>-4.23</td>
+      <td>-0.12</td>
+      <td>0.01</td>
+      <td>0.16</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <th>part_efectivo</th>
+      <td>447.00</td>
+      <td>0.65</td>
+      <td>0.25</td>
+      <td>0.00</td>
+      <td>0.46</td>
+      <td>0.59</td>
+      <td>0.91</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>part_datafono</th>
+      <td>447.00</td>
+      <td>0.26</td>
+      <td>0.20</td>
+      <td>0.00</td>
+      <td>0.06</td>
+      <td>0.30</td>
+      <td>0.40</td>
+      <td>0.86</td>
+    </tr>
+    <tr>
+      <th>part_rumbo</th>
+      <td>447.00</td>
+      <td>0.03</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.03</td>
+      <td>0.47</td>
+    </tr>
+    <tr>
+      <th>part_mi_empresa</th>
+      <td>447.00</td>
+      <td>0.01</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.01</td>
+      <td>0.22</td>
+    </tr>
+    <tr>
+      <th>part_credito_clientes</th>
+      <td>447.00</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.37</td>
+    </tr>
+    <tr>
+      <th>part_otros</th>
+      <td>447.00</td>
+      <td>0.04</td>
+      <td>0.08</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.06</td>
+      <td>0.67</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># correlaciones de Spearman entre las variables del perfil</span>
+<span class="n">corr</span> <span class="o">=</span> <span class="n">perfil</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;spearman&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">))</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corr</span><span class="p">)));</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">corr</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corr</span><span class="p">)));</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">corr</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corr</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corr</span><span class="p">)):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">corr</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">corr</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.6</span> <span class="k">else</span> <span class="s2">&quot;#0b0b0b&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Correlación de Spearman entre variables del perfil&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c748e0028d4a61276d651c560f8505cb08988f6baa63f207424877cfcb34492b.png" src="_images/c748e0028d4a61276d651c560f8505cb08988f6baa63f207424877cfcb34492b.png" />
+</div>
+</div>
+</section>
+<section id="b-2-analisis-de-componentes-principales-pca">
+<h2>📉 4b.2 Análisis de componentes principales (PCA)<a class="headerlink" href="#b-2-analisis-de-componentes-principales-pca" title="Permalink to this heading">#</a></h2>
+<p>El PCA busca las direcciones en las que los perfiles varían más. Como las variables están en escalas distintas (log, porcentajes, proporciones), se <strong>estandarizan</strong> antes (media 0, desviación 1), así que el PCA trabaja sobre la matriz de correlaciones.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">perfil</span><span class="p">)</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;varianza (%)&quot;</span><span class="p">:</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                    <span class="s2">&quot;acumulada (%)&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                    <span class="s2">&quot;autovalor&quot;</span><span class="p">:</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_</span><span class="p">},</span>
+                   <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;PC</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_</span><span class="p">))])</span>
+<span class="n">cargas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">perfil</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;PC1&quot;</span><span class="p">,</span> <span class="s2">&quot;PC2&quot;</span><span class="p">,</span> <span class="s2">&quot;PC3&quot;</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="s2">&quot;varianza (%)&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="s2">&quot;acumulada (%)&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">100</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% d</span><span class="s2">e varianza&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Varianza explicada por componente&quot;</span><span class="p">)</span>
+<span class="n">cargas</span><span class="p">[[</span><span class="s2">&quot;PC1&quot;</span><span class="p">,</span> <span class="s2">&quot;PC2&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Cargas de PC1 y PC2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">var</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>varianza (%)</th>
+      <th>acumulada (%)</th>
+      <th>autovalor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PC1</th>
+      <td>30.25</td>
+      <td>30.25</td>
+      <td>3.34</td>
+    </tr>
+    <tr>
+      <th>PC2</th>
+      <td>17.19</td>
+      <td>47.45</td>
+      <td>1.90</td>
+    </tr>
+    <tr>
+      <th>PC3</th>
+      <td>15.27</td>
+      <td>62.72</td>
+      <td>1.68</td>
+    </tr>
+    <tr>
+      <th>PC4</th>
+      <td>9.75</td>
+      <td>72.47</td>
+      <td>1.08</td>
+    </tr>
+    <tr>
+      <th>PC5</th>
+      <td>7.73</td>
+      <td>80.20</td>
+      <td>0.85</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/e4ae949c7f4327a3481b769a2b6a75c1f173c9d4fd41d8673bb389cb8bd736fa.png" src="_images/e4ae949c7f4327a3481b769a2b6a75c1f173c9d4fd41d8673bb389cb8bd736fa.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cargas</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;PC1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PC1</th>
+      <th>PC2</th>
+      <th>PC3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>part_efectivo</th>
+      <td>-0.45</td>
+      <td>0.03</td>
+      <td>-0.40</td>
+    </tr>
+    <tr>
+      <th>volatilidad</th>
+      <td>-0.25</td>
+      <td>0.46</td>
+      <td>0.20</td>
+    </tr>
+    <tr>
+      <th>pct_sin_venta</th>
+      <td>-0.13</td>
+      <td>0.55</td>
+      <td>0.27</td>
+    </tr>
+    <tr>
+      <th>n_fuentes</th>
+      <td>-0.10</td>
+      <td>-0.06</td>
+      <td>-0.34</td>
+    </tr>
+    <tr>
+      <th>finde</th>
+      <td>-0.07</td>
+      <td>-0.55</td>
+      <td>-0.03</td>
+    </tr>
+    <tr>
+      <th>part_otros</th>
+      <td>-0.02</td>
+      <td>-0.23</td>
+      <td>0.52</td>
+    </tr>
+    <tr>
+      <th>part_credito_clientes</th>
+      <td>0.21</td>
+      <td>0.15</td>
+      <td>-0.16</td>
+    </tr>
+    <tr>
+      <th>part_datafono</th>
+      <td>0.36</td>
+      <td>-0.07</td>
+      <td>0.44</td>
+    </tr>
+    <tr>
+      <th>part_rumbo</th>
+      <td>0.40</td>
+      <td>0.22</td>
+      <td>-0.24</td>
+    </tr>
+    <tr>
+      <th>part_mi_empresa</th>
+      <td>0.40</td>
+      <td>0.21</td>
+      <td>-0.22</td>
+    </tr>
+    <tr>
+      <th>nivel</th>
+      <td>0.46</td>
+      <td>-0.08</td>
+      <td>-0.14</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="interpretacion">
+<h3>Interpretación<a class="headerlink" href="#interpretacion" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>PC1 (30 %) es el eje «tamaño y tipo de cliente»</strong>: cargas positivas en <code class="docutils literal notranslate"><span class="pre">nivel</span></code> (0,46), <code class="docutils literal notranslate"><span class="pre">part_rumbo</span></code> y <code class="docutils literal notranslate"><span class="pre">part_mi_empresa</span></code> (0,40) y <code class="docutils literal notranslate"><span class="pre">part_datafono</span></code> (0,36), y negativa en <code class="docutils literal notranslate"><span class="pre">part_efectivo</span></code> (−0,45). Separa a los negocios grandes que venden a flotas con crédito Terpel (las EDS) de los pequeños que venden en efectivo. Es la misma relación mix–tamaño del capítulo 4 (ρ ≈ 0,79), ahora resumida en una sola dirección.</p></li>
+<li><p><strong>PC2 (17 %) es el eje «irregularidad»</strong>: <code class="docutils literal notranslate"><span class="pre">pct_sin_venta</span></code> (0,55) y <code class="docutils literal notranslate"><span class="pre">volatilidad</span></code> (0,46) contra <code class="docutils literal notranslate"><span class="pre">finde</span></code> (−0,55). Son los negocios que tienen días sin venta, que son muy volátiles y que venden <strong>menos</strong> el fin de semana (cierran).</p></li>
+<li><p><strong>PC3 (15 %)</strong> separa los negocios con mucho datáfono y «otros» medios (apps, bonos) de los que operan con varias fuentes.</p></li>
+<li><p>Hacen falta 5 componentes para el 80 % de la varianza. El perfil <strong>no se reduce a una sola dimensión</strong>: el tamaño explica solo un tercio de cómo se diferencian los negocios.</p></li>
+</ul>
+</section>
+</section>
+<section id="b-3-agrupacion-de-negocios-k-means">
+<h2>🧩 4b.3 Agrupación de negocios (k-means)<a class="headerlink" href="#b-3-agrupacion-de-negocios-k-means" title="Permalink to this heading">#</a></h2>
+<p>En el capítulo 1 la venta media por negocio salió <strong>trimodal</strong> y se planteó la hipótesis de que los grupos son los tipos de negocio (KCO, tienda, EDS). Aquí se agrupan los negocios por <strong>todo su perfil</strong> con k-means sobre las variables estandarizadas, y el número de grupos se elige con el <strong>coeficiente de silueta</strong> (qué tan cerca está cada negocio de su grupo frente al grupo vecino; va de −1 a 1).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sil</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
+    <span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+    <span class="n">sil</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">km</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="c1"># el k más chico cuya silueta queda a menos de 0,01 de la mejor (grupos más interpretables)</span>
+<span class="n">k_mejor</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">sil</span> <span class="k">if</span> <span class="n">sil</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sil</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k_mejor</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+<span class="c1"># ordeno los grupos por nivel de venta para que el nombre sea estable</span>
+<span class="n">orden</span> <span class="o">=</span> <span class="n">perfil</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">km</span><span class="o">.</span><span class="n">labels_</span><span class="p">)[</span><span class="s2">&quot;nivel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">index</span>
+<span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;grupo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">km</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">perfil</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="n">g</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;G</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orden</span><span class="p">)})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">sil</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;silueta&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>silueta</th>
+      <td>0.29</td>
+      <td>0.27</td>
+      <td>0.29</td>
+      <td>0.34</td>
+      <td>0.34</td>
+      <td>0.34</td>
+      <td>0.33</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pcs</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Z</span><span class="p">)[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">gr</span><span class="p">,</span> <span class="n">sub</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">perfil</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;grupo&quot;</span><span class="p">)):</span>
+    <span class="n">sel</span> <span class="o">=</span> <span class="p">(</span><span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;grupo&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gr</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pcs</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pcs</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETA</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gr</span><span class="si">}</span><span class="s2"> (n = </span><span class="si">{</span><span class="n">sel</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;nivel&quot;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETA</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">gr</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PC1 (</span><span class="si">{</span><span class="n">var</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> %)&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PC2 (</span><span class="si">{</span><span class="n">var</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> %)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Negocios en el plano PC1–PC2, por grupo&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;nivel: media de log(1 + venta)&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Nivel de venta por grupo&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/785704a7955b10a70838924bc34325ac07883f76f68348bf9333b464f615c1f8.png" src="_images/785704a7955b10a70838924bc34325ac07883f76f68348bf9333b464f615c1f8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resumen</span> <span class="o">=</span> <span class="n">perfil</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;grupo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">negocios</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;nivel&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">),</span> <span class="o">**</span><span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s2">&quot;median&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">perfil</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s2">&quot;grupo&quot;</span><span class="p">})</span>
+<span class="n">resumen</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;venta típica (M COP)&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">resumen</span><span class="p">[</span><span class="s2">&quot;nivel&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
+<span class="n">resumen</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>grupo</th>
+      <th>G1</th>
+      <th>G2</th>
+      <th>G3</th>
+      <th>G4</th>
+      <th>G5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>negocios</th>
+      <td>6.00</td>
+      <td>128.00</td>
+      <td>32.00</td>
+      <td>191.00</td>
+      <td>90.00</td>
+    </tr>
+    <tr>
+      <th>nivel</th>
+      <td>11.88</td>
+      <td>13.21</td>
+      <td>15.48</td>
+      <td>15.47</td>
+      <td>17.77</td>
+    </tr>
+    <tr>
+      <th>venta típica (M COP)</th>
+      <td>0.14</td>
+      <td>0.55</td>
+      <td>5.31</td>
+      <td>5.21</td>
+      <td>52.31</td>
+    </tr>
+    <tr>
+      <th>volatilidad</th>
+      <td>1.02</td>
+      <td>0.38</td>
+      <td>0.23</td>
+      <td>0.23</td>
+      <td>0.20</td>
+    </tr>
+    <tr>
+      <th>pct_sin_venta</th>
+      <td>20.65</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>n_fuentes</th>
+      <td>0.79</td>
+      <td>1.00</td>
+      <td>1.97</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>finde</th>
+      <td>-0.82</td>
+      <td>0.03</td>
+      <td>-0.16</td>
+      <td>0.09</td>
+      <td>-0.12</td>
+    </tr>
+    <tr>
+      <th>part_efectivo</th>
+      <td>0.83</td>
+      <td>1.00</td>
+      <td>0.90</td>
+      <td>0.53</td>
+      <td>0.45</td>
+    </tr>
+    <tr>
+      <th>part_datafono</th>
+      <td>0.14</td>
+      <td>0.00</td>
+      <td>0.10</td>
+      <td>0.39</td>
+      <td>0.35</td>
+    </tr>
+    <tr>
+      <th>part_rumbo</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.12</td>
+    </tr>
+    <tr>
+      <th>part_mi_empresa</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>part_credito_clientes</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.01</td>
+    </tr>
+    <tr>
+      <th>part_otros</th>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.06</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ¿los grupos difieren de verdad? Kruskal-Wallis por variable (los grupos son negocios distintos,</span>
+<span class="c1"># no medidas repetidas) con Holm</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.multitest</span> <span class="kn">import</span> <span class="n">multipletests</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">perfil</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;grupo&quot;</span><span class="p">):</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">kruskal</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">perfil</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;grupo&quot;</span><span class="p">)])</span>
+    <span class="n">eps2</span> <span class="o">=</span> <span class="n">h</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">perfil</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># épsilon² de Kruskal-Wallis (tamaño del efecto)</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">:</span> <span class="n">h</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span> <span class="s2">&quot;épsilon²&quot;</span><span class="p">:</span> <span class="n">eps2</span><span class="p">})</span>
+<span class="n">kw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span>
+<span class="n">kw</span><span class="p">[</span><span class="s2">&quot;p Holm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">kw</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;holm&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">kw</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;épsilon²&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;variable&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>H</th>
+      <th>p</th>
+      <th>épsilon²</th>
+      <th>p Holm</th>
+    </tr>
+    <tr>
+      <th>variable</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>part_rumbo</th>
+      <td>326.26</td>
+      <td>0.00</td>
+      <td>0.73</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>part_mi_empresa</th>
+      <td>318.06</td>
+      <td>0.00</td>
+      <td>0.71</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>part_efectivo</th>
+      <td>304.33</td>
+      <td>0.00</td>
+      <td>0.68</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>part_datafono</th>
+      <td>295.33</td>
+      <td>0.00</td>
+      <td>0.66</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>n_fuentes</th>
+      <td>275.89</td>
+      <td>0.00</td>
+      <td>0.62</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>part_credito_clientes</th>
+      <td>256.47</td>
+      <td>0.00</td>
+      <td>0.58</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>nivel</th>
+      <td>237.66</td>
+      <td>0.00</td>
+      <td>0.53</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>part_otros</th>
+      <td>201.74</td>
+      <td>0.00</td>
+      <td>0.45</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>finde</th>
+      <td>124.21</td>
+      <td>0.00</td>
+      <td>0.28</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>volatilidad</th>
+      <td>104.78</td>
+      <td>0.00</td>
+      <td>0.23</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>pct_sin_venta</th>
+      <td>100.79</td>
+      <td>0.00</td>
+      <td>0.23</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id1">
+<h3>Interpretación<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La silueta es parecida entre k = 5 y k = 7 (0,34) y se elige <strong>k = 5</strong>, el más chico a 0,01 del máximo. Con k = 7 aparecen grupos de 1 negocio, que no son grupos sino atípicos. Una silueta de 0,34 indica una estructura <strong>moderada</strong>: los grupos existen, pero con zonas de transición.</p></li>
+<li><p>Los cinco grupos son interpretables:</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Grupo</p></th>
+<th class="head"><p>n</p></th>
+<th class="head"><p>Venta típica</p></th>
+<th class="head"><p>Perfil</p></th>
+<th class="head"><p>Tipo probable</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>G1</p></td>
+<td><p>6</p></td>
+<td><p>0,14 M</p></td>
+<td><p>21 % de días sin venta, muy volátil, cae el fin de semana</p></td>
+<td><p>Negocios casi inactivos o que cierran fines de semana</p></td>
+</tr>
+<tr class="row-odd"><td><p>G2</p></td>
+<td><p>128</p></td>
+<td><p>0,55 M</p></td>
+<td><p>100 % efectivo, ninguna otra forma de pago</p></td>
+<td><p><strong>KCO</strong> (kioscos de autoservicio)</p></td>
+</tr>
+<tr class="row-even"><td><p>G3</p></td>
+<td><p>32</p></td>
+<td><p>5,3 M</p></td>
+<td><p>2 fuentes POS por día, casi todo efectivo</p></td>
+<td><p>Negocios con dos sistemas (por ejemplo tienda + GNV)</p></td>
+</tr>
+<tr class="row-odd"><td><p>G4</p></td>
+<td><p>191</p></td>
+<td><p>5,2 M</p></td>
+<td><p>~50 % efectivo, ~40 % datáfono</p></td>
+<td><p><strong>Tiendas de conveniencia</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>G5</p></td>
+<td><p>90</p></td>
+<td><p>52 M</p></td>
+<td><p>crédito Terpel (rumbo, mi empresa) ~16 %</p></td>
+<td><p><strong>EDS</strong> (estaciones de servicio)</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>La hipótesis del capítulo 1 se <strong>confirma en parte</strong>: los tres picos de venta (~0,1–0,5 M, ~5 M y ~50 M) corresponden a G2, G3/G4 y G5. Pero G3 y G4 venden lo mismo y se distinguen por <strong>cómo</strong> venden, no por cuánto.</p></li>
+<li><p>Kruskal-Wallis rechaza en las 11 variables (Holm). Los tamaños de efecto más grandes son los del mix de medios (ε² ≈ 0,7), por encima del propio nivel de venta (0,53).</p></li>
+</ul>
+</section>
+</section>
+<section id="b-4-atipicos-multivariados">
+<h2>🚩 4b.4 Atípicos multivariados<a class="headerlink" href="#b-4-atipicos-multivariados" title="Permalink to this heading">#</a></h2>
+<p>Un negocio puede ser normal en cada variable por separado y raro en la <strong>combinación</strong> (por ejemplo, mucha venta con casi todo en crédito propio). Se usan dos métodos:</p>
+<ol class="arabic simple">
+<li><p><strong>Distancia de Mahalanobis robusta</strong>: la distancia de cada perfil al centro, teniendo en cuenta las correlaciones. El centro y la covarianza se estiman con el <strong>MCD</strong> (determinante de covarianza mínima), que usa el 75 % de negocios más «compacto» y así los propios atípicos no inflan la covarianza. Bajo normalidad la distancia al cuadrado sigue una <span class="math notranslate nohighlight">\(\chi^2_p\)</span>; se marca como atípico lo que pasa el percentil 97,5.
+Se aplica sobre las <strong>5 primeras componentes del PCA</strong> (80 % de la varianza): con las 11 variables originales la covarianza es singular, porque participaciones como <code class="docutils literal notranslate"><span class="pre">part_credito_clientes</span></code> valen 0 en casi todos los negocios.</p></li>
+<li><p><strong>Isolation Forest</strong>: aísla cada punto con cortes al azar; los atípicos se aíslan con menos cortes. No supone ninguna distribución.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sobre las 5 primeras componentes (80 % de la varianza): con las 11 variables la covarianza es singular</span>
+<span class="n">X_perfil</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Z</span><span class="p">)[:,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">corte</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">X_perfil</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">sensib</span> <span class="o">=</span> <span class="p">{</span><span class="n">sf</span><span class="p">:</span> <span class="p">(</span><span class="n">MinCovDet</span><span class="p">(</span><span class="n">support_fraction</span><span class="o">=</span><span class="n">sf</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_perfil</span><span class="p">)</span><span class="o">.</span><span class="n">mahalanobis</span><span class="p">(</span><span class="n">X_perfil</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">corte</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+          <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]}</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% d</span><span class="s2">e negocios sobre el corte χ² según la fracción del MCD:&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sensib</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+
+<span class="n">iso</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">contamination</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_perfil</span><span class="p">)</span>
+<span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_iso&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">iso</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_perfil</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+<span class="c1"># el corte χ² no sirve (ver texto): uso la distancia robusta solo para ordenar y marco</span>
+<span class="c1"># tantos negocios como el Isolation Forest, para ver si los dos métodos coinciden</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="n">MinCovDet</span><span class="p">(</span><span class="n">support_fraction</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_perfil</span><span class="p">)</span><span class="o">.</span><span class="n">mahalanobis</span><span class="p">(</span><span class="n">X_perfil</span><span class="p">)</span>
+<span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;mahalanobis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
+<span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_mcd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;mahalanobis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_iso&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mahalanobis robusta (los más lejanos): </span><span class="si">{</span><span class="n">perfil</span><span class="p">[</span><span class="s1">&#39;atipico_mcd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Isolation Forest:    </span><span class="si">{</span><span class="n">perfil</span><span class="p">[</span><span class="s1">&#39;atipico_iso&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> atípicos (</span><span class="si">{</span><span class="n">perfil</span><span class="p">[</span><span class="s1">&#39;atipico_iso&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;en ambos:            </span><span class="si">{</span><span class="p">(</span><span class="n">perfil</span><span class="p">[</span><span class="s1">&#39;atipico_mcd&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">perfil</span><span class="p">[</span><span class="s1">&#39;atipico_iso&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;grupo&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_mcd&quot;</span><span class="p">],</span> <span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_iso&quot;</span><span class="p">]],</span> <span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>% de negocios sobre el corte χ² según la fracción del MCD: {0.5: &#39;46%&#39;, 0.75: &#39;29%&#39;, 0.9: &#39;25%&#39;}
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mahalanobis robusta (los más lejanos): 41
+Isolation Forest:    41 atípicos (9.2%)
+en ambos:            25
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th>atipico_mcd</th>
+      <th colspan="2" halign="left">False</th>
+      <th colspan="2" halign="left">True</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>atipico_iso</th>
+      <th>False</th>
+      <th>True</th>
+      <th>False</th>
+      <th>True</th>
+      <th></th>
+    </tr>
+    <tr>
+      <th>grupo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>G1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>G2</th>
+      <td>125</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>128</td>
+    </tr>
+    <tr>
+      <th>G3</th>
+      <td>9</td>
+      <td>4</td>
+      <td>12</td>
+      <td>7</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>G4</th>
+      <td>184</td>
+      <td>6</td>
+      <td>1</td>
+      <td>0</td>
+      <td>191</td>
+    </tr>
+    <tr>
+      <th>G5</th>
+      <td>72</td>
+      <td>3</td>
+      <td>3</td>
+      <td>12</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <td>390</td>
+      <td>16</td>
+      <td>16</td>
+      <td>25</td>
+      <td>447</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">corte</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;corte χ²(0,975; </span><span class="si">{</span><span class="n">X_perfil</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> g.l.) = </span><span class="si">{</span><span class="n">corte</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">d2</span><span class="p">)[</span><span class="o">-</span><span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_iso&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()],</span> <span class="n">color</span><span class="o">=</span><span class="n">VERDE</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;corte usado (mismo n que Isolation Forest)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;distancia de Mahalanobis robusta² (log)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distancia al centro robusto (MCD)&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_mcd&quot;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_iso&quot;</span><span class="p">],</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_mcd&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_iso&quot;</span><span class="p">],</span> <span class="s2">&quot;#eda100&quot;</span><span class="p">,</span> <span class="n">GRIS</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pcs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pcs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;PC1&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;PC2&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Atípicos en el plano PCA (naranja: ambos métodos)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/eb68a3ea7492bc3a9ddb85aa1df568230c4581b89430dc70c7c5c2cd03b7d092.png" src="_images/eb68a3ea7492bc3a9ddb85aa1df568230c4581b89430dc70c7c5c2cd03b7d092.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># qué tienen de raro los atípicos de ambos métodos: z robusta de cada variable frente a la mediana</span>
+<span class="n">ambos</span> <span class="o">=</span> <span class="n">perfil</span><span class="p">[</span><span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_mcd&quot;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">perfil</span><span class="p">[</span><span class="s2">&quot;atipico_iso&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;grupo&quot;</span><span class="p">,</span> <span class="s2">&quot;atipico_mcd&quot;</span><span class="p">,</span> <span class="s2">&quot;atipico_iso&quot;</span><span class="p">])</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">perfil</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;grupo&quot;</span><span class="p">,</span> <span class="s2">&quot;atipico_mcd&quot;</span><span class="p">,</span> <span class="s2">&quot;atipico_iso&quot;</span><span class="p">,</span> <span class="s2">&quot;mahalanobis&quot;</span><span class="p">])</span>
+<span class="n">z_rob</span> <span class="o">=</span> <span class="p">(</span><span class="n">base</span> <span class="o">-</span> <span class="n">base</span><span class="o">.</span><span class="n">median</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">median_abs_deviation</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">)</span>
+<span class="n">z_rob</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ambos</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;variable más extrema&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>variable más extrema</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>part_rumbo</th>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>n_fuentes</th>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>pct_sin_venta</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>part_credito_clientes</th>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id2">
+<h3>Interpretación<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>El corte χ² de la distancia de Mahalanobis no sirve aquí.</strong> Supone que los perfiles son (aproximadamente) normales multivariados, alrededor de un solo centro. Pero los perfiles son una <strong>mezcla de cinco grupos</strong> y tienen masas de puntos en 0 (por ejemplo, ningún KCO usa crédito). Por eso el porcentaje de «atípicos» depende casi por completo de la fracción del MCD (46 %, 29 % o 25 %): el MCD se queda con el grupo más compacto y todo lo demás parece lejos. Se usa la distancia solo para <strong>ordenar</strong> los negocios.</p></li>
+<li><p>El <strong>Isolation Forest</strong> no supone ninguna distribución y marca <strong>41 negocios (9 %)</strong>. De los 41 negocios más lejanos según Mahalanobis, <strong>25 coinciden</strong> con el Isolation Forest, así que los dos métodos están razonablemente de acuerdo en el núcleo de atípicos.</p></li>
+<li><p>Los atípicos se concentran en <strong>G1</strong> (los 6), <strong>G3</strong> y <strong>G5</strong>. Lo que los hace raros es sobre todo <code class="docutils literal notranslate"><span class="pre">part_rumbo</span></code> (EDS con mucho más crédito de flotas que las demás), <code class="docutils literal notranslate"><span class="pre">n_fuentes</span></code> y <code class="docutils literal notranslate"><span class="pre">pct_sin_venta</span></code>.</p></li>
+<li><p><strong>Decisión: no se elimina ningún negocio.</strong> Son negocios reales con un perfil distinto, no errores de datos (los errores ya se limpiaron en el capítulo 2). Como en el capítulo 1, se describen y se tienen en cuenta al interpretar el error: los negocios de G1 son los candidatos a los días sin venta.</p></li>
+</ul>
+</section>
+</section>
+<section id="b-5-dias-sin-venta-y-caidas-fuertes">
+<h2>🕳️ 4b.5 Días sin venta y caídas fuertes<a class="headerlink" href="#b-5-dias-sin-venta-y-caidas-fuertes" title="Permalink to this heading">#</a></h2>
+<p>En el capítulo 8 los días sin venta fueron el 0,4 % de test pero el <strong>71 % del error cuadrático en log</strong>. Aquí se estudia <strong>quién</strong> tiene esos días, <strong>cuándo</strong> y si se pueden <strong>anticipar</strong> con lo que se sabe el día anterior. Se amplía la mirada a las <strong>caídas fuertes</strong>: días con venta menor al 50 % de la mediana de los 7 días anteriores, que incluyen los ceros. Este será el objetivo de la tarea de <strong>clasificación</strong> (cap. 9).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">preparar</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">partir</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">tr</span><span class="p">[</span><span class="s2">&quot;cero&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> negocio-días con historia de 14 días&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  días sin venta: </span><span class="si">{</span><span class="n">tr</span><span class="p">[</span><span class="s1">&#39;cero&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">tr</span><span class="p">[</span><span class="s1">&#39;cero&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">) en </span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="s1">&#39;cero&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;negocio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> negocios&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  caídas fuertes: </span><span class="si">{</span><span class="n">tr</span><span class="p">[</span><span class="s1">&#39;caida&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">tr</span><span class="p">[</span><span class="s1">&#39;caida&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">) en </span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="s1">&#39;caida&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;negocio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> negocios&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  de las caídas, son días sin venta: </span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="s1">&#39;caida&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;cero&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test: caídas fuertes </span><span class="si">{</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;caida&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;caida&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train: 22,205 negocio-días con historia de 14 días
+  días sin venta: 126 (0.57%) en 37 negocios
+  caídas fuertes: 818 (3.68%) en 224 negocios
+  de las caídas, son días sin venta: 12.6%
+test: caídas fuertes 288 (3.10%)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># concentración: ¿pocos negocios tienen casi todos los ceros/caídas?</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">nombre</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;cero&quot;</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="s2">&quot;días sin venta&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;caida&quot;</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">,</span> <span class="s2">&quot;caídas fuertes&quot;</span><span class="p">)]:</span>
+    <span class="n">por_neg</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">acum</span> <span class="o">=</span> <span class="n">por_neg</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">por_neg</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">acum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">acum</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">acum</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">nombre</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% d</span><span class="s2">e negocios (de más a menos eventos)&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% a</span><span class="s2">cumulado de eventos&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Concentración de los eventos&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">por_dia</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">dayofweek</span><span class="p">)[[</span><span class="s2">&quot;cero&quot;</span><span class="p">,</span> <span class="s2">&quot;caida&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">por_dia</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">DIAS</span>
+<span class="n">por_dia</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">],</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% d</span><span class="s2">e negocio-días&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Eventos por día de la semana&quot;</span><span class="p">)</span>
+
+<span class="c1"># por grupo de negocio</span>
+<span class="n">tr_g</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">perfil</span><span class="p">[[</span><span class="s2">&quot;grupo&quot;</span><span class="p">]],</span> <span class="n">left_on</span><span class="o">=</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">por_grupo</span> <span class="o">=</span> <span class="n">tr_g</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;grupo&quot;</span><span class="p">)[[</span><span class="s2">&quot;cero&quot;</span><span class="p">,</span> <span class="s2">&quot;caida&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">por_grupo</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">],</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% d</span><span class="s2">e negocio-días&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Eventos por grupo (4b.3)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">por_grupo</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cero</th>
+      <th>caida</th>
+    </tr>
+    <tr>
+      <th>grupo</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>G1</th>
+      <td>20.68</td>
+      <td>27.80</td>
+    </tr>
+    <tr>
+      <th>G2</th>
+      <td>0.52</td>
+      <td>6.62</td>
+    </tr>
+    <tr>
+      <th>G3</th>
+      <td>0.19</td>
+      <td>3.35</td>
+    </tr>
+    <tr>
+      <th>G4</th>
+      <td>0.15</td>
+      <td>1.57</td>
+    </tr>
+    <tr>
+      <th>G5</th>
+      <td>0.02</td>
+      <td>2.24</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/3dc7a899762969dcd36569f024ae16ddb9265544fbd2d4dcd07078b97c72a358.png" src="_images/3dc7a899762969dcd36569f024ae16ddb9265544fbd2d4dcd07078b97c72a358.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ¿se puede anticipar? tasa de caída según lo que se sabía el día anterior</span>
+<span class="n">tr</span><span class="p">[</span><span class="s2">&quot;ayer_cero&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;lag1&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">tabla</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;días sin venta en la última semana = 0&quot;</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;dias_sin_venta7&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+    <span class="s2">&quot;días sin venta en la última semana ≥ 1&quot;</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;dias_sin_venta7&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+    <span class="s2">&quot;ayer sin venta&quot;</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;ayer_cero&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+    <span class="s2">&quot;ayer con venta&quot;</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;ayer_cero&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+    <span class="s2">&quot;festivo&quot;</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;festivo&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+    <span class="s2">&quot;no festivo&quot;</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;festivo&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+<span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;P(caída)&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">tabla</span><span class="p">[</span><span class="s2">&quot;casos&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;dias_sin_venta7&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="p">(</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;dias_sin_venta7&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+                   <span class="n">tr</span><span class="p">[</span><span class="s2">&quot;ayer_cero&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">tr</span><span class="p">[</span><span class="s2">&quot;ayer_cero&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">tr</span><span class="p">[</span><span class="s2">&quot;festivo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">tr</span><span class="p">[</span><span class="s2">&quot;festivo&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()]</span>
+<span class="n">tabla</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>P(caída)</th>
+      <th>casos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>días sin venta en la última semana = 0</th>
+      <td>3.26</td>
+      <td>21765</td>
+    </tr>
+    <tr>
+      <th>días sin venta en la última semana ≥ 1</th>
+      <td>24.55</td>
+      <td>440</td>
+    </tr>
+    <tr>
+      <th>ayer sin venta</th>
+      <td>40.94</td>
+      <td>127</td>
+    </tr>
+    <tr>
+      <th>ayer con venta</th>
+      <td>3.47</td>
+      <td>22078</td>
+    </tr>
+    <tr>
+      <th>festivo</th>
+      <td>12.09</td>
+      <td>1332</td>
+    </tr>
+    <tr>
+      <th>no festivo</th>
+      <td>3.15</td>
+      <td>20873</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># rachas: cuántos días seguidos dura una racha de días sin venta</span>
+<span class="n">rachas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">neg</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">panel</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;negocio&quot;</span><span class="p">,</span> <span class="s2">&quot;fecha&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;sin_registro&quot;</span><span class="p">]:</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">largo</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">largo</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">largo</span><span class="p">:</span>
+            <span class="n">rachas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">largo</span><span class="p">);</span> <span class="n">largo</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">largo</span><span class="p">:</span>
+        <span class="n">rachas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">largo</span><span class="p">)</span>
+<span class="n">rachas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">rachas</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rachas</span><span class="p">)</span><span class="si">}</span><span class="s2"> rachas sin venta; largo mediano </span><span class="si">{</span><span class="n">rachas</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> días, máximo </span><span class="si">{</span><span class="n">rachas</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">rachas</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;rachas&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100 rachas sin venta; largo mediano 1 días, máximo 19
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>6</th>
+      <th>10</th>
+      <th>19</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>rachas</th>
+      <td>59</td>
+      <td>24</td>
+      <td>9</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># volatilidad y probabilidad de caída del negocio en train: ¿los negocios irregulares son los que caen?</span>
+<span class="n">tasa</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;negocio&quot;</span><span class="p">)[</span><span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;tasa_caida&quot;</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">perfil</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tasa</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="n">m</span><span class="p">[[</span><span class="s2">&quot;nivel&quot;</span><span class="p">,</span> <span class="s2">&quot;volatilidad&quot;</span><span class="p">,</span> <span class="s2">&quot;pct_sin_venta&quot;</span><span class="p">,</span> <span class="s2">&quot;finde&quot;</span><span class="p">,</span> <span class="s2">&quot;part_efectivo&quot;</span><span class="p">,</span> <span class="s2">&quot;part_rumbo&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">corrwith</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;tasa_caida&quot;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;spearman&quot;</span><span class="p">)</span>
+<span class="n">rho</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;Spearman con la tasa de caídas del negocio&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Spearman con la tasa de caídas del negocio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>nivel</th>
+      <td>-0.39</td>
+    </tr>
+    <tr>
+      <th>volatilidad</th>
+      <td>0.74</td>
+    </tr>
+    <tr>
+      <th>pct_sin_venta</th>
+      <td>0.40</td>
+    </tr>
+    <tr>
+      <th>finde</th>
+      <td>-0.17</td>
+    </tr>
+    <tr>
+      <th>part_efectivo</th>
+      <td>0.33</td>
+    </tr>
+    <tr>
+      <th>part_rumbo</th>
+      <td>-0.14</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id3">
+<h3>Interpretación<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Los <strong>días sin venta</strong> son el 0,57 % de train y están en solo <strong>37 negocios</strong> (8 %). La <strong>caída fuerte</strong> (venta &lt; 50 % de la mediana de la semana anterior) es 6 veces más frecuente (3,7 %, 818 casos en 224 negocios) e incluye los ceros: el 12,6 % de las caídas son días sin venta.</p></li>
+<li><p><strong>Por grupo</strong>: G1 tiene 21 % de días sin venta y 28 % de caídas; en G2 (KCO) las caídas son 6,6 %; en las EDS (G5), 1,3 %. La irregularidad es un rasgo del negocio: la tasa de caídas de cada negocio se correlaciona con su <strong>volatilidad</strong> (ρ = 0,74) y con su nivel (ρ = −0,39).</p></li>
+<li><p><strong>Sí se pueden anticipar en parte</strong> con información del día anterior:</p>
+<ul>
+<li><p>si el negocio tuvo al menos un día sin venta en la última semana, la probabilidad de caída sube de 3,3 % a <strong>24,6 %</strong>;</p></li>
+<li><p>si ayer no vendió, llega a <strong>40,9 %</strong>: los días sin venta vienen en <strong>rachas</strong> (de las 100 rachas, 41 duran 2 días o más; la más larga, 19);</p></li>
+<li><p>los <strong>festivos</strong> cuadruplican la probabilidad (12,1 % contra 3,2 %).</p></li>
+</ul>
+</li>
+<li><p>Esto justifica dos decisiones de la entrega 2:</p>
+<ol class="arabic simple">
+<li><p><strong>Tarea de clasificación</strong>: predecir la caída fuerte del día siguiente. Es un evento desbalanceado (3,7 % de positivos), útil para el negocio como alerta y con señal en las variables, así que tiene sentido comparar técnicas de balanceo (cap. 9).</p></li>
+<li><p><strong>Modelo en dos partes</strong> para la regresión (cap. 12): primero la probabilidad de caída y luego el monto, como sugirió la retroalimentación.</p></li>
+</ol>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><strong>Resumen del capítulo (hallazgo → decisión)</strong></p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Hallazgo</p></th>
+<th class="head"><p>Decisión</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>El perfil necesita 5 componentes para el 80 % de la varianza; PC1 = tamaño + crédito, PC2 = irregularidad</p></td>
+<td><p>Se mantienen las variables de nivel y de mix por separado en el modelo</p></td>
+</tr>
+<tr class="row-odd"><td><p>5 grupos de negocios (KCO, tiendas, EDS, dos fuentes, casi inactivos)</p></td>
+<td><p>Se usan para leer los errores y los SHAP (cap. 12–14). No se entrenan modelos por grupo: los árboles pueden aprender esas interacciones</p></td>
+</tr>
+<tr class="row-even"><td><p>Los perfiles no son elípticos: el corte χ² de Mahalanobis no es válido</p></td>
+<td><p>Atípicos con Isolation Forest (41 negocios); no se elimina ninguno</p></td>
+</tr>
+<tr class="row-odd"><td><p>Caídas y ceros concentrados en negocios irregulares, en rachas y en festivos</p></td>
+<td><p>Objetivo de clasificación = caída fuerte; modelo en dos partes en regresión</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_eda_uni_bi_multivariado.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">🔎 4. EDA univariado, bivariado y multivariado</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_auditoria_fuga.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">🚨 5. Auditoría de fuga de datos</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-1-perfil-de-cada-negocio">🧱 4b.1 Perfil de cada negocio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-2-analisis-de-componentes-principales-pca">📉 4b.2 Análisis de componentes principales (PCA)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-3-agrupacion-de-negocios-k-means">🧩 4b.3 Agrupación de negocios (k-means)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-4-atipicos-multivariados">🚩 4b.4 Atípicos multivariados</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Interpretación</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-5-dias-sin-venta-y-caidas-fuertes">🕳️ 4b.5 Días sin venta y caídas fuertes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Interpretación</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

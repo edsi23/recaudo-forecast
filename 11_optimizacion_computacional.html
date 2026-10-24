@@ -1,0 +1,1456 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>⚙️ 11. Optimización computacional &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '11_optimizacion_computacional';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="📊 12. Regresión: resultados, residuos y comparación estadística" href="12_regresion_resultados.html" />
+    <link rel="prev" title="🔍 10. Comparación de los métodos de optimización" href="10_optimizacion_hiperparametros.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/11_optimizacion_computacional.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>⚙️ 11. Optimización computacional</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complejidad-teorica">📐 11.1 Complejidad teórica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#escalamiento-empirico-tiempo-contra-n">📈 11.2 Escalamiento empírico: tiempo contra <span class="math notranslate nohighlight">\(n\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-teoria-contra-medicion">Interpretación: teoría contra medición</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knn-fuerza-bruta-arboles-de-busqueda-y-faiss">🧭 11.3 KNN: fuerza bruta, árboles de búsqueda y FAISS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-knn">Interpretación: KNN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-estandar-contra-version-optimizada">🧱 11.4 Versión estándar contra versión optimizada</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-estandar-contra-optimizado">Interpretación: estándar contra optimizado</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paralelizacion">🧵 11.5 Paralelización</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-paralelizacion-y-gpu">Interpretación: paralelización y GPU</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perfilamiento">🔬 11.6 Perfilamiento</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-perfilamiento">Interpretación: perfilamiento</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="optimizacion-computacional">
+<h1>⚙️ 11. Optimización computacional<a class="headerlink" href="#optimizacion-computacional" title="Permalink to this heading">#</a></h1>
+<p>Con 140 combinaciones, cada una con validación anidada (5 búsquedas × 16 evaluaciones × 3 ajustes), el experimento hace más de <strong>33 mil ajustes de modelos</strong>. En este capítulo se analiza el costo de cada modelo: primero su <strong>complejidad teórica</strong>, después el <strong>tiempo medido</strong> al variar <span class="math notranslate nohighlight">\(n\)</span> (y el exponente empírico de escalamiento), y por último las versiones optimizadas que se usaron (o se podrían usar).</p>
+<p>Todas las mediciones se hicieron con la máquina <strong>sin otra carga</strong> (después de terminar el experimento principal), en un Apple M5 de 10 núcleos sin GPU NVIDIA. Cada tiempo es la <strong>mediana de 3 repeticiones</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cProfile</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">pstats</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">tracemalloc</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span><span class="p">,</span> <span class="n">Ridge</span><span class="p">,</span> <span class="n">SGDRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVR</span><span class="p">,</span> <span class="n">LinearSVR</span>
+<span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBRegressor</span>
+<span class="kn">import</span> <span class="nn">faiss</span>
+<span class="c1"># en macOS FAISS y XGBoost/sklearn traen cada uno su OpenMP: con varios hilos el proceso se cuelga</span>
+<span class="n">faiss</span><span class="o">.</span><span class="n">omp_set_num_threads</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">comun</span> <span class="kn">import</span> <span class="n">estilo</span><span class="p">,</span> <span class="n">a_log</span><span class="p">,</span> <span class="n">SEED</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="n">VERDE</span><span class="p">,</span> <span class="n">AMARILLO</span><span class="p">,</span> <span class="n">GRIS</span><span class="p">,</span> <span class="n">PALETA</span>
+<span class="kn">from</span> <span class="nn">datos</span> <span class="kn">import</span> <span class="n">preparar</span><span class="p">,</span> <span class="n">partir</span><span class="p">,</span> <span class="n">X_COLS</span><span class="p">,</span> <span class="n">folds_internos</span>
+<span class="kn">from</span> <span class="nn">modelos</span> <span class="kn">import</span> <span class="n">_preprocesador</span>
+<span class="kn">from</span> <span class="nn">optimizadores</span> <span class="kn">import</span> <span class="n">evaluar_config</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="n">estilo</span><span class="p">()</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">partir</span><span class="p">(</span><span class="n">preparar</span><span class="p">())</span>
+<span class="n">pre</span> <span class="o">=</span> <span class="n">_preprocesador</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">])</span>
+<span class="n">Xtr</span><span class="p">,</span> <span class="n">Xte</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">]),</span> <span class="n">pre</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">])</span>
+<span class="n">ytr</span><span class="p">,</span> <span class="n">yte</span> <span class="o">=</span> <span class="n">a_log</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()),</span> <span class="n">a_log</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n = </span><span class="si">{</span><span class="n">Xtr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas de train, p = </span><span class="si">{</span><span class="n">Xtr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas después del one-hot&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">medir</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">reps</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="c1"># mediana de varias repeticiones para bajar el ruido de la medición</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reps</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">();</span> <span class="n">fn</span><span class="p">();</span> <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">ts</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">memoria</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+    <span class="c1"># pico de memoria asignada por Python durante fn (MB)</span>
+    <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">();</span> <span class="n">fn</span><span class="p">();</span> <span class="n">pico</span> <span class="o">=</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">get_traced_memory</span><span class="p">()[</span><span class="mi">1</span><span class="p">];</span> <span class="n">tracemalloc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">pico</span> <span class="o">/</span> <span class="mf">1e6</span>
+
+
+<span class="k">def</span> <span class="nf">rmse</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n = 22,205 filas de train, p = 19 columnas después del one-hot
+</pre></div>
+</div>
+</div>
+</div>
+<section id="complejidad-teorica">
+<h2>📐 11.1 Complejidad teórica<a class="headerlink" href="#complejidad-teorica" title="Permalink to this heading">#</a></h2>
+<p><span class="math notranslate nohighlight">\(n\)</span> = filas de entrenamiento, <span class="math notranslate nohighlight">\(p\)</span> = columnas, <span class="math notranslate nohighlight">\(m\)</span> = filas a predecir, <span class="math notranslate nohighlight">\(k\)</span> = vecinos, <span class="math notranslate nohighlight">\(T\)</span> = árboles, <span class="math notranslate nohighlight">\(d\)</span> = profundidad, <span class="math notranslate nohighlight">\(I\)</span> = iteraciones (o épocas), <span class="math notranslate nohighlight">\(B\)</span> = número de bins de los histogramas.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modelo</p></th>
+<th class="head"><p>Entrenamiento</p></th>
+<th class="head"><p>Inferencia (por fila)</p></th>
+<th class="head"><p>Versión optimizada que se evalúa</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>KNN (fuerza bruta)</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(1)\)</span> (guarda los datos)</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(n\,p)\)</span></p></td>
+<td><p>KD-Tree / Ball Tree: <span class="math notranslate nohighlight">\(O(n \log n)\)</span> para construir y <span class="math notranslate nohighlight">\(\approx O(\log n)\)</span> por consulta en baja dimensión; FAISS (IVF): búsqueda aproximada en una fracción de las celdas</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ridge (Cholesky)</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(n\,p^2 + p^3)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(O(p)\)</span></p></td>
+<td><p>SAGA: <span class="math notranslate nohighlight">\(O(n\,p)\)</span> por época, sirve para datos grandes o dispersos</p></td>
+</tr>
+<tr class="row-even"><td><p>Lasso (descenso por coordenadas)</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(I\,n\,p)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(O(p)\)</span></p></td>
+<td><p>SAGA: <span class="math notranslate nohighlight">\(O(I\,n\,p)\)</span> con <span class="math notranslate nohighlight">\(I\)</span> chico si los datos están escalados</p></td>
+</tr>
+<tr class="row-odd"><td><p>Naive Bayes gaussiano</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(n\,p)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(O(p\,c)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">partial_fit</span></code> por bloques: mismo <span class="math notranslate nohighlight">\(O(n\,p)\)</span> total, memoria <span class="math notranslate nohighlight">\(O(\text{bloque} \cdot p)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Árbol de decisión</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(p\,n \log n)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(O(d)\)</span></p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Random Forest</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(T\,p'\,n' \log n')\)</span> con <span class="math notranslate nohighlight">\(p' = \)</span> <code class="docutils literal notranslate"><span class="pre">max_features</span></code><span class="math notranslate nohighlight">\(\cdot p\)</span>, <span class="math notranslate nohighlight">\(n' = \)</span> <code class="docutils literal notranslate"><span class="pre">max_samples</span></code><span class="math notranslate nohighlight">\(\cdot n\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(O(T\,d)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max_samples=0.5</span></code> y <code class="docutils literal notranslate"><span class="pre">n_jobs</span></code> (árboles en paralelo)</p></td>
+</tr>
+<tr class="row-even"><td><p>XGBoost exacto</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(T\,d\,p\,n \log n)\)</span> (ordena cada variable)</p></td>
+<td><p><span class="math notranslate nohighlight">\(O(T\,d)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hist</span></code>: <span class="math notranslate nohighlight">\(O(T\,d\,p\,n)\)</span> con histogramas de <span class="math notranslate nohighlight">\(B = 256\)</span> bins; <em>early stopping</em> reduce <span class="math notranslate nohighlight">\(T\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>SVR / SVM con núcleo</p></td>
+<td><p>entre <span class="math notranslate nohighlight">\(O(n^2\,p)\)</span> y <span class="math notranslate nohighlight">\(O(n^3)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(O(n_{sv}\,p)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LinearSVR</span></code> / <code class="docutils literal notranslate"><span class="pre">LinearSVC</span></code> (liblinear): <span class="math notranslate nohighlight">\(O(I\,n\,p)\)</span>; SGD: <span class="math notranslate nohighlight">\(O(\text{épocas} \cdot n\,p)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="escalamiento-empirico-tiempo-contra-n">
+<h2>📈 11.2 Escalamiento empírico: tiempo contra <span class="math notranslate nohighlight">\(n\)</span><a class="headerlink" href="#escalamiento-empirico-tiempo-contra-n" title="Permalink to this heading">#</a></h2>
+<p>Se entrena cada modelo con submuestras de train de tamaño creciente y se ajusta una recta en escala log-log: <span class="math notranslate nohighlight">\(\log t = a + b \log n\)</span>. La pendiente <span class="math notranslate nohighlight">\(b\)</span> es el <strong>exponente empírico</strong> y se compara con el teórico (1 = lineal, 2 = cuadrático).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
+<span class="n">tamanos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="mi">16000</span><span class="p">]</span>
+<span class="n">modelos_esc</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Ridge&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+    <span class="s2">&quot;Lasso&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">),</span>
+    <span class="s2">&quot;Naive Bayes (clasif. de caída)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># se mide aparte con la clase</span>
+    <span class="s2">&quot;Árbol (RF con 1 árbol)&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">),</span>
+    <span class="s2">&quot;Random Forest (50 árboles)&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">),</span>
+    <span class="s2">&quot;XGBoost hist&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">XGBRegressor</span><span class="p">(</span><span class="n">tree_method</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">),</span>
+    <span class="s2">&quot;XGBoost exacto&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">XGBRegressor</span><span class="p">(</span><span class="n">tree_method</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">),</span>
+    <span class="s2">&quot;LinearSVR&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">LinearSVR</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dual</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">),</span>
+    <span class="s2">&quot;SGD (pérdida ε-insensible)&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">SGDRegressor</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">&quot;epsilon_insensitive&quot;</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">),</span>
+    <span class="s2">&quot;SVR RBF (núcleo)&quot;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">SVR</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">caida_tr</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">crear</span> <span class="ow">in</span> <span class="n">modelos_esc</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">tamanos</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Xtr</span><span class="p">),</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">crear</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">GaussianNB</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">caida_tr</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">crear</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">ytr</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+        <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;modelo&quot;</span><span class="p">:</span> <span class="n">nombre</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;seg&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">})</span>
+<span class="n">esc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span>
+<span class="n">pendientes</span> <span class="o">=</span> <span class="n">esc</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;modelo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;seg&quot;</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;exponente empírico&quot;</span><span class="p">)</span>
+<span class="n">pendientes</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>exponente empírico</th>
+    </tr>
+    <tr>
+      <th>modelo</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Lasso</th>
+      <td>0.21</td>
+    </tr>
+    <tr>
+      <th>LinearSVR</th>
+      <td>1.47</td>
+    </tr>
+    <tr>
+      <th>Naive Bayes (clasif. de caída)</th>
+      <td>0.36</td>
+    </tr>
+    <tr>
+      <th>Random Forest (50 árboles)</th>
+      <td>1.14</td>
+    </tr>
+    <tr>
+      <th>Ridge</th>
+      <td>0.64</td>
+    </tr>
+    <tr>
+      <th>SGD (pérdida ε-insensible)</th>
+      <td>0.29</td>
+    </tr>
+    <tr>
+      <th>SVR RBF (núcleo)</th>
+      <td>1.82</td>
+    </tr>
+    <tr>
+      <th>XGBoost exacto</th>
+      <td>0.94</td>
+    </tr>
+    <tr>
+      <th>XGBoost hist</th>
+      <td>0.23</td>
+    </tr>
+    <tr>
+      <th>Árbol (RF con 1 árbol)</th>
+      <td>1.09</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">esc</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;modelo&quot;</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;seg&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">PALETA</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">PALETA</span><span class="p">)],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2"> (b = </span><span class="si">{</span><span class="n">pendientes</span><span class="p">[</span><span class="n">nombre</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;n (filas de entrenamiento)&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;segundos (mediana de 3)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Tiempo de entrenamiento contra n (escala log-log)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2b9ce36f17781fd5e7688b0e574482358d9607fe7e97c864dde622945f7945ff.png" src="_images/2b9ce36f17781fd5e7688b0e574482358d9607fe7e97c864dde622945f7945ff.png" />
+</div>
+</div>
+<section id="interpretacion-teoria-contra-medicion">
+<h3>Interpretación: teoría contra medición<a class="headerlink" href="#interpretacion-teoria-contra-medicion" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modelo</p></th>
+<th class="head"><p>Teoría (en <span class="math notranslate nohighlight">\(n\)</span>)</p></th>
+<th class="head"><p>Exponente medido</p></th>
+<th class="head"><p>¿Consistente?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Árbol</p></td>
+<td><p><span class="math notranslate nohighlight">\(n \log n\)</span> (≈ 1,1 en este rango)</p></td>
+<td><p>1,09</p></td>
+<td><p><strong>Sí</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Random Forest</p></td>
+<td><p><span class="math notranslate nohighlight">\(n' \log n'\)</span> por árbol</p></td>
+<td><p>1,14</p></td>
+<td><p><strong>Sí</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>XGBoost exacto</p></td>
+<td><p><span class="math notranslate nohighlight">\(n \log n\)</span> (ordena cada variable)</p></td>
+<td><p>0,94</p></td>
+<td><p><strong>Sí</strong>, casi lineal</p></td>
+</tr>
+<tr class="row-odd"><td><p>XGBoost hist</p></td>
+<td><p><span class="math notranslate nohighlight">\(n\)</span></p></td>
+<td><p>0,23</p></td>
+<td><p>Sublineal en este rango: el costo fijo (construir los bins y los 100 árboles) domina con <span class="math notranslate nohighlight">\(n \leq 16\)</span> mil. El término lineal aparece con <span class="math notranslate nohighlight">\(n\)</span> más grande</p></td>
+</tr>
+<tr class="row-even"><td><p>SVR con núcleo RBF</p></td>
+<td><p>entre <span class="math notranslate nohighlight">\(n^2\)</span> y <span class="math notranslate nohighlight">\(n^3\)</span></p></td>
+<td><p><strong>1,82</strong></p></td>
+<td><p><strong>Sí</strong>, casi cuadrático: el más caro de todos al crecer <span class="math notranslate nohighlight">\(n\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>LinearSVR</p></td>
+<td><p><span class="math notranslate nohighlight">\(I \cdot n\)</span></p></td>
+<td><p>1,47</p></td>
+<td><p>Más que lineal: el número de iteraciones <span class="math notranslate nohighlight">\(I\)</span> hasta converger crece con <span class="math notranslate nohighlight">\(n\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Ridge, Lasso, NB, SGD</p></td>
+<td><p><span class="math notranslate nohighlight">\(n\)</span></p></td>
+<td><p>0,2 – 0,6</p></td>
+<td><p>Sublineal: tardan milisegundos y domina el costo fijo de Python y de las validaciones de scikit-learn</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>La comparación <strong>solo tiene sentido en el régimen asintótico</strong>. Para los modelos que tardan milisegundos, la medición está dominada por costos fijos y el exponente sale menor que el teórico.</p></li>
+<li><p>Lo importante para el proyecto es <strong>el SVR con núcleo: con un exponente de ~1,8</strong>, duplicar los datos casi cuadruplica el tiempo. Con las ~33 mil evaluaciones del experimento no habría sido viable, y eso justifica usar <code class="docutils literal notranslate"><span class="pre">LinearSVR</span></code> / <code class="docutils literal notranslate"><span class="pre">LinearSVC</span></code> (cap. 9).</p></li>
+</ul>
+</section>
+</section>
+<section id="knn-fuerza-bruta-arboles-de-busqueda-y-faiss">
+<h2>🧭 11.3 KNN: fuerza bruta, árboles de búsqueda y FAISS<a class="headerlink" href="#knn-fuerza-bruta-arboles-de-busqueda-y-faiss" title="Permalink to this heading">#</a></h2>
+<p>El costo de KNN está en la <strong>predicción</strong>. Se comparan la fuerza bruta, KD-Tree, Ball Tree y FAISS con un índice <strong>IVF</strong> (<em>inverted file</em>): agrupa los puntos de train en 100 celdas con k-means y en cada consulta revisa solo las <code class="docutils literal notranslate"><span class="pre">nprobe</span></code> celdas más cercanas. Es una búsqueda <strong>aproximada</strong>: más rápida, pero puede perder algunos vecinos verdaderos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">Xtr32</span><span class="p">,</span> <span class="n">Xte32</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">Xte</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">knn_faiss</span><span class="p">(</span><span class="n">nprobe</span><span class="p">):</span>
+    <span class="n">cuant</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">Xtr32</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">indice</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexIVFFlat</span><span class="p">(</span><span class="n">cuant</span><span class="p">,</span> <span class="n">Xtr32</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">indice</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">Xtr32</span><span class="p">);</span> <span class="n">indice</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Xtr32</span><span class="p">);</span> <span class="n">indice</span><span class="o">.</span><span class="n">nprobe</span> <span class="o">=</span> <span class="n">nprobe</span>
+    <span class="k">return</span> <span class="n">indice</span>
+
+
+<span class="n">exacto</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">Xtr32</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="n">exacto</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Xtr32</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">vecinos_reales</span> <span class="o">=</span> <span class="n">exacto</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Xte32</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">alg</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;brute&quot;</span><span class="p">,</span> <span class="s2">&quot;kd_tree&quot;</span><span class="p">,</span> <span class="s2">&quot;ball_tree&quot;</span><span class="p">]:</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">KNeighborsRegressor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="n">alg</span><span class="p">)</span>
+    <span class="n">t_fit</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">ytr</span><span class="p">));</span> <span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+    <span class="n">t_pred</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">))</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;método&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;sklearn </span><span class="si">{</span><span class="n">alg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;seg ajuste&quot;</span><span class="p">:</span> <span class="n">t_fit</span><span class="p">,</span> <span class="s2">&quot;seg predicción&quot;</span><span class="p">:</span> <span class="n">t_pred</span><span class="p">,</span>
+                  <span class="s2">&quot;memoria (MB)&quot;</span><span class="p">:</span> <span class="n">memoria</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">)),</span> <span class="s2">&quot;recall de vecinos&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                  <span class="s2">&quot;RMSE log test&quot;</span><span class="p">:</span> <span class="n">rmse</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">))})</span>
+<span class="k">for</span> <span class="n">nprobe</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">]:</span>
+    <span class="n">t_fit</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">knn_faiss</span><span class="p">(</span><span class="n">nprobe</span><span class="p">));</span> <span class="n">ind</span> <span class="o">=</span> <span class="n">knn_faiss</span><span class="p">(</span><span class="n">nprobe</span><span class="p">)</span>
+    <span class="n">t_pred</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">ind</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Xte32</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">vec</span> <span class="o">=</span> <span class="n">ind</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Xte32</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span> <span class="o">/</span> <span class="n">k</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">vecinos_reales</span><span class="p">)])</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">vec</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ytr</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;método&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;FAISS IVF (nprobe = </span><span class="si">{</span><span class="n">nprobe</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="s2">&quot;seg ajuste&quot;</span><span class="p">:</span> <span class="n">t_fit</span><span class="p">,</span> <span class="s2">&quot;seg predicción&quot;</span><span class="p">:</span> <span class="n">t_pred</span><span class="p">,</span>
+                  <span class="s2">&quot;memoria (MB)&quot;</span><span class="p">:</span> <span class="n">memoria</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">ind</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">Xte32</span><span class="p">,</span> <span class="n">k</span><span class="p">)),</span> <span class="s2">&quot;recall de vecinos&quot;</span><span class="p">:</span> <span class="n">recall</span><span class="p">,</span>
+                  <span class="s2">&quot;RMSE log test&quot;</span><span class="p">:</span> <span class="n">rmse</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))})</span>
+<span class="n">knn_tabla</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;método&quot;</span><span class="p">)</span>
+<span class="n">knn_tabla</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seg ajuste</th>
+      <th>seg predicción</th>
+      <th>memoria (MB)</th>
+      <th>recall de vecinos</th>
+      <th>RMSE log test</th>
+    </tr>
+    <tr>
+      <th>método</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>sklearn brute</th>
+      <td>0.00</td>
+      <td>0.15</td>
+      <td>6.22</td>
+      <td>1.00</td>
+      <td>0.66</td>
+    </tr>
+    <tr>
+      <th>sklearn kd_tree</th>
+      <td>0.01</td>
+      <td>0.38</td>
+      <td>8.94</td>
+      <td>1.00</td>
+      <td>0.66</td>
+    </tr>
+    <tr>
+      <th>sklearn ball_tree</th>
+      <td>0.01</td>
+      <td>0.76</td>
+      <td>8.94</td>
+      <td>1.00</td>
+      <td>0.66</td>
+    </tr>
+    <tr>
+      <th>FAISS IVF (nprobe = 1)</th>
+      <td>0.02</td>
+      <td>0.03</td>
+      <td>4.47</td>
+      <td>0.82</td>
+      <td>0.69</td>
+    </tr>
+    <tr>
+      <th>FAISS IVF (nprobe = 5)</th>
+      <td>0.02</td>
+      <td>0.06</td>
+      <td>4.47</td>
+      <td>0.99</td>
+      <td>0.66</td>
+    </tr>
+    <tr>
+      <th>FAISS IVF (nprobe = 20)</th>
+      <td>0.02</td>
+      <td>0.14</td>
+      <td>4.47</td>
+      <td>1.00</td>
+      <td>0.66</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="interpretacion-knn">
+<h3>Interpretación: KNN<a class="headerlink" href="#interpretacion-knn" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>La fuerza bruta es la más rápida de las búsquedas exactas</strong> (0,15 s para 9 mil consultas). KD-Tree (0,37 s) y Ball Tree (0,71 s) son <strong>más lentos</strong>. No es un error: con <span class="math notranslate nohighlight">\(p = 19\)</span> dimensiones, los árboles de búsqueda pierden su ventaja <span class="math notranslate nohighlight">\(O(\log n)\)</span> (la maldición de la dimensión: casi todas las ramas hay que revisarlas). La fuerza bruta, en cambio, se reduce a un producto de matrices muy optimizado (BLAS). Por eso <code class="docutils literal notranslate"><span class="pre">algorithm=&quot;auto&quot;</span></code> de scikit-learn elige fuerza bruta aquí.</p></li>
+<li><p><strong>FAISS IVF</strong> es la más rápida: 0,03 s con <code class="docutils literal notranslate"><span class="pre">nprobe</span> <span class="pre">=</span> <span class="pre">1</span></code> (<strong>5 veces menos</strong> que la fuerza bruta) y con menos memoria (4,5 contra 6,2 MB). Pero es aproximada: con <code class="docutils literal notranslate"><span class="pre">nprobe</span> <span class="pre">=</span> <span class="pre">1</span></code> solo recupera el 82 % de los vecinos verdaderos y el RMSE log empeora de 0,66 a 0,69. Con <code class="docutils literal notranslate"><span class="pre">nprobe</span> <span class="pre">=</span> <span class="pre">5</span></code> recupera el 99 %, el RMSE es el mismo de la búsqueda exacta y sigue siendo 2,5 veces más rápida.</p></li>
+<li><p><strong>Compromiso exactitud–velocidad:</strong> <code class="docutils literal notranslate"><span class="pre">nprobe</span></code> es la perilla. <code class="docutils literal notranslate"><span class="pre">nprobe</span> <span class="pre">=</span> <span class="pre">5</span></code> es el punto dulce (2,5× más rápido sin pérdida de precisión). Con estos tamaños (22 mil filas) la ganancia en segundos es chica; FAISS se justifica con millones de filas.</p></li>
+</ul>
+</section>
+</section>
+<section id="version-estandar-contra-version-optimizada">
+<h2>🧱 11.4 Versión estándar contra versión optimizada<a class="headerlink" href="#version-estandar-contra-version-optimizada" title="Permalink to this heading">#</a></h2>
+<p>Para cada familia se compara la versión «de libro» con la versión optimizada, con todo train (<span class="math notranslate nohighlight">\(n \approx 22\)</span> mil) y midiendo el desempeño en test (RMSE en log), para ver si la versión rápida <strong>pierde precisión</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Xtr_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Xtr</span><span class="p">);</span> <span class="n">Xte_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Xte</span><span class="p">)</span>
+<span class="n">pares</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;Ridge&quot;</span><span class="p">,</span> <span class="s2">&quot;Cholesky (por defecto)&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;cholesky&quot;</span><span class="p">),</span> <span class="s2">&quot;SAGA&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;saga&quot;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">&quot;Lasso&quot;</span><span class="p">,</span> <span class="s2">&quot;descenso por coordenadas&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">),</span> <span class="s2">&quot;SGD con penalización L1&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">SGDRegressor</span><span class="p">(</span><span class="n">penalty</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">&quot;XGBoost&quot;</span><span class="p">,</span> <span class="s2">&quot;exacto, 500 árboles&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">XGBRegressor</span><span class="p">(</span><span class="n">tree_method</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">),</span>
+     <span class="s2">&quot;hist + early stopping&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SVR&quot;</span><span class="p">,</span> <span class="s2">&quot;núcleo RBF&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">SVR</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span> <span class="s2">&quot;LinearSVR&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">LinearSVR</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dual</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span> <span class="s2">&quot;100 árboles, n completo, n_jobs=1&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">),</span>
+     <span class="s2">&quot;max_samples=0.5, n_jobs=10&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)),</span>
+<span class="p">]</span>
+<span class="c1"># sklearn no trae SAGA para Lasso: la versión estocástica equivalente es SGD con penalización L1</span>
+
+<span class="c1"># XGBoost con early stopping: valida con la última semana de train (independiente del test)</span>
+<span class="n">ultima</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">xgb_es</span><span class="p">():</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">XGBRegressor</span><span class="p">(</span><span class="n">tree_method</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                     <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr_d</span><span class="p">[</span><span class="o">~</span><span class="n">ultima</span><span class="o">.</span><span class="n">values</span><span class="p">],</span> <span class="n">ytr</span><span class="p">[</span><span class="o">~</span><span class="n">ultima</span><span class="o">.</span><span class="n">values</span><span class="p">],</span> <span class="n">eval_set</span><span class="o">=</span><span class="p">[(</span><span class="n">Xtr_d</span><span class="p">[</span><span class="n">ultima</span><span class="o">.</span><span class="n">values</span><span class="p">],</span> <span class="n">ytr</span><span class="p">[</span><span class="n">ultima</span><span class="o">.</span><span class="n">values</span><span class="p">])],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">idx8</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Xtr_d</span><span class="p">),</span> <span class="mi">8000</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">fam</span><span class="p">,</span> <span class="n">n_std</span><span class="p">,</span> <span class="n">f_std</span><span class="p">,</span> <span class="n">n_opt</span><span class="p">,</span> <span class="n">f_opt</span> <span class="ow">in</span> <span class="n">pares</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">tipo</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;estándar&quot;</span><span class="p">,</span> <span class="n">n_std</span><span class="p">,</span> <span class="n">f_std</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;optimizado&quot;</span><span class="p">,</span> <span class="n">n_opt</span><span class="p">,</span> <span class="n">f_opt</span><span class="p">)]:</span>
+        <span class="k">if</span> <span class="n">fam</span> <span class="o">==</span> <span class="s2">&quot;XGBoost&quot;</span> <span class="ow">and</span> <span class="n">tipo</span> <span class="o">==</span> <span class="s2">&quot;optimizado&quot;</span><span class="p">:</span>
+            <span class="n">fit</span> <span class="o">=</span> <span class="n">xgb_es</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">f</span><span class="o">=</span><span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr_d</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+        <span class="n">t_fit</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">fit</span><span class="p">()</span>
+        <span class="n">t_pred</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte_d</span><span class="p">))</span>
+        <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;familia&quot;</span><span class="p">:</span> <span class="n">fam</span><span class="p">,</span> <span class="s2">&quot;versión&quot;</span><span class="p">:</span> <span class="n">tipo</span><span class="p">,</span> <span class="s2">&quot;detalle&quot;</span><span class="p">:</span> <span class="n">nombre</span><span class="p">,</span> <span class="s2">&quot;seg ajuste&quot;</span><span class="p">:</span> <span class="n">t_fit</span><span class="p">,</span>
+                      <span class="s2">&quot;seg predicción&quot;</span><span class="p">:</span> <span class="n">t_pred</span><span class="p">,</span> <span class="s2">&quot;memoria ajuste (MB)&quot;</span><span class="p">:</span> <span class="n">memoria</span><span class="p">(</span><span class="n">fit</span><span class="p">),</span>
+                      <span class="s2">&quot;RMSE log test&quot;</span><span class="p">:</span> <span class="n">rmse</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte_d</span><span class="p">)),</span>
+                      <span class="s2">&quot;árboles usados&quot;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;best_iteration&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)})</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span>
+<span class="n">comp</span><span class="p">[</span><span class="s2">&quot;aceleración ajuste&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;familia&quot;</span><span class="p">)[</span><span class="s2">&quot;seg ajuste&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span>
+<span class="n">comp</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;familia&quot;</span><span class="p">,</span> <span class="s2">&quot;versión&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>detalle</th>
+      <th>seg ajuste</th>
+      <th>seg predicción</th>
+      <th>memoria ajuste (MB)</th>
+      <th>RMSE log test</th>
+      <th>árboles usados</th>
+      <th>aceleración ajuste</th>
+    </tr>
+    <tr>
+      <th>familia</th>
+      <th>versión</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Ridge</th>
+      <th>estándar</th>
+      <td>Cholesky (por defecto)</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>3.62</td>
+      <td>0.68</td>
+      <td>NaN</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>optimizado</th>
+      <td>SAGA</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>4.28</td>
+      <td>0.68</td>
+      <td>NaN</td>
+      <td>0.02</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Lasso</th>
+      <th>estándar</th>
+      <td>descenso por coordenadas</td>
+      <td>0.07</td>
+      <td>0.01</td>
+      <td>7.00</td>
+      <td>0.68</td>
+      <td>NaN</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>optimizado</th>
+      <td>SGD con penalización L1</td>
+      <td>0.05</td>
+      <td>0.01</td>
+      <td>0.37</td>
+      <td>0.69</td>
+      <td>NaN</td>
+      <td>1.25</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">XGBoost</th>
+      <th>estándar</th>
+      <td>exacto, 500 árboles</td>
+      <td>7.22</td>
+      <td>0.03</td>
+      <td>1.74</td>
+      <td>0.70</td>
+      <td>NaN</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>optimizado</th>
+      <td>hist + early stopping</td>
+      <td>0.18</td>
+      <td>0.01</td>
+      <td>4.16</td>
+      <td>0.63</td>
+      <td>103.00</td>
+      <td>39.58</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">SVR</th>
+      <th>estándar</th>
+      <td>núcleo RBF</td>
+      <td>3.28</td>
+      <td>2.34</td>
+      <td>3.44</td>
+      <td>0.74</td>
+      <td>NaN</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>optimizado</th>
+      <td>LinearSVR</td>
+      <td>0.13</td>
+      <td>0.00</td>
+      <td>0.18</td>
+      <td>0.71</td>
+      <td>NaN</td>
+      <td>24.46</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Random Forest</th>
+      <th>estándar</th>
+      <td>100 árboles, n completo, n_jobs=1</td>
+      <td>4.99</td>
+      <td>0.11</td>
+      <td>2.56</td>
+      <td>0.63</td>
+      <td>NaN</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>optimizado</th>
+      <td>max_samples=0.5, n_jobs=10</td>
+      <td>0.50</td>
+      <td>0.02</td>
+      <td>9.15</td>
+      <td>0.62</td>
+      <td>NaN</td>
+      <td>9.99</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Naive Bayes: aprendizaje incremental con partial_fit en bloques de 2 000 filas (como si no cupiera en memoria)</span>
+<span class="k">def</span> <span class="nf">nb_partial</span><span class="p">():</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Xtr_d</span><span class="p">),</span> <span class="mi">2000</span><span class="p">):</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">Xtr_d</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2000</span><span class="p">],</span> <span class="n">caida_tr</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2000</span><span class="p">],</span> <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">m</span>
+<span class="n">nb_std</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr_d</span><span class="p">,</span> <span class="n">caida_tr</span><span class="p">);</span> <span class="n">nb_inc</span> <span class="o">=</span> <span class="n">nb_partial</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fit completo: </span><span class="si">{</span><span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="w"> </span><span class="n">GaussianNB</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr_d</span><span class="p">,</span><span class="w"> </span><span class="n">caida_tr</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> ms, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;pico de memoria </span><span class="si">{</span><span class="n">memoria</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="w"> </span><span class="n">GaussianNB</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr_d</span><span class="p">,</span><span class="w"> </span><span class="n">caida_tr</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;partial_fit:  </span><span class="si">{</span><span class="n">medir</span><span class="p">(</span><span class="n">nb_partial</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> ms, pico de memoria </span><span class="si">{</span><span class="n">memoria</span><span class="p">(</span><span class="n">nb_partial</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;máxima diferencia en las medias aprendidas: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">nb_std</span><span class="o">.</span><span class="n">theta_</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nb_inc</span><span class="o">.</span><span class="n">theta_</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;máxima diferencia en las varianzas:         </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">nb_std</span><span class="o">.</span><span class="n">var_</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nb_inc</span><span class="o">.</span><span class="n">var_</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fit completo: 2.8 ms, pico de memoria 6.57 MB
+partial_fit:  3.9 ms, pico de memoria 0.67 MB
+máxima diferencia en las medias aprendidas: 2.28e-15
+máxima diferencia en las varianzas:         1.09e-09
+</pre></div>
+</div>
+</div>
+</div>
+<section id="interpretacion-estandar-contra-optimizado">
+<h3>Interpretación: estándar contra optimizado<a class="headerlink" href="#interpretacion-estandar-contra-optimizado" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Familia</p></th>
+<th class="head"><p>Aceleración del ajuste</p></th>
+<th class="head"><p>Efecto en el RMSE log de test</p></th>
+<th class="head"><p>Lectura</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>XGBoost</strong> (exacto → hist + <em>early stopping</em>)</p></td>
+<td><p><strong>40×</strong></p></td>
+<td><p><strong>mejora</strong> (0,70 → 0,63)</p></td>
+<td><p>La mayor ganancia. <code class="docutils literal notranslate"><span class="pre">hist</span></code> evita ordenar cada variable en cada nodo y el <em>early stopping</em> paró en 103 árboles de 2 000 posibles. El modelo exacto con 500 árboles sobreajusta</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>SVR</strong> (RBF → lineal)</p></td>
+<td><p><strong>24×</strong> en ajuste, la predicción pasa de 2,3 s a ~0</p></td>
+<td><p><strong>mejora</strong> (0,74 → 0,71)</p></td>
+<td><p>El núcleo no aporta: las relaciones en log son casi lineales en las variables de nivel. La predicción del RBF cuesta <span class="math notranslate nohighlight">\(O(n_{sv}\,p)\)</span> por fila</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Random Forest</strong> (<code class="docutils literal notranslate"><span class="pre">max_samples=0.5</span></code>, <code class="docutils literal notranslate"><span class="pre">n_jobs=10</span></code>)</p></td>
+<td><p><strong>10×</strong></p></td>
+<td><p>igual (0,63 → 0,62)</p></td>
+<td><p>Mitad de filas por árbol (2×) y 10 núcleos (5×). La memoria sube (9 MB contra 2,6) porque cada hilo construye su árbol a la vez</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Lasso</strong> (descenso por coordenadas → SGD L1)</p></td>
+<td><p>1,25×</p></td>
+<td><p>casi igual (0,68 → 0,69)</p></td>
+<td><p>Con <span class="math notranslate nohighlight">\(p = 19\)</span> el descenso por coordenadas ya es muy rápido. El SGD usa 20 veces menos memoria (no guarda la matriz de Gram)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Ridge</strong> (Cholesky → SAGA)</p></td>
+<td><p><strong>0,02× (50 veces más lento)</strong></p></td>
+<td><p>igual (0,68)</p></td>
+<td><p>Con <span class="math notranslate nohighlight">\(p = 19\)</span>, Cholesky resuelve un sistema de 19 × 19: es casi gratis. SAGA conviene con <span class="math notranslate nohighlight">\(p\)</span> grande o datos dispersos, <strong>no aquí</strong></p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p><strong>Naive Bayes con <code class="docutils literal notranslate"><span class="pre">partial_fit</span></code></strong> en bloques de 2 000 filas aprende <strong>exactamente lo mismo</strong> (diferencias de <span class="math notranslate nohighlight">\(10^{-15}\)</span> en las medias y <span class="math notranslate nohighlight">\(10^{-9}\)</span> en las varianzas) con <strong>10 veces menos memoria</strong> (0,67 contra 6,6 MB). Las medias y varianzas se pueden actualizar por bloques sin pérdida, así que es la opción natural si los datos no caben en memoria.</p></li>
+<li><p><strong>Conclusión:</strong> «optimizado» depende del tamaño del problema. Con <span class="math notranslate nohighlight">\(n\)</span> = 22 mil y <span class="math notranslate nohighlight">\(p\)</span> = 19, las optimizaciones que más rinden son las que <strong>cambian la complejidad</strong> del algoritmo (hist, núcleo lineal) o <strong>reducen el trabajo</strong> (<em>early stopping</em>, submuestreo), no las pensadas para datos enormes (SAGA, FAISS).</p></li>
+</ul>
+</section>
+</section>
+<section id="paralelizacion">
+<h2>🧵 11.5 Paralelización<a class="headerlink" href="#paralelizacion" title="Permalink to this heading">#</a></h2>
+<p>El experimento principal paraleliza <strong>entre combinaciones</strong> con <code class="docutils literal notranslate"><span class="pre">joblib</span></code> (backend <code class="docutils literal notranslate"><span class="pre">loky</span></code>, 10 procesos) y deja cada modelo con <code class="docutils literal notranslate"><span class="pre">n_jobs=1</span></code>. Paralelizar adentro de cada modelo <strong>y</strong> entre combinaciones a la vez pondría 100 hilos en 10 núcleos. Abajo se compara el mismo lote de 20 evaluaciones (Random Forest, 3 folds internos cada una) en serie, con <code class="docutils literal notranslate"><span class="pre">loky</span></code> (procesos) y con <code class="docutils literal notranslate"><span class="pre">threading</span></code> (hilos).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">internos</span> <span class="o">=</span> <span class="n">folds_internos</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">],</span> <span class="n">dias_val</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">y_reg</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">dd</span><span class="p">),</span> <span class="s2">&quot;min_samples_leaf&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;max_features&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">}</span> <span class="k">for</span> <span class="n">dd</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">20</span><span class="p">)]</span>
+<span class="n">evaluar</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">evaluar_config</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">,</span> <span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">],</span> <span class="n">y_reg</span><span class="p">,</span> <span class="n">internos</span><span class="p">)</span>
+
+<span class="n">t_serie</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="n">evaluar</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">],</span> <span class="n">reps</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;modo&quot;</span><span class="p">:</span> <span class="s2">&quot;serie&quot;</span><span class="p">,</span> <span class="s2">&quot;procesos/hilos&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;seg&quot;</span><span class="p">:</span> <span class="n">t_serie</span><span class="p">}]</span>
+<span class="k">for</span> <span class="n">backend</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;loky&quot;</span><span class="p">,</span> <span class="s2">&quot;threading&quot;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">nj</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">medir</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">nj</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">evaluar</span><span class="p">)(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">),</span> <span class="n">reps</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;modo&quot;</span><span class="p">:</span> <span class="n">backend</span><span class="p">,</span> <span class="s2">&quot;procesos/hilos&quot;</span><span class="p">:</span> <span class="n">nj</span><span class="p">,</span> <span class="s2">&quot;seg&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">})</span>
+<span class="n">par</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span>
+<span class="n">par</span><span class="p">[</span><span class="s2">&quot;aceleración&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_serie</span> <span class="o">/</span> <span class="n">par</span><span class="p">[</span><span class="s2">&quot;seg&quot;</span><span class="p">]</span>
+<span class="n">par</span><span class="p">[</span><span class="s2">&quot;eficiencia&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">par</span><span class="p">[</span><span class="s2">&quot;aceleración&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">par</span><span class="p">[</span><span class="s2">&quot;procesos/hilos&quot;</span><span class="p">]</span>
+<span class="n">par</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>modo</th>
+      <th>procesos/hilos</th>
+      <th>seg</th>
+      <th>aceleración</th>
+      <th>eficiencia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>serie</td>
+      <td>1</td>
+      <td>38.28</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>loky</td>
+      <td>2</td>
+      <td>23.35</td>
+      <td>1.64</td>
+      <td>0.82</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>loky</td>
+      <td>5</td>
+      <td>15.81</td>
+      <td>2.42</td>
+      <td>0.48</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>loky</td>
+      <td>10</td>
+      <td>12.99</td>
+      <td>2.95</td>
+      <td>0.29</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>threading</td>
+      <td>2</td>
+      <td>24.90</td>
+      <td>1.54</td>
+      <td>0.77</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>threading</td>
+      <td>5</td>
+      <td>15.81</td>
+      <td>2.42</td>
+      <td>0.48</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>threading</td>
+      <td>10</td>
+      <td>10.77</td>
+      <td>3.55</td>
+      <td>0.36</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GPU: XGBoost con device=&quot;cuda&quot; solo funciona con GPU NVIDIA. Esta máquina (Apple M5) no tiene.</span>
+<span class="c1"># XGBoost no da error: avisa y sigue en CPU. Reviso el aviso y el dispositivo que quedó configurado.</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">avisos</span><span class="p">:</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;always&quot;</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">XGBRegressor</span><span class="p">(</span><span class="n">tree_method</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda&quot;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr_d</span><span class="p">[:</span><span class="mi">1000</span><span class="p">],</span> <span class="n">ytr</span><span class="p">[:</span><span class="mi">1000</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">avisos</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;aviso de XGBoost:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">160</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;¿se compiló con CUDA?&quot;</span><span class="p">,</span> <span class="n">xgb_build</span> <span class="o">:=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;xgboost&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_info</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;USE_CUDA&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dispositivo usado:&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">get_booster</span><span class="p">()</span><span class="o">.</span><span class="n">save_config</span><span class="p">())[</span><span class="s2">&quot;learner&quot;</span><span class="p">][</span><span class="s2">&quot;generic_param&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>aviso de XGBoost: [21:52:28] WARNING: /Users/runner/work/xgboost/xgboost/src/context.cc:196: XGBoost is not compiled with CUDA support.
+¿se compiló con CUDA? False
+dispositivo usado: cpu
+</pre></div>
+</div>
+</div>
+</div>
+<section id="interpretacion-paralelizacion-y-gpu">
+<h3>Interpretación: paralelización y GPU<a class="headerlink" href="#interpretacion-paralelizacion-y-gpu" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Con 10 núcleos la aceleración es de 3–3,5×, no de 10×</strong> (eficiencia de 0,29–0,36). Hay tres razones: (1) <strong>desbalance de carga</strong>: son solo 20 tareas de duración muy distinta (profundidades de 6 a 18), así que al final unos núcleos esperan a otros; (2) los núcleos de eficiencia del M5 son más lentos que los de rendimiento; (3) el costo de copiar los datos a cada proceso.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">threading</span></code> le gana a <code class="docutils literal notranslate"><span class="pre">loky</span></code> con 10</strong> (3,55× contra 2,95×). La construcción de árboles de scikit-learn está en Cython y <strong>libera el GIL</strong>, así que los hilos trabajan en paralelo de verdad y comparten memoria sin copiar datos. Para código Python puro (con GIL) pasaría lo contrario.</p></li>
+<li><p><strong>Lección para el experimento principal:</strong> paralelizar entre las 140 combinaciones (tareas largas, de 1 a 9 minutos) da una eficiencia mucho mejor que paralelizar evaluaciones cortas. Las 6,9 horas de cómputo se hicieron en 50 minutos de reloj (<strong>8,3×</strong> con 10 procesos).</p></li>
+<li><p><strong>GPU:</strong> XGBoost <strong>no da error</strong> con <code class="docutils literal notranslate"><span class="pre">device=&quot;cuda&quot;</span></code>: avisa que no fue compilado con CUDA y sigue en CPU (<code class="docutils literal notranslate"><span class="pre">dispositivo</span> <span class="pre">usado:</span> <span class="pre">cpu</span></code>). Un Apple M5 no tiene GPU NVIDIA, así que <strong>no se puede reportar el factor de aceleración por GPU</strong>. Con <em>Dask</em> o <em>Ray</em> tampoco se gana nada en una sola máquina: el experimento completo cabe en memoria y <code class="docutils literal notranslate"><span class="pre">joblib</span></code> ya usa los 10 núcleos.</p></li>
+</ul>
+</section>
+</section>
+<section id="perfilamiento">
+<h2>🔬 11.6 Perfilamiento<a class="headerlink" href="#perfilamiento" title="Permalink to this heading">#</a></h2>
+<p>Antes de optimizar hay que saber <strong>dónde</strong> se va el tiempo. Se perfila con <code class="docutils literal notranslate"><span class="pre">cProfile</span></code> una evaluación completa (3 folds internos) de dos combinaciones: KNN con SMOTE (clasificación) y Random Forest (regresión).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_clf</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">etiqueta</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;KNN + SMOTE (clasificación)&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">evaluar_config</span><span class="p">({</span><span class="s2">&quot;n_neighbors&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="s2">&quot;distance&quot;</span><span class="p">},</span> <span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="s2">&quot;knn&quot;</span><span class="p">,</span> <span class="s2">&quot;smote&quot;</span><span class="p">,</span> <span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">],</span> <span class="n">y_clf</span><span class="p">,</span> <span class="n">internos</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;Random Forest (regresión)&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">evaluar_config</span><span class="p">({</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">&quot;min_samples_leaf&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;max_features&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span> <span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">,</span> <span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">],</span> <span class="n">y_reg</span><span class="p">,</span> <span class="n">internos</span><span class="p">))]:</span>
+    <span class="n">perf</span> <span class="o">=</span> <span class="n">cProfile</span><span class="o">.</span><span class="n">Profile</span><span class="p">();</span> <span class="n">perf</span><span class="o">.</span><span class="n">enable</span><span class="p">();</span> <span class="n">f</span><span class="p">();</span> <span class="n">perf</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">pstats</span><span class="o">.</span><span class="n">Stats</span><span class="p">(</span><span class="n">perf</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">sort_stats</span><span class="p">(</span><span class="s2">&quot;cumulative&quot;</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">total_tt</span>
+    <span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">arch</span><span class="p">,</span> <span class="n">linea</span><span class="p">,</span> <span class="n">func</span><span class="p">),</span> <span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="n">nc</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="n">ct</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;función&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">arch</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">arch</span> <span class="o">!=</span> <span class="s2">&quot;~&quot;</span> <span class="k">else</span> <span class="n">func</span><span class="p">,</span> <span class="s2">&quot;seg acumulados&quot;</span><span class="p">:</span> <span class="n">ct</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">% d</span><span class="s2">el total&quot;</span><span class="p">:</span> <span class="n">ct</span> <span class="o">/</span> <span class="n">total</span> <span class="o">*</span> <span class="mi">100</span><span class="p">})</span>
+    <span class="n">tabla</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;seg acumulados&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">claves</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;fit&quot;</span><span class="p">,</span> <span class="s2">&quot;predict&quot;</span><span class="p">,</span> <span class="s2">&quot;kneighbors&quot;</span><span class="p">,</span> <span class="s2">&quot;_fit_resample&quot;</span><span class="p">,</span> <span class="s2">&quot;transform&quot;</span><span class="p">,</span> <span class="s2">&quot;_build&quot;</span><span class="p">,</span> <span class="s2">&quot;_parallel_build_trees&quot;</span><span class="p">,</span> <span class="s2">&quot;check_array&quot;</span><span class="p">]</span>
+    <span class="n">tabla</span> <span class="o">=</span> <span class="n">tabla</span><span class="p">[</span><span class="n">tabla</span><span class="p">[</span><span class="s2">&quot;función&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">claves</span><span class="p">))]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">&quot;función&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- </span><span class="si">{</span><span class="n">etiqueta</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s en total&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tabla</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- KNN + SMOTE (clasificación): 0.58 s en total
+                              función  seg acumulados  % del total
+                  pipeline.py:predict            0.46        79.41
+                  _base.py:kneighbors            0.46        78.20
+           _classification.py:predict            0.45        77.70
+                      pipeline.py:fit            0.11        18.75
+                     pipeline.py:_fit            0.10        17.43
+_column_transformer.py:_fit_transform            0.08        13.93
+       pipeline.py:_fit_transform_one            0.07        12.76
+ _column_transformer.py:fit_transform            0.07        12.70
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Random Forest (regresión): 4.57 s en total
+                         función  seg acumulados  % del total
+                  _target.py:fit            4.50        98.54
+                 pipeline.py:fit            4.50        98.47
+                  _forest.py:fit            4.44        97.25
+_forest.py:_parallel_build_trees            4.37        95.79
+                 _classes.py:fit            4.33        94.80
+                _classes.py:_fit            4.32        94.73
+              _target.py:predict            0.06         1.36
+             pipeline.py:predict            0.06         1.36
+</pre></div>
+</div>
+</div>
+</div>
+<section id="interpretacion-perfilamiento">
+<h3>Interpretación: perfilamiento<a class="headerlink" href="#interpretacion-perfilamiento" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>KNN + SMOTE:</strong> el 81 % del tiempo es <code class="docutils literal notranslate"><span class="pre">kneighbors</span></code>, la búsqueda de vecinos al <strong>predecir</strong>. El SMOTE y el preprocesamiento (16 %) no son el cuello de botella. Optimizar KNN es optimizar la búsqueda de vecinos (11.3), no el balanceo.</p></li>
+<li><p><strong>Random Forest:</strong> el 96 % es <code class="docutils literal notranslate"><span class="pre">_parallel_build_trees</span></code>, es decir, construir los árboles. Preprocesamiento y predicción son menos del 2 %. Las únicas palancas efectivas son <strong>construir menos</strong> (menos árboles, <code class="docutils literal notranslate"><span class="pre">max_samples</span></code>) o <strong>construir en paralelo</strong>, que son justo las que se usaron.</p></li>
+<li><p>El perfilamiento confirma que <strong>no valía la pena optimizar</strong> el preprocesamiento ni el pipeline. El costo está en el algoritmo de cada modelo, como predice el análisis de complejidad.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><strong>Resumen del capítulo</strong></p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Decisión del experimento</p></th>
+<th class="head"><p>Justificación medida aquí</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SVM/SVR lineales y no RBF</p></td>
+<td><p>RBF escala con <span class="math notranslate nohighlight">\(n^{1,8}\)</span>, es 24× más lento y además predice peor</p></td>
+</tr>
+<tr class="row-odd"><td><p>XGBoost con <code class="docutils literal notranslate"><span class="pre">tree_method=&quot;hist&quot;</span></code></p></td>
+<td><p>40× más rápido que el exacto con early stopping, y mejor en test</p></td>
+</tr>
+<tr class="row-even"><td><p>Random Forest con <code class="docutils literal notranslate"><span class="pre">max_samples=0.5</span></code></p></td>
+<td><p>El 96 % del costo es construir árboles; la mitad de filas lo divide por 2 sin perder precisión</p></td>
+</tr>
+<tr class="row-odd"><td><p>Paralelizar entre combinaciones, no dentro del modelo</p></td>
+<td><p>Tareas largas → 8,3× con 10 procesos, frente a 3× con tareas cortas</p></td>
+</tr>
+<tr class="row-even"><td><p>KNN con fuerza bruta (por defecto)</p></td>
+<td><p>Con 19 dimensiones los árboles de búsqueda son más lentos; FAISS solo compensa con millones de filas</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="10_optimizacion_hiperparametros.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">🔍 10. Comparación de los métodos de optimización</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="12_regresion_resultados.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">📊 12. Regresión: resultados, residuos y comparación estadística</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complejidad-teorica">📐 11.1 Complejidad teórica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#escalamiento-empirico-tiempo-contra-n">📈 11.2 Escalamiento empírico: tiempo contra <span class="math notranslate nohighlight">\(n\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-teoria-contra-medicion">Interpretación: teoría contra medición</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knn-fuerza-bruta-arboles-de-busqueda-y-faiss">🧭 11.3 KNN: fuerza bruta, árboles de búsqueda y FAISS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-knn">Interpretación: KNN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-estandar-contra-version-optimizada">🧱 11.4 Versión estándar contra versión optimizada</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-estandar-contra-optimizado">Interpretación: estándar contra optimizado</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paralelizacion">🧵 11.5 Paralelización</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-paralelizacion-y-gpu">Interpretación: paralelización y GPU</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perfilamiento">🔬 11.6 Perfilamiento</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-perfilamiento">Interpretación: perfilamiento</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

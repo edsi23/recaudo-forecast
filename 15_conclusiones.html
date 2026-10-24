@@ -1,0 +1,574 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>✅ 15. Conclusiones &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '15_conclusiones';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="prev" title="🧠 14. Interpretabilidad: SHAP y LIME" href="14_interpretabilidad.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">✅ 15. Conclusiones</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/15_conclusiones.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>✅ 15. Conclusiones</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#respuestas-a-las-preguntas-del-proyecto">Respuestas a las preguntas del proyecto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#respuesta-a-la-retroalimentacion-de-la-primera-entrega">Respuesta a la retroalimentación de la primera entrega</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecciones-metodologicas">Lecciones metodológicas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limites">Límites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proximos-pasos">Próximos pasos</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="conclusiones">
+<h1>✅ 15. Conclusiones<a class="headerlink" href="#conclusiones" title="Permalink to this heading">#</a></h1>
+<section id="respuestas-a-las-preguntas-del-proyecto">
+<h2>Respuestas a las preguntas del proyecto<a class="headerlink" href="#respuestas-a-las-preguntas-del-proyecto" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Pregunta</p></th>
+<th class="head"><p>Respuesta</p></th>
+<th class="head"><p>Evidencia</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>¿Qué modelo pronostica mejor la venta del día siguiente?</p></td>
+<td><p><strong>Random Forest</strong>, con XGBoost estadísticamente indistinguible</p></td>
+<td><p>Menor RMSE log en el bucle externo (0,887 ± 0,127) y en test (0,62). El MCS al 90 % deja solo Random Forest y XGBoost. Giacomini-White y Diebold-Mariano no los separan (cap. 12)</p></td>
+</tr>
+<tr class="row-odd"><td><p>¿Cuánto mejora frente a la primera entrega?</p></td>
+<td><p><strong>10 % en RMSE log y 30 % en MAE en COP</strong> frente al SVR lineal</p></td>
+<td><p>Test: RMSE log 0,62 contra 0,69; MAE 1,85 M contra 2,64 M COP. Contra el ingenuo estacional, ahora también gana en pesos (WAPE 7,8 % contra 8,9 %), que era donde la entrega 1 empataba</p></td>
+</tr>
+<tr class="row-even"><td><p>¿Es una mejora para todos los negocios?</p></td>
+<td><p><strong>No: se concentra en los negocios difíciles</strong></p></td>
+<td><p>Por rangos (Friedman–Nemenyi por negocio), Random Forest, Lasso y Ridge empatan. Delta de Cliff = 0 contra los modelos lineales. La ventaja media viene de los negocios irregulares</p></td>
+</tr>
+<tr class="row-odd"><td><p>¿Se pueden anticipar las caídas fuertes?</p></td>
+<td><p><strong>En parte.</strong> AUC ≈ 0,88 y F1 ≈ 0,30 (XGBoost o Random Forest balanceados)</p></td>
+<td><p>Detecta las caídas «anunciadas» (rachas sin venta, semanas volátiles, festivos) y no las súbitas en negocios estables (cap. 13–14)</p></td>
+</tr>
+<tr class="row-even"><td><p>¿Sirve el balanceo de clases?</p></td>
+<td><p><strong>Sí para el F1, no para la discriminación</strong></p></td>
+<td><p>Las 3 técnicas suben el F1 en 24 de 28 casos (+0,05), subiendo el recall (+0,45) a costa de la precision (−0,31). El AUC casi no cambia. <code class="docutils literal notranslate"><span class="pre">balanced</span></code>, SMOTE y ADASYN no se distinguen entre sí y las tres superan a no balancear (Friedman p = 10⁻⁶, Nemenyi)</p></td>
+</tr>
+<tr class="row-odd"><td><p>¿Están bien calibradas las probabilidades?</p></td>
+<td><p><strong>No, por el balanceo</strong>; Platt o isotónica lo corrigen</p></td>
+<td><p>ECE de 0,04–0,26 a ~0,01. Después de calibrar hay que elegir el umbral según el costo de las alertas</p></td>
+</tr>
+<tr class="row-even"><td><p>¿Qué optimizador conviene?</p></td>
+<td><p><strong>Bayesiano (TPE)</strong></p></td>
+<td><p>Con presupuesto igual, todos llegan a una calidad final parecida (Friedman n.s.), pero el TPE converge antes (menor área bajo el <em>regret</em>; llega al mejor en el 61–74 % de los problemas contra 29–57 %) y es el más estable entre semillas. El Grid es el peor en espacios de 4 o más dimensiones; el genético converge prematuramente con poblaciones chicas</p></td>
+</tr>
+<tr class="row-odd"><td><p>¿Funcionó el modelo en dos partes?</p></td>
+<td><p><strong>No mejora</strong> (RMSE log 0,62 en los dos; DM p = 0,84)</p></td>
+<td><p>Los días sin venta que se pueden anticipar ya los predice bajos el bosque; los que no se anticipan no se arreglan cambiando la forma del modelo. Es un límite de <strong>información</strong></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="respuesta-a-la-retroalimentacion-de-la-primera-entrega">
+<h2>Respuesta a la retroalimentación de la primera entrega<a class="headerlink" href="#respuesta-a-la-retroalimentacion-de-la-primera-entrega" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Comentario</p></th>
+<th class="head"><p>Qué se hizo</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Falta un análisis multivariado más completo (PCA, atípicos multivariados, clustering)</p></td>
+<td><p>Capítulo 4b: PCA de perfiles de negocio (5 componentes para el 80 %), k-means con 5 grupos interpretables (KCO, tiendas, EDS, negocios con dos fuentes, casi inactivos), atípicos con Isolation Forest y Mahalanobis robusta (y por qué el corte χ² no sirve con estos datos)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tratar los días sin venta, que concentran casi todo el error</p></td>
+<td><p>Capítulo 4b (quién, cuándo, rachas, festivos), la tarea de clasificación de caídas (cap. 13) y el modelo en dos partes (cap. 12.7)</p></td>
+</tr>
+<tr class="row-even"><td><p>Probar un modelo en dos partes o <em>gradient boosting</em></p></td>
+<td><p>Los dos. XGBoost y Random Forest son los mejores en ambas tareas; el modelo en dos partes no mejora, y se explica por qué</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="lecciones-metodologicas">
+<h2>Lecciones metodológicas<a class="headerlink" href="#lecciones-metodologicas" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>El modelo importa más que el optimizador.</strong> Entre familias de modelos las diferencias son claras y significativas; entre optimizadores del mismo modelo, no. Con una superficie de pérdida plana, conviene más invertir el cómputo en mejores modelos y variables que en búsquedas más largas.</p></li>
+<li><p><strong>La validación anidada estimó bien.</strong> El orden de los modelos en el bucle externo coincide con el de test en las dos tareas. Las métricas del bucle externo son algo más pesimistas porque sus folds tienen festivos y menos días de entrenamiento.</p></li>
+<li><p><strong>La pregunta estadística correcta cambia la respuesta.</strong> Por media de error, Random Forest le gana a Ridge; por rangos por negocio, empatan. Las dos cosas son ciertas: el bosque gana donde es difícil. Reportar solo una de las dos sería engañoso.</p></li>
+<li><p><strong>El error que queda es de información, no de modelo.</strong> Los días sin venta súbitos y las caídas en negocios estables no tienen señal en el día anterior. Mejorar requeriría datos nuevos: ventas por hora del mismo día, alarmas del POS, inventario, calendario de mantenimientos.</p></li>
+</ol>
+</section>
+<section id="limites">
+<h2>Límites<a class="headerlink" href="#limites" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Un solo trimestre</strong> (jul – sep 2026) y <strong>3 festivos</strong>, todos en train. No se puede decir nada de temporadas altas (diciembre), estacionalidad mensual ni del efecto festivo en test.</p></li>
+<li><p>La validación externa tiene <strong>28 días</strong> y el test <strong>21</strong>: las pruebas sobre series diarias (DM, GW, MCS) tienen poca potencia, y por eso varias diferencias quedan sin resolver.</p></li>
+<li><p><strong>Una sola operadora</strong> (Masser) y negocios con al menos 14 días de historia: no se puede extrapolar a negocios nuevos (arranque en frío).</p></li>
+<li><p>El F1 de la alerta (~0,3) es útil como priorización (AUC 0,88), pero no como alarma automática sin revisión.</p></li>
+</ul>
+</section>
+<section id="proximos-pasos">
+<h2>Próximos pasos<a class="headerlink" href="#proximos-pasos" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Umbral por costo</strong> para la alerta, con probabilidades recalibradas (Platt) y un análisis de costo de falsas alarmas contra caídas no detectadas.</p></li>
+<li><p><strong>Intervalos de predicción</strong> (regresión cuantílica o <em>conformal prediction</em>), más anchos para los negocios irregulares que identificó la prueba de White.</p></li>
+<li><p><strong>Más historia</strong> para modelar festivos y estacionalidad mensual; variables de calendario comercial (quincenas, primas).</p></li>
+<li><p><strong>Variables por tipo de negocio</strong> (los grupos del cap. 4b) y un tratamiento de arranque en frío.</p></li>
+<li><p>Para el genético, poblaciones más grandes y menos presión de selección; para la multi-fidelidad, usar una métrica continua en las rondas tempranas.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="14_interpretabilidad.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">🧠 14. Interpretabilidad: SHAP y LIME</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#respuestas-a-las-preguntas-del-proyecto">Respuestas a las preguntas del proyecto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#respuesta-a-la-retroalimentacion-de-la-primera-entrega">Respuesta a la retroalimentación de la primera entrega</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecciones-metodologicas">Lecciones metodológicas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limites">Límites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proximos-pasos">Próximos pasos</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

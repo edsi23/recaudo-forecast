@@ -1,0 +1,1155 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>🧠 14. Interpretabilidad: SHAP y LIME &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '14_interpretabilidad';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="✅ 15. Conclusiones" href="15_conclusiones.html" />
+    <link rel="prev" title="🚨 13. Clasificación: alerta de caída fuerte" href="13_clasificacion_resultados.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/14_interpretabilidad.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>🧠 14. Interpretabilidad: SHAP y LIME</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regresion-el-mejor-modelo">📈 14.1 Regresión: el mejor modelo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-global-regresion">Interpretación (global, regresión)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explicaciones-locales-un-acierto-y-un-error-grande">Explicaciones locales: un acierto y un error grande</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-local-regresion">Interpretación (local, regresión)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clasificacion-el-mejor-modelo">🚨 14.2 Clasificación: el mejor modelo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-global-clasificacion">Interpretación (global, clasificación)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-local-clasificacion">Interpretación (local, clasificación)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost-shap-contra-lime">🍋 14.3 XGBoost: SHAP contra LIME</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-shap-contra-lime">Interpretación: SHAP contra LIME</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="interpretabilidad-shap-y-lime">
+<h1>🧠 14. Interpretabilidad: SHAP y LIME<a class="headerlink" href="#interpretabilidad-shap-y-lime" title="Permalink to this heading">#</a></h1>
+<p>Para el mejor modelo de cada tarea se explica <strong>qué variables mueven la predicción</strong>, en todo el conjunto (global) y en casos puntuales (local).</p>
+<p><strong>Valores de Shapley (SHAP).</strong> Vienen de la teoría de juegos cooperativos: las variables son «jugadores» que cooperan para producir la predicción, y el valor de Shapley de cada una es su contribución marginal promedio sobre todos los órdenes posibles en que se pueden agregar. Es la única forma de repartir la predicción que cumple a la vez:</p>
+<ul class="simple">
+<li><p><strong>eficiencia</strong>: las contribuciones suman exactamente la predicción menos la predicción media, <span class="math notranslate nohighlight">\(f(x) = \phi_0 + \sum_j \phi_j\)</span>;</p></li>
+<li><p><strong>simetría</strong>: dos variables que aportan lo mismo en todas las coaliciones reciben lo mismo;</p></li>
+<li><p><strong>aditividad</strong>: para un ensamble que es suma de árboles, el SHAP del ensamble es la suma de los SHAP de los árboles;</p></li>
+<li><p><strong>jugador nulo</strong>: una variable que nunca cambia la predicción recibe 0.</p></li>
+</ul>
+<p>Para modelos de árboles se usa <strong>TreeSHAP</strong> (Lundberg et al., 2020), que calcula los valores <strong>exactos</strong> en tiempo polinomial recorriendo los árboles, sin muestrear coaliciones.</p>
+<p>Las explicaciones se calculan en la escala en la que el modelo predice: <span class="math notranslate nohighlight">\(\log(1 + \text{venta})\)</span> en regresión y log-odds de caída en clasificación (XGBoost) o probabilidad (Random Forest).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">shap</span>
+<span class="kn">from</span> <span class="nn">lime.lime_tabular</span> <span class="kn">import</span> <span class="n">LimeTabularExplainer</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="kn">from</span> <span class="nn">comun</span> <span class="kn">import</span> <span class="n">estilo</span><span class="p">,</span> <span class="n">a_log</span><span class="p">,</span> <span class="n">SEED</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="n">VERDE</span><span class="p">,</span> <span class="n">GRIS</span><span class="p">,</span> <span class="n">PALETA</span>
+<span class="kn">from</span> <span class="nn">datos</span> <span class="kn">import</span> <span class="n">preparar</span><span class="p">,</span> <span class="n">partir</span><span class="p">,</span> <span class="n">X_COLS</span>
+<span class="kn">from</span> <span class="nn">experimentos</span> <span class="kn">import</span> <span class="n">armar_maestra</span><span class="p">,</span> <span class="n">cargar</span>
+<span class="kn">from</span> <span class="nn">modelos</span> <span class="kn">import</span> <span class="n">crear_modelo</span><span class="p">,</span> <span class="n">ajustar</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="n">estilo</span><span class="p">()</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">partir</span><span class="p">(</span><span class="n">preparar</span><span class="p">())</span>
+<span class="n">maestra</span> <span class="o">=</span> <span class="n">armar_maestra</span><span class="p">()</span>
+<span class="n">NOMBRE</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;knn&quot;</span><span class="p">:</span> <span class="s2">&quot;KNN&quot;</span><span class="p">,</span> <span class="s2">&quot;ridge&quot;</span><span class="p">:</span> <span class="s2">&quot;Ridge&quot;</span><span class="p">,</span> <span class="s2">&quot;lasso&quot;</span><span class="p">:</span> <span class="s2">&quot;Lasso&quot;</span><span class="p">,</span> <span class="s2">&quot;arbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Árbol&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span> <span class="s2">&quot;xgb&quot;</span><span class="p">:</span> <span class="s2">&quot;XGBoost&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;svr&quot;</span><span class="p">:</span> <span class="s2">&quot;SVR lineal&quot;</span><span class="p">,</span> <span class="s2">&quot;nb&quot;</span><span class="p">:</span> <span class="s2">&quot;Naive Bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;logistica&quot;</span><span class="p">:</span> <span class="s2">&quot;Logística&quot;</span><span class="p">,</span> <span class="s2">&quot;svm&quot;</span><span class="p">:</span> <span class="s2">&quot;SVM lineal&quot;</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">nombres_columnas</span><span class="p">(</span><span class="n">pre</span><span class="p">):</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pre</span><span class="o">.</span><span class="n">transformers_</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">dias</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mar&quot;</span><span class="p">,</span> <span class="s2">&quot;mié&quot;</span><span class="p">,</span> <span class="s2">&quot;jue&quot;</span><span class="p">,</span> <span class="s2">&quot;vie&quot;</span><span class="p">,</span> <span class="s2">&quot;sáb&quot;</span><span class="p">,</span> <span class="s2">&quot;dom&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">num</span> <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;día=</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dias</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">mejor_de</span><span class="p">(</span><span class="n">tarea</span><span class="p">,</span> <span class="n">metrica</span><span class="p">,</span> <span class="n">modelo</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">maestra</span><span class="p">[(</span><span class="n">maestra</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tarea</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">modelo</span><span class="p">:</span>
+        <span class="n">sub</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">modelo</span><span class="p">]</span>
+    <span class="n">fila</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="n">metrica</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span> <span class="k">if</span> <span class="n">metrica</span> <span class="o">==</span> <span class="s2">&quot;rmse_log_media&quot;</span> <span class="k">else</span> <span class="n">sub</span><span class="p">[</span><span class="n">metrica</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">fila</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">],</span> <span class="n">fila</span><span class="p">[</span><span class="s2">&quot;balanceo&quot;</span><span class="p">],</span> <span class="n">fila</span><span class="p">[</span><span class="s2">&quot;optimizador&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
+</div>
+</div>
+</div>
+<section id="regresion-el-mejor-modelo">
+<h2>📈 14.1 Regresión: el mejor modelo<a class="headerlink" href="#regresion-el-mejor-modelo" title="Permalink to this heading">#</a></h2>
+<p>El mejor modelo de regresión (menor RMSE log en el bucle externo, cap. 12) se reentrena con todo train y sus hiperparámetros finales. Las explicaciones se calculan sobre una muestra de 400 filas de test (TreeSHAP sobre un bosque profundo es costoso: crece con el número de hojas por la profundidad al cuadrado).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m_reg</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">o_reg</span> <span class="o">=</span> <span class="n">mejor_de</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse_log_media&quot;</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">cargar</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="n">m_reg</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">,</span> <span class="n">o_reg</span><span class="p">)</span>
+<span class="n">mod_reg</span> <span class="o">=</span> <span class="n">crear_modelo</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="n">m_reg</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;params_final&quot;</span><span class="p">])</span>
+<span class="n">ajustar</span><span class="p">(</span><span class="n">mod_reg</span><span class="p">,</span> <span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="n">m_reg</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">)</span>
+<span class="n">pre_r</span> <span class="o">=</span> <span class="n">mod_reg</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;pre&quot;</span><span class="p">];</span> <span class="n">est_r</span> <span class="o">=</span> <span class="n">mod_reg</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">]</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="n">nombres_columnas</span><span class="p">(</span><span class="n">pre_r</span><span class="p">)</span>
+<span class="n">muestra</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+<span class="n">Xm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pre_r</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">muestra</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">]),</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">muestra</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">expl_r</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">TreeExplainer</span><span class="p">(</span><span class="n">est_r</span><span class="p">)</span>
+<span class="n">sv_r</span> <span class="o">=</span> <span class="n">expl_r</span><span class="p">(</span><span class="n">Xm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;modelo: </span><span class="si">{</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">m_reg</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">o_reg</span><span class="si">}</span><span class="s2">); valor base φ0 = </span><span class="si">{</span><span class="n">sv_r</span><span class="o">.</span><span class="n">base_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> en log (≈ </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">sv_r</span><span class="o">.</span><span class="n">base_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> M COP)&quot;</span><span class="p">)</span>
+<span class="c1"># eficiencia: φ0 + Σφ = predicción</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sv_r</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">sv_r</span><span class="o">.</span><span class="n">base_values</span> <span class="o">-</span> <span class="n">est_r</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xm</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()))</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;comprobación de eficiencia: máx |φ0 + Σφ − f(x)| = </span><span class="si">{</span><span class="n">err</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>modelo: Random Forest (grid); valor base φ0 = 15.445 en log (≈ 5.10 M COP)
+comprobación de eficiencia: máx |φ0 + Σφ − f(x)| = 1.54e-13
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">beeswarm</span><span class="p">(</span><span class="n">sv_r</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SHAP global – </span><span class="si">{</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">m_reg</span><span class="p">]</span><span class="si">}</span><span class="s2"> (regresión, log de la venta)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b30bf5bd361246ba67aeb6ed870795bfd03e0da86f4d1a613be8456513ac2257.png" src="_images/b30bf5bd361246ba67aeb6ed870795bfd03e0da86f4d1a613be8456513ac2257.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imp_r</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sv_r</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="p">(</span><span class="n">imp_r</span> <span class="o">/</span> <span class="n">imp_r</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% d</span><span class="s2">e la importancia |SHAP| media&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>% de la importancia |SHAP| media</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>lag1</th>
+      <td>37.90</td>
+    </tr>
+    <tr>
+      <th>media7</th>
+      <td>32.70</td>
+    </tr>
+    <tr>
+      <th>nivel</th>
+      <td>11.40</td>
+    </tr>
+    <tr>
+      <th>lag7</th>
+      <td>9.70</td>
+    </tr>
+    <tr>
+      <th>lag14</th>
+      <td>4.20</td>
+    </tr>
+    <tr>
+      <th>día=dom</th>
+      <td>0.80</td>
+    </tr>
+    <tr>
+      <th>std7</th>
+      <td>0.70</td>
+    </tr>
+    <tr>
+      <th>part_efectivo</th>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <th>festivo</th>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <th>part_rumbo</th>
+      <td>0.30</td>
+    </tr>
+    <tr>
+      <th>part_datafono</th>
+      <td>0.30</td>
+    </tr>
+    <tr>
+      <th>dias_sin_venta7</th>
+      <td>0.20</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="interpretacion-global-regresion">
+<h3>Interpretación (global, regresión)<a class="headerlink" href="#interpretacion-global-regresion" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>El mejor modelo de regresión es <strong>Random Forest</strong>. La propiedad de <strong>eficiencia</strong> se cumple: <span class="math notranslate nohighlight">\(\phi_0 + \sum_j \phi_j\)</span> reproduce la predicción con un error de <span class="math notranslate nohighlight">\(10^{-13}\)</span>. El valor base <span class="math notranslate nohighlight">\(\phi_0 = 15{,}4\)</span> en log (≈ 5,1 M COP) es la predicción media.</p></li>
+<li><p><strong>Cuatro variables explican el 92 % de la importancia</strong>: <code class="docutils literal notranslate"><span class="pre">lag1</span></code> (38 %), <code class="docutils literal notranslate"><span class="pre">media7</span></code> (33 %), <code class="docutils literal notranslate"><span class="pre">nivel</span></code> (11 %) y <code class="docutils literal notranslate"><span class="pre">lag7</span></code> (10 %). Es lo mismo que mostraban la ACF del capítulo 6 y los coeficientes del SVR en la entrega 1, pero con otro reparto. El bosque pone más peso en <strong>lo que pasó ayer</strong> (<code class="docutils literal notranslate"><span class="pre">lag1</span></code>), mientras que el SVR lineal se apoyaba más en <code class="docutils literal notranslate"><span class="pre">media7</span></code>.</p></li>
+<li><p>En el beeswarm, valores altos de <code class="docutils literal notranslate"><span class="pre">lag1</span></code> y <code class="docutils literal notranslate"><span class="pre">media7</span></code> (rojo) empujan la predicción hacia arriba y casi linealmente. El bosque aprende sobre todo la <strong>persistencia del nivel</strong>.</p></li>
+<li><p>El calendario (<code class="docutils literal notranslate"><span class="pre">día=dom</span></code>, <code class="docutils literal notranslate"><span class="pre">festivo</span></code>) y el mix de medios aportan menos del 1 % cada uno. El efecto del domingo existe (cap. 4 y 6), pero es de ~10 %: chico frente a las diferencias de nivel entre negocios, que son de órdenes de magnitud.</p></li>
+</ul>
+</section>
+<section id="explicaciones-locales-un-acierto-y-un-error-grande">
+<h3>Explicaciones locales: un acierto y un error grande<a class="headerlink" href="#explicaciones-locales-un-acierto-y-un-error-grande" title="Permalink to this heading">#</a></h3>
+<p>Se toma, dentro de la muestra, el negocio-día con el <strong>menor</strong> error absoluto en log (bien predicho) y el de <strong>mayor</strong> error (mal predicho).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_m</span> <span class="o">=</span> <span class="n">est_r</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xm</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+<span class="n">err_m</span> <span class="o">=</span> <span class="n">a_log</span><span class="p">(</span><span class="n">muestra</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span> <span class="o">-</span> <span class="n">pred_m</span>
+<span class="n">i_bien</span><span class="p">,</span> <span class="n">i_mal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">err_m</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">err_m</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">etiqueta</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;bien predicho&quot;</span><span class="p">,</span> <span class="n">i_bien</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;error grande&quot;</span><span class="p">,</span> <span class="n">i_mal</span><span class="p">)]:</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">muestra</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">etiqueta</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;negocio&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> el </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">%d %b</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;lun&#39;</span><span class="p">,</span><span class="s1">&#39;mar&#39;</span><span class="p">,</span><span class="s1">&#39;mié&#39;</span><span class="p">,</span><span class="s1">&#39;jue&#39;</span><span class="p">,</span><span class="s1">&#39;vie&#39;</span><span class="p">,</span><span class="s1">&#39;sáb&#39;</span><span class="p">,</span><span class="s1">&#39;dom&#39;</span><span class="p">][</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dayofweek</span><span class="p">]</span><span class="si">}</span><span class="s2">): &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;real </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;venta_total&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> M, predicho </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">pred_m</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> M, error en log </span><span class="si">{</span><span class="n">err_m</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">waterfall</span><span class="p">(</span><span class="n">sv_r</span><span class="p">[</span><span class="n">i_bien</span><span class="p">],</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Bien predicho&quot;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bien predicho: N124 el 11 Sep (vie): real 5.770 M, predicho 5.769 M, error en log +0.00
+error grande: N234 el 09 Sep (mié): real 0.001 M, predicho 9.012 M, error en log -8.72
+</pre></div>
+</div>
+<img alt="_images/d8857ed9905de75dac0d011338e8d11914a244826be46d933a07e69f9b07baf8.png" src="_images/d8857ed9905de75dac0d011338e8d11914a244826be46d933a07e69f9b07baf8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">waterfall</span><span class="p">(</span><span class="n">sv_r</span><span class="p">[</span><span class="n">i_mal</span><span class="p">],</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Error grande&quot;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretacion-local-regresion">
+<h3>Interpretación (local, regresión)<a class="headerlink" href="#interpretacion-local-regresion" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Bien predicho</strong> (N124, viernes 11 sep: real 5,770 M, predicho 5,769 M). Las contribuciones de <code class="docutils literal notranslate"><span class="pre">lag1</span></code> y <code class="docutils literal notranslate"><span class="pre">media7</span></code> llevan la predicción desde la media general hasta el nivel normal de ese negocio y las demás variables casi no la mueven. Es el caso típico: un negocio estable que vende lo de siempre.</p></li>
+<li><p><strong>Error grande</strong> (N234, miércoles 9 sep: vendió ~1 000 COP y se pronosticaron 9 M). El modelo usó el nivel normal del negocio (<code class="docutils literal notranslate"><span class="pre">lag1</span></code>, <code class="docutils literal notranslate"><span class="pre">media7</span></code> altos) porque <strong>nada en la información del día anterior anunciaba el cierre</strong>: <code class="docutils literal notranslate"><span class="pre">dias_sin_venta7</span></code> era 0. Es el tipo de error que domina el RMSE en log (cap. 12.4) y que ningún modelo basado en el historial puede anticipar si el negocio no da señales antes.</p></li>
+</ul>
+</section>
+</section>
+<section id="clasificacion-el-mejor-modelo">
+<h2>🚨 14.2 Clasificación: el mejor modelo<a class="headerlink" href="#clasificacion-el-mejor-modelo" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m_clf</span><span class="p">,</span> <span class="n">b_clf</span><span class="p">,</span> <span class="n">o_clf</span> <span class="o">=</span> <span class="n">mejor_de</span><span class="p">(</span><span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="s2">&quot;f1_media&quot;</span><span class="p">)</span>
+<span class="n">rc</span> <span class="o">=</span> <span class="n">cargar</span><span class="p">(</span><span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="n">m_clf</span><span class="p">,</span> <span class="n">b_clf</span><span class="p">,</span> <span class="n">o_clf</span><span class="p">)</span>
+<span class="n">mod_clf</span> <span class="o">=</span> <span class="n">crear_modelo</span><span class="p">(</span><span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="n">m_clf</span><span class="p">,</span> <span class="n">rc</span><span class="p">[</span><span class="s2">&quot;params_final&quot;</span><span class="p">],</span> <span class="n">b_clf</span><span class="p">)</span>
+<span class="n">ajustar</span><span class="p">(</span><span class="n">mod_clf</span><span class="p">,</span> <span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="s2">&quot;clf&quot;</span><span class="p">,</span> <span class="n">m_clf</span><span class="p">,</span> <span class="n">b_clf</span><span class="p">)</span>
+<span class="n">pre_c</span> <span class="o">=</span> <span class="n">mod_clf</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;pre&quot;</span><span class="p">];</span> <span class="n">est_c</span> <span class="o">=</span> <span class="n">mod_clf</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">]</span>
+<span class="n">Xc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pre_c</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">muestra</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">]),</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">muestra</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="c1"># muestra enriquecida con todas las caídas de test, para que las explicaciones vean casos positivos</span>
+<span class="n">caidas</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;caida&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">Xc_pos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pre_c</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">caidas</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">]),</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">caidas</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">Xc_all</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">Xc</span><span class="p">,</span> <span class="n">Xc_pos</span><span class="p">[</span><span class="o">~</span><span class="n">Xc_pos</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">Xc</span><span class="o">.</span><span class="n">index</span><span class="p">)]])</span>
+<span class="n">expl_c</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">TreeExplainer</span><span class="p">(</span><span class="n">est_c</span><span class="p">)</span>
+<span class="n">sv_c</span> <span class="o">=</span> <span class="n">expl_c</span><span class="p">(</span><span class="n">Xc_all</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">sv_c</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Random Forest devuelve una explicación por clase: me quedo con &quot;caída&quot;</span>
+    <span class="n">sv_c</span> <span class="o">=</span> <span class="n">sv_c</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;modelo: </span><span class="si">{</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">m_clf</span><span class="p">]</span><span class="si">}</span><span class="s2"> con </span><span class="si">{</span><span class="n">b_clf</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">o_clf</span><span class="si">}</span><span class="s2">); </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">Xc_all</span><span class="p">)</span><span class="si">}</span><span class="s2"> filas explicadas (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">caidas</span><span class="p">)</span><span class="si">}</span><span class="s2"> caídas de test)&quot;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">beeswarm</span><span class="p">(</span><span class="n">sv_c</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SHAP global – </span><span class="si">{</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">m_clf</span><span class="p">]</span><span class="si">}</span><span class="s2"> (clasificación de caída)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>modelo: XGBoost con balanced (bayes); 674 filas explicadas (288 caídas de test)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imp_c</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sv_c</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;</span><span class="si">% i</span><span class="s2">mportancia regresión&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">imp_r</span> <span class="o">/</span> <span class="n">imp_r</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">% i</span><span class="s2">mportancia clasificación&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">imp_c</span> <span class="o">/</span> <span class="n">imp_c</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% i</span><span class="s2">mportancia clasificación&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>% importancia regresión</th>
+      <th>% importancia clasificación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>std7</th>
+      <td>0.70</td>
+      <td>17.30</td>
+    </tr>
+    <tr>
+      <th>lag1</th>
+      <td>37.90</td>
+      <td>16.90</td>
+    </tr>
+    <tr>
+      <th>lag14</th>
+      <td>4.20</td>
+      <td>9.60</td>
+    </tr>
+    <tr>
+      <th>media7</th>
+      <td>32.70</td>
+      <td>8.30</td>
+    </tr>
+    <tr>
+      <th>nivel</th>
+      <td>11.40</td>
+      <td>8.10</td>
+    </tr>
+    <tr>
+      <th>lag7</th>
+      <td>9.70</td>
+      <td>6.20</td>
+    </tr>
+    <tr>
+      <th>part_efectivo</th>
+      <td>0.50</td>
+      <td>5.70</td>
+    </tr>
+    <tr>
+      <th>part_datafono</th>
+      <td>0.30</td>
+      <td>5.40</td>
+    </tr>
+    <tr>
+      <th>festivo</th>
+      <td>0.50</td>
+      <td>4.10</td>
+    </tr>
+    <tr>
+      <th>part_rumbo</th>
+      <td>0.30</td>
+      <td>3.00</td>
+    </tr>
+    <tr>
+      <th>día=sáb</th>
+      <td>0.10</td>
+      <td>2.80</td>
+    </tr>
+    <tr>
+      <th>día=jue</th>
+      <td>0.00</td>
+      <td>2.70</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="interpretacion-global-clasificacion">
+<h3>Interpretación (global, clasificación)<a class="headerlink" href="#interpretacion-global-clasificacion" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>El mejor clasificador es <strong>XGBoost con <code class="docutils literal notranslate"><span class="pre">class_weight</span></code> balanceado</strong> (vía <code class="docutils literal notranslate"><span class="pre">sample_weight</span></code>).</p></li>
+<li><p>La importancia cambia mucho frente a la regresión: <strong><code class="docutils literal notranslate"><span class="pre">std7</span></code> pasa a ser la primera variable</strong> (17 %, frente a 0,7 % en regresión). Para saber <strong>cuánto</strong> venderá un negocio importa su nivel; para saber si va a <strong>caer</strong>, importa qué tan <strong>irregular</strong> fue su última semana. Es el mismo hallazgo del capítulo 4b (la tasa de caídas se correlaciona con la volatilidad, ρ = 0,74).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lag1</span></code> sigue pesando (17 %): un ayer bajo o en cero anuncia una caída (las rachas del cap. 4b). <code class="docutils literal notranslate"><span class="pre">festivo</span></code> y los días de la semana ganan peso (4 % y ~3 %) porque las caídas se concentran en festivos.</p></li>
+<li><p>El <strong>mix de medios</strong> (<code class="docutils literal notranslate"><span class="pre">part_efectivo</span></code>, <code class="docutils literal notranslate"><span class="pre">part_datafono</span></code>) aporta ~11 % entre los dos. Distingue los tipos de negocio (cap. 4b): los KCO, que venden todo en efectivo, tienen más caídas.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># local: una caída detectada con alta confianza y una caída no detectada (falso negativo)</span>
+<span class="n">y_all</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Xc_all</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">&quot;caida&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">p_all</span> <span class="o">=</span> <span class="n">mod_clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Xc_all</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">X_COLS</span><span class="p">])[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">detectada</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y_all</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p_all</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+<span class="n">no_detectada</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y_all</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">p_all</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">etiqueta</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;caída detectada&quot;</span><span class="p">,</span> <span class="n">detectada</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;caída NO detectada&quot;</span><span class="p">,</span> <span class="n">no_detectada</span><span class="p">)]:</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Xc_all</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">etiqueta</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;negocio&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> el </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">%d %b</span><span class="si">}</span><span class="s2">: P(caída) = </span><span class="si">{</span><span class="n">p_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">; venta </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;venta_total&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> M &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;vs mediana de la semana </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;med7&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> M; días sin venta en la semana: </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;dias_sin_venta7&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">waterfall</span><span class="p">(</span><span class="n">sv_c</span><span class="p">[</span><span class="n">detectada</span><span class="p">],</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Caída detectada&quot;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>caída detectada: N060 el 05 Sep: P(caída) = 1.000; venta 0.000 M vs mediana de la semana 2.597 M; días sin venta en la semana: 2
+caída NO detectada: N315 el 16 Sep: P(caída) = 0.000; venta 29.868 M vs mediana de la semana 80.092 M; días sin venta en la semana: 0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">shap</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">waterfall</span><span class="p">(</span><span class="n">sv_c</span><span class="p">[</span><span class="n">no_detectada</span><span class="p">],</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Caída no detectada (falso negativo)&quot;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretacion-local-clasificacion">
+<h3>Interpretación (local, clasificación)<a class="headerlink" href="#interpretacion-local-clasificacion" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Caída detectada</strong> (N060, 5 sep: no vendió nada frente a una mediana de 2,6 M; P = 1,00). Ya tenía <strong>2 días sin venta en la semana</strong>. <code class="docutils literal notranslate"><span class="pre">lag1</span></code> bajo, <code class="docutils literal notranslate"><span class="pre">std7</span></code> alto y <code class="docutils literal notranslate"><span class="pre">dias_sin_venta7</span></code> empujan la probabilidad al máximo. Es una caída «anunciada»: un negocio que ya venía cerrando días.</p></li>
+<li><p><strong>Caída no detectada</strong> (N315, 16 sep: vendió 29,9 M frente a una mediana de 80 M; P ≈ 0). Es un negocio grande y estable, sin días sin venta y con una semana regular: todas las variables apuntan a «normal». La caída fue un evento <strong>sin precedentes en su historial reciente</strong> (posiblemente operativo: un cierre parcial, una falla de surtidor o del POS).</p></li>
+<li><p><strong>Conclusión:</strong> el modelo detecta bien las caídas de negocios irregulares o que ya venían cayendo. Las caídas súbitas en negocios estables quedan fuera de su alcance con estas variables. Para detectarlas haría falta información del mismo día (ventas por hora, alarmas del POS), que sería fuga en el diseño actual.</p></li>
+<li><p>Nótese que la probabilidad es <strong>extrema</strong> (1,00 y 0,00). Es un síntoma de la mala calibración que produce el balanceo (cap. 13.4).</p></li>
+</ul>
+</section>
+</section>
+<section id="xgboost-shap-contra-lime">
+<h2>🍋 14.3 XGBoost: SHAP contra LIME<a class="headerlink" href="#xgboost-shap-contra-lime" title="Permalink to this heading">#</a></h2>
+<p>La guía pide comparar las dos técnicas sobre <strong>XGBoost</strong>. Se usa el mejor XGBoost de regresión (aunque no sea el mejor modelo general).</p>
+<p><strong>LIME</strong> (Ribeiro et al., 2016) explica una predicción ajustando un <strong>modelo lineal local</strong>: genera muestras perturbadas alrededor del caso, las pondera por cercanía (núcleo exponencial) y lee los coeficientes de la regresión ponderada. <strong>SHAP</strong> reparte la predicción con los valores de Shapley, que con TreeSHAP son <strong>exactos</strong> para el modelo.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>LIME</p></th>
+<th class="head"><p>SHAP (TreeSHAP)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Qué estima</p></td>
+<td><p>Pendiente de una aproximación lineal <strong>local</strong></p></td>
+<td><p>Contribución marginal promedio de cada variable (<strong>exacta</strong>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>¿Suma la predicción?</p></td>
+<td><p>No necesariamente</p></td>
+<td><p>Sí (eficiencia)</p></td>
+</tr>
+<tr class="row-even"><td><p>Depende de</p></td>
+<td><p>La forma de perturbar, el ancho del núcleo y la semilla</p></td>
+<td><p>El conjunto de referencia (fondo)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Estabilidad</p></td>
+<td><p>Puede cambiar entre corridas</p></td>
+<td><p>Determinista</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">o_x</span> <span class="o">=</span> <span class="n">mejor_de</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse_log_media&quot;</span><span class="p">,</span> <span class="n">modelo</span><span class="o">=</span><span class="s2">&quot;xgb&quot;</span><span class="p">)</span>
+<span class="n">rx</span> <span class="o">=</span> <span class="n">cargar</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;xgb&quot;</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">,</span> <span class="n">o_x</span><span class="p">)</span>
+<span class="n">mod_x</span> <span class="o">=</span> <span class="n">crear_modelo</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;xgb&quot;</span><span class="p">,</span> <span class="n">rx</span><span class="p">[</span><span class="s2">&quot;params_final&quot;</span><span class="p">])</span>
+<span class="n">ajustar</span><span class="p">(</span><span class="n">mod_x</span><span class="p">,</span> <span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;xgb&quot;</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">)</span>
+<span class="n">pre_x</span> <span class="o">=</span> <span class="n">mod_x</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;pre&quot;</span><span class="p">];</span> <span class="n">est_x</span> <span class="o">=</span> <span class="n">mod_x</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">]</span>
+<span class="n">Xx_tr</span> <span class="o">=</span> <span class="n">pre_x</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">]);</span> <span class="n">Xx</span> <span class="o">=</span> <span class="n">pre_x</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">muestra</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">])</span>
+<span class="n">sv_x</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">TreeExplainer</span><span class="p">(</span><span class="n">est_x</span><span class="p">)(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">Xx</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">))</span>
+<span class="n">lime_exp</span> <span class="o">=</span> <span class="n">LimeTabularExplainer</span><span class="p">(</span><span class="n">Xx_tr</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;regression&quot;</span><span class="p">,</span> <span class="n">discretize_continuous</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+
+<span class="c1"># 40 casos: correlación de rangos entre |SHAP| y |LIME| por caso, y coincidencia de la variable más importante</span>
+<span class="n">casos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Xx</span><span class="p">),</span> <span class="mi">40</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">casos</span><span class="p">:</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">lime_exp</span><span class="o">.</span><span class="n">explain_instance</span><span class="p">(</span><span class="n">Xx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">est_x</span><span class="o">.</span><span class="n">predict</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">),</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">as_list</span><span class="p">()))</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">sv_x</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;caso&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;Spearman |SHAP| vs |LIME|&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="o">.</span><span class="n">spearmanr</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">abs</span><span class="p">(),</span> <span class="n">w</span><span class="o">.</span><span class="n">abs</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="s2">&quot;misma variable top&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span> <span class="o">==</span> <span class="n">w</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span>
+                  <span class="s2">&quot;top-3 en común&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)),</span>
+                  <span class="s2">&quot;top SHAP&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span> <span class="s2">&quot;top LIME&quot;</span><span class="p">:</span> <span class="n">w</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()})</span>
+<span class="n">cmp_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spearman medio entre |SHAP| y |LIME|: </span><span class="si">{</span><span class="n">cmp_</span><span class="p">[</span><span class="s1">&#39;Spearman |SHAP| vs |LIME|&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;misma variable más importante: </span><span class="si">{</span><span class="n">cmp_</span><span class="p">[</span><span class="s1">&#39;misma variable top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> de los casos; top-3 en común (media): </span><span class="si">{</span><span class="n">cmp_</span><span class="p">[</span><span class="s1">&#39;top-3 en común&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">cmp_</span><span class="p">[[</span><span class="s2">&quot;top SHAP&quot;</span><span class="p">,</span> <span class="s2">&quot;top LIME&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;casos&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Spearman medio entre |SHAP| y |LIME|: 0.58
+misma variable más importante: 75% de los casos; top-3 en común (media): 2.4
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>casos</th>
+    </tr>
+    <tr>
+      <th>top SHAP</th>
+      <th>top LIME</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>lag1</th>
+      <th>lag1</th>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>lag7</th>
+      <th>lag1</th>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>media7</th>
+      <th>lag1</th>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># el caso de error grande de 14.1, explicado con las dos técnicas, y la estabilidad de LIME con 5 semillas</span>
+<span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">muestra</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="n">muestra</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">i_mal</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">sv_x</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+<span class="n">lime_runs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">sem</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]:</span>
+    <span class="n">le</span> <span class="o">=</span> <span class="n">LimeTabularExplainer</span><span class="p">(</span><span class="n">Xx_tr</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;regression&quot;</span><span class="p">,</span> <span class="n">discretize_continuous</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">sem</span><span class="p">)</span>
+    <span class="n">lime_runs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">explain_instance</span><span class="p">(</span><span class="n">Xx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">est_x</span><span class="o">.</span><span class="n">predict</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">),</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">as_list</span><span class="p">()))</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">lime_runs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">lime_runs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;SHAP&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;LIME (media 5 semillas)&quot;</span><span class="p">:</span> <span class="n">lime_runs</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;LIME desv. entre semillas&quot;</span><span class="p">:</span> <span class="n">lime_runs</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="mi">1</span><span class="p">)})</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">comp</span><span class="p">[</span><span class="s2">&quot;SHAP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">comp</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">comp</span><span class="p">[</span><span class="s2">&quot;SHAP&quot;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;SHAP (contribución, log)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">comp</span><span class="p">[</span><span class="s2">&quot;LIME (media 5 semillas)&quot;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="n">comp</span><span class="p">[</span><span class="s2">&quot;LIME desv. entre semillas&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;LIME (peso local)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">y</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">index</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">();</span> <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">GRIS</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;XGBoost, caso con error grande: SHAP contra LIME&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;suma SHAP + base = </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sv_x</span><span class="o">.</span><span class="n">base_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> = predicción </span><span class="si">{</span><span class="n">est_x</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xx</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">comp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>suma SHAP + base = 15.924 = predicción 15.924
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SHAP</th>
+      <th>LIME (media 5 semillas)</th>
+      <th>LIME desv. entre semillas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>lag1</th>
+      <td>0.69</td>
+      <td>1.45</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>nivel</th>
+      <td>-0.39</td>
+      <td>-0.18</td>
+      <td>0.02</td>
+    </tr>
+    <tr>
+      <th>media7</th>
+      <td>0.16</td>
+      <td>0.59</td>
+      <td>0.02</td>
+    </tr>
+    <tr>
+      <th>lag7</th>
+      <td>-0.11</td>
+      <td>0.28</td>
+      <td>0.01</td>
+    </tr>
+    <tr>
+      <th>lag14</th>
+      <td>0.11</td>
+      <td>0.21</td>
+      <td>0.03</td>
+    </tr>
+    <tr>
+      <th>festivo</th>
+      <td>0.01</td>
+      <td>-0.01</td>
+      <td>0.01</td>
+    </tr>
+    <tr>
+      <th>día=dom</th>
+      <td>0.01</td>
+      <td>-0.00</td>
+      <td>0.03</td>
+    </tr>
+    <tr>
+      <th>dias_sin_venta7</th>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.03</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="interpretacion-shap-contra-lime">
+<h3>Interpretación: SHAP contra LIME<a class="headerlink" href="#interpretacion-shap-contra-lime" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Coinciden en lo grueso.</strong> En 40 casos, la variable más importante es la misma en el 75 % y comparten en promedio 2,4 de las 3 principales. Ambas reconocen que <code class="docutils literal notranslate"><span class="pre">lag1</span></code> domina.</p></li>
+<li><p><strong>Difieren en el detalle.</strong> La correlación de rangos media entre |SHAP| y |LIME| es solo <strong>0,58</strong>, y en el caso de error grande las magnitudes no se parecen: LIME le da a <code class="docutils literal notranslate"><span class="pre">lag1</span></code> un peso de 1,45 y a <code class="docutils literal notranslate"><span class="pre">media7</span></code> 0,59, mientras que SHAP les asigna 0,69 y 0,16. Hasta cambia el <strong>signo</strong> de <code class="docutils literal notranslate"><span class="pre">lag7</span></code>. Hay tres razones:</p>
+<ol class="arabic simple">
+<li><p><strong>Qué miden.</strong> LIME da la <strong>pendiente</strong> de una recta ajustada en una vecindad. SHAP da la <strong>contribución</strong> de la variable a esta predicción frente a la media. Un árbol es escalonado: cerca del punto la pendiente puede ser grande aunque la contribución total sea pequeña, o al revés.</p></li>
+<li><p><strong>Colinealidad.</strong> <code class="docutils literal notranslate"><span class="pre">lag1</span></code>, <code class="docutils literal notranslate"><span class="pre">lag7</span></code>, <code class="docutils literal notranslate"><span class="pre">media7</span></code> y <code class="docutils literal notranslate"><span class="pre">nivel</span></code> están muy correlacionadas (VIF alto, cap. 4). LIME perturba cada variable <strong>por separado</strong>, así que genera combinaciones irreales (ayer alto pero semana baja) y reparte el peso entre variables colineales de forma arbitraria. SHAP con TreeSHAP sigue las rutas de los árboles con la distribución de los datos de entrenamiento.</p></li>
+<li><p><strong>Eficiencia.</strong> Los SHAP suman exactamente la predicción (15,924); los pesos de LIME no tienen por qué sumar nada.</p></li>
+</ol>
+</li>
+<li><p><strong>Estabilidad.</strong> En este caso LIME fue bastante estable entre 5 semillas (desviaciones de 0,01–0,04), porque usa 2 000 muestras. Con menos muestras o con discretización, las explicaciones de LIME varían más. TreeSHAP es determinista.</p></li>
+<li><p><strong>¿Cuándo divergen más?</strong> Con variables colineales (como aquí), en modelos muy no lineales o con interacciones fuertes (donde una recta local no representa bien el modelo) y en puntos cerca de los cortes de los árboles. Para un modelo de árboles, <strong>SHAP es la explicación de referencia</strong>; LIME sirve como chequeo de sensibilidad local.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="13_clasificacion_resultados.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">🚨 13. Clasificación: alerta de caída fuerte</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="15_conclusiones.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">✅ 15. Conclusiones</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regresion-el-mejor-modelo">📈 14.1 Regresión: el mejor modelo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-global-regresion">Interpretación (global, regresión)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explicaciones-locales-un-acierto-y-un-error-grande">Explicaciones locales: un acierto y un error grande</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-local-regresion">Interpretación (local, regresión)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clasificacion-el-mejor-modelo">🚨 14.2 Clasificación: el mejor modelo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-global-clasificacion">Interpretación (global, clasificación)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-local-clasificacion">Interpretación (local, clasificación)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost-shap-contra-lime">🍋 14.3 XGBoost: SHAP contra LIME</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-shap-contra-lime">Interpretación: SHAP contra LIME</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
