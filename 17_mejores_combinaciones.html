@@ -1,0 +1,1187 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>🏆 17. Modelos benchmark: mejores combinaciones y artefactos &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '17_mejores_combinaciones';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="📚 18. Revisión de literatura y evidencia de novedad" href="18_literatura.html" />
+    <link rel="prev" title="🧾 16. Trazabilidad de correcciones" href="16_trazabilidad.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dashboard y modelo original (tercera entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="16_trazabilidad.html">🧾 16. Trazabilidad de correcciones</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_literatura.html">📚 18. Revisión de literatura y evidencia de novedad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19_modelo_original.html">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20_validacion_estadistica.html">⚖️ 20. Validación estadística del modelo original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_dashboard.html">🖥️ 21. Dashboard y despliegue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_conclusiones_e3.html">✅ 22. Conclusiones de la tercera entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_reproducibilidad.html">🔁 23. Reproducibilidad y bibliografía</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/17_mejores_combinaciones.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>🏆 17. Modelos benchmark: mejores combinaciones y artefactos</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reentrenamiento-final-y-serializacion">17.1 Reentrenamiento final y serialización</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-ida-y-vuelta-round-trip">17.2 Prueba de ida y vuelta (<em>round-trip</em>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-maestra-final">17.3 Tabla maestra final</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modelos-benchmark-mejores-combinaciones-y-artefactos">
+<h1>🏆 17. Modelos benchmark: mejores combinaciones y artefactos<a class="headerlink" href="#modelos-benchmark-mejores-combinaciones-y-artefactos" title="Permalink to this heading">#</a></h1>
+<p>La tercera entrega se concentra en la tarea de <strong>regresión</strong> (venta del día siguiente). De las 28 combinaciones de regresión de la entrega 2 (7 modelos × 4 optimizadores), el tablero no incluye todas, sino <strong>la mejor de cada modelo</strong>, elegida con un criterio estadístico y no por apreciación visual:</p>
+<ol class="arabic simple">
+<li><p>Para cada uno de los 7 modelos se elige el optimizador con <strong>menor RMSE log medio en el bucle externo</strong> de la validación anidada.</p></li>
+<li><p>Se verifica que la <strong>mejor combinación global</strong> pertenezca al conjunto de finalistas de la comparación estadística (<strong>MCS</strong> al 90 %).</p></li>
+<li><p>Se agrega <strong>HistGradientBoosting</strong> (boosting por histogramas, la implementación de scikit-learn inspirada en LightGBM; Ke et al., 2017) como referencia del estado del arte, con los mismos 4 optimizadores y la misma validación anidada.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">joblib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">comun</span> <span class="kn">import</span> <span class="n">estilo</span><span class="p">,</span> <span class="n">SEED</span>
+<span class="kn">from</span> <span class="nn">datos</span> <span class="kn">import</span> <span class="n">partir</span><span class="p">,</span> <span class="n">preparar</span><span class="p">,</span> <span class="n">X_COLS</span>
+<span class="kn">from</span> <span class="nn">experimentos</span> <span class="kn">import</span> <span class="n">armar_maestra</span><span class="p">,</span> <span class="n">cargar</span><span class="p">,</span> <span class="n">fila_maestra</span>
+
+<span class="n">estilo</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_colwidth&quot;</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">partir</span><span class="p">(</span><span class="n">preparar</span><span class="p">())</span>
+<span class="n">maestra</span> <span class="o">=</span> <span class="n">armar_maestra</span><span class="p">()</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="n">maestra</span><span class="p">[</span><span class="n">maestra</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;reg&quot;</span><span class="p">]</span>
+<span class="n">OPT</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="s2">&quot;Grid&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">:</span> <span class="s2">&quot;Random&quot;</span><span class="p">,</span> <span class="s2">&quot;bayes&quot;</span><span class="p">:</span> <span class="s2">&quot;Bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;genetico&quot;</span><span class="p">:</span> <span class="s2">&quot;Genético&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># selección: mejor optimizador de cada modelo (menor RMSE log medio del bucle externo)</span>
+<span class="n">hgb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">fila_maestra</span><span class="p">(</span><span class="n">cargar</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;hgb&quot;</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">,</span> <span class="n">o</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">OPT</span><span class="p">])</span>
+<span class="n">todas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">reg</span><span class="p">,</span> <span class="n">hgb</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mejores</span> <span class="o">=</span> <span class="n">todas</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">todas</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;modelo&quot;</span><span class="p">)[</span><span class="s2">&quot;rmse_log_media&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;rmse_log_media&quot;</span><span class="p">)</span>
+<span class="n">mcs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;resultados/original_mcs_rmse.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">NOMBRE</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;knn&quot;</span><span class="p">:</span> <span class="s2">&quot;KNN&quot;</span><span class="p">,</span> <span class="s2">&quot;ridge&quot;</span><span class="p">:</span> <span class="s2">&quot;Ridge&quot;</span><span class="p">,</span> <span class="s2">&quot;lasso&quot;</span><span class="p">:</span> <span class="s2">&quot;Lasso&quot;</span><span class="p">,</span> <span class="s2">&quot;arbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Árbol&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span> <span class="s2">&quot;xgb&quot;</span><span class="p">:</span> <span class="s2">&quot;XGBoost&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;svr&quot;</span><span class="p">:</span> <span class="s2">&quot;SVR lineal&quot;</span><span class="p">,</span> <span class="s2">&quot;hgb&quot;</span><span class="p">:</span> <span class="s2">&quot;HistGradientBoosting&quot;</span><span class="p">}</span>
+<span class="n">sel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;modelo&quot;</span><span class="p">:</span> <span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">NOMBRE</span><span class="p">),</span> <span class="s2">&quot;optimizador elegido&quot;</span><span class="p">:</span> <span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;optimizador&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">OPT</span><span class="p">),</span>
+    <span class="s2">&quot;RMSE log (media ± desv.)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">a</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;rmse_log_media&quot;</span><span class="p">],</span> <span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;rmse_log_desv&quot;</span><span class="p">])],</span>
+    <span class="s2">&quot;MAE log (media ± desv.)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">a</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;mae_log_media&quot;</span><span class="p">],</span> <span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;mae_log_desv&quot;</span><span class="p">])],</span>
+    <span class="s2">&quot;2.º optimizador (RMSE log)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">todas</span><span class="p">[</span><span class="n">todas</span><span class="p">[</span><span class="s1">&#39;modelo&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;rmse_log_media&#39;</span><span class="p">)[</span><span class="s1">&#39;rmse_log_media&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">]],</span>
+    <span class="s2">&quot;en el MCS (90 %)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">bool</span><span class="p">(</span><span class="n">mcs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="si">}</span><span class="s2"> · </span><span class="si">{</span><span class="n">OPT</span><span class="p">[</span><span class="n">o</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;en el conjunto&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">],</span> <span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;optimizador&quot;</span><span class="p">])],</span>
+    <span class="s2">&quot;motivo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;menor RMSE log medio de sus 4 optimizadores&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">mejores</span><span class="p">)})</span>
+<span class="n">sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;mejor combinación global; p MCS = 1,00&quot;</span>
+<span class="n">sel</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;modelo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>optimizador elegido</th>
+      <th>RMSE log (media ± desv.)</th>
+      <th>MAE log (media ± desv.)</th>
+      <th>2.º optimizador (RMSE log)</th>
+      <th>en el MCS (90 %)</th>
+      <th>motivo</th>
+    </tr>
+    <tr>
+      <th>modelo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Random Forest</th>
+      <td>Grid</td>
+      <td>0.8874 ± 0.1266</td>
+      <td>0.2906 ± 0.0505</td>
+      <td>0.8923</td>
+      <td>True</td>
+      <td>mejor combinación global; p MCS = 1,00</td>
+    </tr>
+    <tr>
+      <th>XGBoost</th>
+      <td>Random</td>
+      <td>0.8944 ± 0.1222</td>
+      <td>0.2961 ± 0.0479</td>
+      <td>0.8977</td>
+      <td>True</td>
+      <td>menor RMSE log medio de sus 4 optimizadores</td>
+    </tr>
+    <tr>
+      <th>HistGradientBoosting</th>
+      <td>Random</td>
+      <td>0.9047 ± 0.1346</td>
+      <td>0.3071 ± 0.0436</td>
+      <td>0.9064</td>
+      <td>True</td>
+      <td>menor RMSE log medio de sus 4 optimizadores</td>
+    </tr>
+    <tr>
+      <th>KNN</th>
+      <td>Genético</td>
+      <td>0.9314 ± 0.1112</td>
+      <td>0.3050 ± 0.0489</td>
+      <td>0.9370</td>
+      <td>False</td>
+      <td>menor RMSE log medio de sus 4 optimizadores</td>
+    </tr>
+    <tr>
+      <th>Lasso</th>
+      <td>Bayes</td>
+      <td>0.9493 ± 0.0894</td>
+      <td>0.3040 ± 0.0368</td>
+      <td>0.9493</td>
+      <td>False</td>
+      <td>menor RMSE log medio de sus 4 optimizadores</td>
+    </tr>
+    <tr>
+      <th>Ridge</th>
+      <td>Genético</td>
+      <td>0.9498 ± 0.0889</td>
+      <td>0.3038 ± 0.0352</td>
+      <td>0.9504</td>
+      <td>False</td>
+      <td>menor RMSE log medio de sus 4 optimizadores</td>
+    </tr>
+    <tr>
+      <th>Árbol</th>
+      <td>Bayes</td>
+      <td>0.9516 ± 0.1143</td>
+      <td>0.3324 ± 0.0414</td>
+      <td>0.9587</td>
+      <td>False</td>
+      <td>menor RMSE log medio de sus 4 optimizadores</td>
+    </tr>
+    <tr>
+      <th>SVR lineal</th>
+      <td>Grid</td>
+      <td>0.9883 ± 0.0963</td>
+      <td>0.3083 ± 0.0272</td>
+      <td>0.9886</td>
+      <td>False</td>
+      <td>menor RMSE log medio de sus 4 optimizadores</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura.</strong> La mejor combinación global es <strong>Random Forest · Grid</strong> (RMSE log 0,887 ± 0,127), y está en el conjunto de confianza del MCS con p = 1,00: es el modelo de referencia contra el que se compara el modelo original (cap. 20). XGBoost y HistGradientBoosting también quedan en el conjunto; KNN, los lineales, el árbol y el SVR no. Para los modelos de 1 o 2 hiperparámetros (Ridge, Lasso, SVR) la diferencia con el segundo optimizador es de milésimas: la elección del optimizador casi no importa (cap. 10). <strong>HistGradientBoosting</strong>, el método más reciente, queda 3.º, detrás de Random Forest y XGBoost: en este problema el estado del arte del boosting por histogramas no aporta sobre los dos ensambles clásicos.</p>
+<section id="reentrenamiento-final-y-serializacion">
+<h2>17.1 Reentrenamiento final y serialización<a class="headerlink" href="#reentrenamiento-final-y-serializacion" title="Permalink to this heading">#</a></h2>
+<p>Con los hiperparámetros óptimos (elegidos por la búsqueda sobre todo train, la misma de la entrega 2), cada pipeline completo (imputación, escalado, one-hot, modelo y transformación log del objetivo) se reentrena con <strong>todo train</strong> y se guarda con <code class="docutils literal notranslate"><span class="pre">joblib.dump(...,</span> <span class="pre">compress=3)</span></code> en <code class="docutils literal notranslate"><span class="pre">artifacts/</span></code>. Junto a cada modelo se guarda un <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> con las versiones de las librerías, la semilla, los hiperparámetros finales, el esquema de entrada (nombre, tipo y rango válido de cada columna) y las métricas del bucle externo. El código está en <code class="docutils literal notranslate"><span class="pre">book/artefactos.py</span></code> y <code class="docutils literal notranslate"><span class="pre">book/exportar_app.py</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ART</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;artifacts&quot;</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ART</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.metadata.json&quot;</span><span class="p">)):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;artefacto&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.metadata.json&quot;</span><span class="p">,</span> <span class="s2">&quot;.joblib&quot;</span><span class="p">),</span> <span class="s2">&quot;MB&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mb_en_disco&quot;</span><span class="p">),</span>
+                  <span class="s2">&quot;optimizador&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;optimizador&quot;</span><span class="p">),</span> <span class="s2">&quot;semilla&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;semilla&quot;</span><span class="p">),</span>
+                  <span class="s2">&quot;hiperparámetros&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;hiperparametros&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="nb">float</span><span class="p">)[:</span><span class="mi">80</span><span class="p">],</span>
+                  <span class="s2">&quot;ida y vuelta&quot;</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prueba_ida_y_vuelta&quot;</span><span class="p">),</span> <span class="s2">&quot;columnas de entrada&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;esquema_entrada&quot;</span><span class="p">])})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;artefacto&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MB</th>
+      <th>optimizador</th>
+      <th>semilla</th>
+      <th>hiperparámetros</th>
+      <th>ida y vuelta</th>
+      <th>columnas de entrada</th>
+    </tr>
+    <tr>
+      <th>artefacto</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>acs.joblib</th>
+      <td>22.16</td>
+      <td>bayes (TPE, 16 evaluaciones)</td>
+      <td>42</td>
+      <td>{"arbol": {"max_depth": 2, "min_samples_leaf": 318, "lam": 0.013554586987236...</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>arbol.joblib</th>
+      <td>0.04</td>
+      <td>bayes</td>
+      <td>42</td>
+      <td>{"max_depth": 16, "min_samples_leaf": 23}</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>hgb.joblib</th>
+      <td>0.09</td>
+      <td>random</td>
+      <td>42</td>
+      <td>{"max_iter": 178, "learning_rate": 0.04891065903176344, "max_leaf_nodes": 16...</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>knn.joblib</th>
+      <td>1.70</td>
+      <td>genetico</td>
+      <td>42</td>
+      <td>{"n_neighbors": 12, "weights": "distance"}</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>lasso.joblib</th>
+      <td>0.00</td>
+      <td>bayes</td>
+      <td>42</td>
+      <td>{"alpha": 0.0024810409748678114}</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>rf.joblib</th>
+      <td>17.78</td>
+      <td>grid</td>
+      <td>42</td>
+      <td>{"max_depth": 16, "max_features": 0.6, "min_samples_leaf": 2, "n_estimators"...</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>ridge.joblib</th>
+      <td>0.00</td>
+      <td>genetico</td>
+      <td>42</td>
+      <td>{"alpha": 26.231751227258428}</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>svr.joblib</th>
+      <td>0.00</td>
+      <td>grid</td>
+      <td>42</td>
+      <td>{"C": 0.0071968567300115215, "epsilon": 0.0}</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>xgb.joblib</th>
+      <td>0.14</td>
+      <td>random</td>
+      <td>42</td>
+      <td>{"n_estimators": 373, "learning_rate": 0.016085381438354866, "max_depth": 4,...</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># un metadata.json completo, como ejemplo</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">ART</span> <span class="o">/</span> <span class="s2">&quot;rf.metadata.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)[:</span><span class="mi">2500</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
+  &quot;modelo&quot;: &quot;rf&quot;,
+  &quot;optimizador&quot;: &quot;grid&quot;,
+  &quot;semilla&quot;: 42,
+  &quot;versiones&quot;: {
+    &quot;python&quot;: &quot;3.9.25&quot;,
+    &quot;numpy&quot;: &quot;1.26.4&quot;,
+    &quot;pandas&quot;: &quot;2.1.0&quot;,
+    &quot;scikit-learn&quot;: &quot;1.3.0&quot;,
+    &quot;xgboost&quot;: &quot;2.1.4&quot;,
+    &quot;joblib&quot;: &quot;1.3.2&quot;
+  },
+  &quot;hiperparametros&quot;: {
+    &quot;max_depth&quot;: 16,
+    &quot;max_features&quot;: 0.6,
+    &quot;min_samples_leaf&quot;: 2,
+    &quot;n_estimators&quot;: 150
+  },
+  &quot;objetivo&quot;: &quot;venta_total (COP), entrenado en log1p&quot;,
+  &quot;entrenado_con&quot;: &quot;2026-07-15 a 2026-09-02 (22205 filas)&quot;,
+  &quot;esquema_entrada&quot;: [
+    {
+      &quot;nombre&quot;: &quot;lag1&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 19.451178575072152,
+      &quot;admite_nulos&quot;: false
+    },
+    {
+      &quot;nombre&quot;: &quot;lag7&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 19.451178575072152,
+      &quot;admite_nulos&quot;: false
+    },
+    {
+      &quot;nombre&quot;: &quot;lag14&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 19.451178575072152,
+      &quot;admite_nulos&quot;: false
+    },
+    {
+      &quot;nombre&quot;: &quot;media7&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 19.203128851608735,
+      &quot;admite_nulos&quot;: false
+    },
+    {
+      &quot;nombre&quot;: &quot;std7&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 8.437516721337396,
+      &quot;admite_nulos&quot;: false
+    },
+    {
+      &quot;nombre&quot;: &quot;nivel&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 1.6004999540414544,
+      &quot;max&quot;: 19.141174642355526,
+      &quot;admite_nulos&quot;: false
+    },
+    {
+      &quot;nombre&quot;: &quot;part_efectivo&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 1.0,
+      &quot;admite_nulos&quot;: true
+    },
+    {
+      &quot;nombre&quot;: &quot;part_datafono&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 0.9368585929599399,
+      &quot;admite_nulos&quot;: true
+    },
+    {
+      &quot;nombre&quot;: &quot;part_rumbo&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 0.6023059719277669,
+      &quot;admite_nulos&quot;: true
+    },
+    {
+      &quot;nombre&quot;: &quot;part_mi_empresa&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 0.28614331817460675,
+      &quot;admite_nulos&quot;: true
+    },
+    {
+      &quot;nombre&quot;: &quot;part_credito_clientes&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 0.4167477934355891,
+      &quot;admite_nulos&quot;: true
+    },
+    {
+      &quot;nombre&quot;: &quot;dias_sin_venta7&quot;,
+      &quot;tipo&quot;: &quot;real&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 7.0,
+      &quot;admite_nulos&quot;: false
+    },
+    {
+      &quot;nombre&quot;: &quot;festivo&quot;,
+      &quot;tipo&quot;: &quot;entero&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 1.0,
+      &quot;admite_nulos&quot;: false
+    },
+    {
+      &quot;nombre&quot;: &quot;dia_semana&quot;,
+      &quot;tipo&quot;: &quot;entero&quot;,
+      &quot;min&quot;: 0.0,
+      &quot;max&quot;: 6.0,
+      &quot;admite_nulos&quot;: false
+    }
+  ],
+  &quot;metricas_bucle_externo&quot;: {
+    &quot;rmse_lo
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="prueba-de-ida-y-vuelta-round-trip">
+<h2>17.2 Prueba de ida y vuelta (<em>round-trip</em>)<a class="headerlink" href="#prueba-de-ida-y-vuelta-round-trip" title="Permalink to this heading">#</a></h2>
+<p>Se carga cada artefacto desde disco y se compara su predicción sobre el test fijo (3 – 23 sep) con la de un modelo reentrenado en memoria con los mismos hiperparámetros y la misma semilla. Deben ser <strong>idénticas</strong>. La misma prueba se repitió en un entorno limpio con <strong>Python 3.11.9</strong> y las versiones de <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> (el entorno de Render): la diferencia máxima fue ≤ 5·10⁻⁶ COP en los 9 modelos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">modelos</span> <span class="kn">import</span> <span class="n">ajustar</span><span class="p">,</span> <span class="n">crear_modelo</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">],</span> <span class="n">mejores</span><span class="p">[</span><span class="s2">&quot;optimizador&quot;</span><span class="p">]):</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">cargar</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">,</span> <span class="n">o</span><span class="p">)[</span><span class="s2">&quot;params_final&quot;</span><span class="p">]</span>
+    <span class="n">mem</span> <span class="o">=</span> <span class="n">crear_modelo</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">semilla</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+    <span class="n">ajustar</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">train</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">();</span> <span class="n">disco</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ART</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">.joblib&quot;</span><span class="p">);</span> <span class="n">t_carga</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="n">p_mem</span><span class="p">,</span> <span class="n">p_disco</span> <span class="o">=</span> <span class="n">mem</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">]),</span> <span class="n">disco</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">])</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;modelo&quot;</span><span class="p">:</span> <span class="n">NOMBRE</span><span class="p">[</span><span class="n">m</span><span class="p">],</span> <span class="s2">&quot;predicciones idénticas&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">p_mem</span><span class="p">,</span> <span class="n">p_disco</span><span class="p">)),</span>
+                  <span class="s2">&quot;máx |diferencia| (COP)&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">p_mem</span> <span class="o">-</span> <span class="n">p_disco</span><span class="p">))),</span> <span class="s2">&quot;seg de carga&quot;</span><span class="p">:</span> <span class="n">t_carga</span><span class="p">})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;modelo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>predicciones idénticas</th>
+      <th>máx |diferencia| (COP)</th>
+      <th>seg de carga</th>
+    </tr>
+    <tr>
+      <th>modelo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Random Forest</th>
+      <td>True</td>
+      <td>0.00</td>
+      <td>0.12</td>
+    </tr>
+    <tr>
+      <th>XGBoost</th>
+      <td>True</td>
+      <td>0.00</td>
+      <td>0.01</td>
+    </tr>
+    <tr>
+      <th>HistGradientBoosting</th>
+      <td>True</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>KNN</th>
+      <td>True</td>
+      <td>0.00</td>
+      <td>0.01</td>
+    </tr>
+    <tr>
+      <th>Lasso</th>
+      <td>True</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Ridge</th>
+      <td>True</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Árbol</th>
+      <td>True</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>SVR lineal</th>
+      <td>True</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Tamaño de los artefactos.</strong> El más pesado es Random Forest (17,8 MB comprimido; 150 árboles de profundidad 16) y el ACS (20,8 MB, porque incluye a sus cuatro expertos). Todos están por debajo del límite de 100 MB por archivo de GitHub, así que no hizo falta Git LFS. En el servidor, el tablero carga los modelos <strong>bajo demanda</strong> y mantiene a lo sumo dos en memoria, para no superar el límite de 512 MB del plan gratuito de Render (cap. 21).</p>
+</section>
+<section id="tabla-maestra-final">
+<h2>17.3 Tabla maestra final<a class="headerlink" href="#tabla-maestra-final" title="Permalink to this heading">#</a></h2>
+<p>Las 140 combinaciones de la entrega 2, los 4 HistGradientBoosting y el modelo original, con las métricas del bucle externo (media y desviación), las de test, los tiempos y la semilla.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">comun</span> <span class="kn">import</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">a_log</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">DATA</span> <span class="o">/</span> <span class="s2">&quot;processed&quot;</span> <span class="o">/</span> <span class="s2">&quot;modelo_original.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;resultados/original_resumen.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">]</span>
+<span class="n">yt</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">acs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tarea&quot;</span><span class="p">:</span> <span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;modelo&quot;</span><span class="p">:</span> <span class="s2">&quot;acs (original)&quot;</span><span class="p">,</span> <span class="s2">&quot;balanceo&quot;</span><span class="p">:</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">:</span> <span class="s2">&quot;bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;semilla&quot;</span><span class="p">:</span> <span class="n">SEED</span><span class="p">,</span>
+       <span class="s2">&quot;n_evals&quot;</span><span class="p">:</span> <span class="mi">16</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;rmse_log_media&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;RMSE log media&quot;</span><span class="p">],</span> <span class="s2">&quot;rmse_log_desv&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;RMSE log desv&quot;</span><span class="p">],</span>
+       <span class="s2">&quot;mae_log_media&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;MAE log media&quot;</span><span class="p">],</span> <span class="s2">&quot;mae_log_desv&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;MAE log desv&quot;</span><span class="p">],</span>
+       <span class="s2">&quot;rmse_log_test&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">a_log</span><span class="p">(</span><span class="n">yt</span><span class="p">)</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;pred_test&quot;</span><span class="p">]))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))),</span>
+       <span class="s2">&quot;mae_log_test&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a_log</span><span class="p">(</span><span class="n">yt</span><span class="p">)</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;pred_test&quot;</span><span class="p">])))),</span>
+       <span class="s2">&quot;seg_fit_final&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;seg_fit_final&quot;</span><span class="p">],</span> <span class="s2">&quot;seg_pred_test&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;seg_pred_test&quot;</span><span class="p">],</span>
+       <span class="s2">&quot;params_final&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;params_final&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="nb">float</span><span class="p">)}</span>
+<span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">maestra</span><span class="p">,</span> <span class="n">hgb</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">acs</span><span class="p">])],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;resultados/maestra_final.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">final</span><span class="p">)</span><span class="si">}</span><span class="s2"> filas: </span><span class="si">{</span><span class="n">final</span><span class="p">[</span><span class="s1">&#39;tarea&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">final</span><span class="p">[</span><span class="n">final</span><span class="p">[</span><span class="s2">&quot;tarea&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;reg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;rmse_log_media&quot;</span><span class="p">)[</span>
+    <span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">,</span> <span class="s2">&quot;optimizador&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse_log_media&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse_log_desv&quot;</span><span class="p">,</span> <span class="s2">&quot;mae_log_media&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse_log_test&quot;</span><span class="p">,</span> <span class="s2">&quot;seg_fit_final&quot;</span><span class="p">,</span> <span class="s2">&quot;semilla&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>145 filas: {&#39;clf&#39;: 112, &#39;reg&#39;: 33}
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_06d12">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_06d12_level0_col0" class="col_heading level0 col0" >modelo</th>
+      <th id="T_06d12_level0_col1" class="col_heading level0 col1" >optimizador</th>
+      <th id="T_06d12_level0_col2" class="col_heading level0 col2" >rmse_log_media</th>
+      <th id="T_06d12_level0_col3" class="col_heading level0 col3" >rmse_log_desv</th>
+      <th id="T_06d12_level0_col4" class="col_heading level0 col4" >mae_log_media</th>
+      <th id="T_06d12_level0_col5" class="col_heading level0 col5" >rmse_log_test</th>
+      <th id="T_06d12_level0_col6" class="col_heading level0 col6" >seg_fit_final</th>
+      <th id="T_06d12_level0_col7" class="col_heading level0 col7" >semilla</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_06d12_level0_row0" class="row_heading level0 row0" >16</th>
+      <td id="T_06d12_row0_col0" class="data row0 col0" >rf</td>
+      <td id="T_06d12_row0_col1" class="data row0 col1" >grid</td>
+      <td id="T_06d12_row0_col2" class="data row0 col2" >0.8874</td>
+      <td id="T_06d12_row0_col3" class="data row0 col3" >0.1266</td>
+      <td id="T_06d12_row0_col4" class="data row0 col4" >0.2906</td>
+      <td id="T_06d12_row0_col5" class="data row0 col5" >0.6221</td>
+      <td id="T_06d12_row0_col6" class="data row0 col6" >11.3261</td>
+      <td id="T_06d12_row0_col7" class="data row0 col7" >42</td>
+    </tr>
+    <tr>
+      <th id="T_06d12_level0_row1" class="row_heading level0 row1" >17</th>
+      <td id="T_06d12_row1_col0" class="data row1 col0" >rf</td>
+      <td id="T_06d12_row1_col1" class="data row1 col1" >random</td>
+      <td id="T_06d12_row1_col2" class="data row1 col2" >0.8923</td>
+      <td id="T_06d12_row1_col3" class="data row1 col3" >0.1298</td>
+      <td id="T_06d12_row1_col4" class="data row1 col4" >0.2939</td>
+      <td id="T_06d12_row1_col5" class="data row1 col5" >0.6237</td>
+      <td id="T_06d12_row1_col6" class="data row1 col6" >3.2444</td>
+      <td id="T_06d12_row1_col7" class="data row1 col7" >42</td>
+    </tr>
+    <tr>
+      <th id="T_06d12_level0_row2" class="row_heading level0 row2" >21</th>
+      <td id="T_06d12_row2_col0" class="data row2 col0" >xgb</td>
+      <td id="T_06d12_row2_col1" class="data row2 col1" >random</td>
+      <td id="T_06d12_row2_col2" class="data row2 col2" >0.8944</td>
+      <td id="T_06d12_row2_col3" class="data row2 col3" >0.1222</td>
+      <td id="T_06d12_row2_col4" class="data row2 col4" >0.2961</td>
+      <td id="T_06d12_row2_col5" class="data row2 col5" >0.6374</td>
+      <td id="T_06d12_row2_col6" class="data row2 col6" >0.5982</td>
+      <td id="T_06d12_row2_col7" class="data row2 col7" >42</td>
+    </tr>
+    <tr>
+      <th id="T_06d12_level0_row3" class="row_heading level0 row3" >18</th>
+      <td id="T_06d12_row3_col0" class="data row3 col0" >rf</td>
+      <td id="T_06d12_row3_col1" class="data row3 col1" >bayes</td>
+      <td id="T_06d12_row3_col2" class="data row3 col2" >0.8945</td>
+      <td id="T_06d12_row3_col3" class="data row3 col3" >0.1168</td>
+      <td id="T_06d12_row3_col4" class="data row3 col4" >0.2932</td>
+      <td id="T_06d12_row3_col5" class="data row3 col5" >0.6277</td>
+      <td id="T_06d12_row3_col6" class="data row3 col6" >9.3661</td>
+      <td id="T_06d12_row3_col7" class="data row3 col7" >42</td>
+    </tr>
+    <tr>
+      <th id="T_06d12_level0_row4" class="row_heading level0 row4" >23</th>
+      <td id="T_06d12_row4_col0" class="data row4 col0" >xgb</td>
+      <td id="T_06d12_row4_col1" class="data row4 col1" >genetico</td>
+      <td id="T_06d12_row4_col2" class="data row4 col2" >0.8977</td>
+      <td id="T_06d12_row4_col3" class="data row4 col3" >0.1324</td>
+      <td id="T_06d12_row4_col4" class="data row4 col4" >0.2951</td>
+      <td id="T_06d12_row4_col5" class="data row4 col5" >0.6304</td>
+      <td id="T_06d12_row4_col6" class="data row4 col6" >0.9696</td>
+      <td id="T_06d12_row4_col7" class="data row4 col7" >42</td>
+    </tr>
+    <tr>
+      <th id="T_06d12_level0_row5" class="row_heading level0 row5" >144</th>
+      <td id="T_06d12_row5_col0" class="data row5 col0" >acs (original)</td>
+      <td id="T_06d12_row5_col1" class="data row5 col1" >bayes</td>
+      <td id="T_06d12_row5_col2" class="data row5 col2" >0.8981</td>
+      <td id="T_06d12_row5_col3" class="data row5 col3" >0.1268</td>
+      <td id="T_06d12_row5_col4" class="data row5 col4" >0.2878</td>
+      <td id="T_06d12_row5_col5" class="data row5 col5" >0.6108</td>
+      <td id="T_06d12_row5_col6" class="data row5 col6" >71.8749</td>
+      <td id="T_06d12_row5_col7" class="data row5 col7" >42</td>
+    </tr>
+    <tr>
+      <th id="T_06d12_level0_row6" class="row_heading level0 row6" >22</th>
+      <td id="T_06d12_row6_col0" class="data row6 col0" >xgb</td>
+      <td id="T_06d12_row6_col1" class="data row6 col1" >bayes</td>
+      <td id="T_06d12_row6_col2" class="data row6 col2" >0.8981</td>
+      <td id="T_06d12_row6_col3" class="data row6 col3" >0.1384</td>
+      <td id="T_06d12_row6_col4" class="data row6 col4" >0.2930</td>
+      <td id="T_06d12_row6_col5" class="data row6 col5" >0.6334</td>
+      <td id="T_06d12_row6_col6" class="data row6 col6" >0.7721</td>
+      <td id="T_06d12_row6_col7" class="data row6 col7" >42</td>
+    </tr>
+    <tr>
+      <th id="T_06d12_level0_row7" class="row_heading level0 row7" >19</th>
+      <td id="T_06d12_row7_col0" class="data row7 col0" >rf</td>
+      <td id="T_06d12_row7_col1" class="data row7 col1" >genetico</td>
+      <td id="T_06d12_row7_col2" class="data row7 col2" >0.8998</td>
+      <td id="T_06d12_row7_col3" class="data row7 col3" >0.1171</td>
+      <td id="T_06d12_row7_col4" class="data row7 col4" >0.2939</td>
+      <td id="T_06d12_row7_col5" class="data row7 col5" >0.6279</td>
+      <td id="T_06d12_row7_col6" class="data row7 col6" >8.1663</td>
+      <td id="T_06d12_row7_col7" class="data row7 col7" >42</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="16_trazabilidad.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">🧾 16. Trazabilidad de correcciones</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="18_literatura.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">📚 18. Revisión de literatura y evidencia de novedad</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reentrenamiento-final-y-serializacion">17.1 Reentrenamiento final y serialización</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-ida-y-vuelta-round-trip">17.2 Prueba de ida y vuelta (<em>round-trip</em>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-maestra-final">17.3 Tabla maestra final</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,635 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>🖥️ 21. Dashboard y despliegue &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '21_dashboard';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="✅ 22. Conclusiones de la tercera entrega" href="22_conclusiones_e3.html" />
+    <link rel="prev" title="⚖️ 20. Validación estadística del modelo original" href="20_validacion_estadistica.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dashboard y modelo original (tercera entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="16_trazabilidad.html">🧾 16. Trazabilidad de correcciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_mejores_combinaciones.html">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_literatura.html">📚 18. Revisión de literatura y evidencia de novedad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19_modelo_original.html">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20_validacion_estadistica.html">⚖️ 20. Validación estadística del modelo original</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🖥️ 21. Dashboard y despliegue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_conclusiones_e3.html">✅ 22. Conclusiones de la tercera entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_reproducibilidad.html">🔁 23. Reproducibilidad y bibliografía</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/21_dashboard.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>🖥️ 21. Dashboard y despliegue</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura">21.1 Arquitectura</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#las-tres-secciones">21.2 Las tres secciones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediccion-en-vivo">21.3 Predicción en vivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiones-de-diseno-e-ingenieria">21.4 Decisiones de diseño e ingeniería</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#despliegue-en-render">21.5 Despliegue en Render</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="dashboard-y-despliegue">
+<h1>🖥️ 21. Dashboard y despliegue<a class="headerlink" href="#dashboard-y-despliegue" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><strong>URL pública:</strong> <em>se completa al desplegar en Render</em> · Código: <a class="reference external" href="https://github.com/edsi23/recaudo-forecast">github.com/edsi23/recaudo-forecast</a></p>
+<p>El plan gratuito de Render suspende el servicio tras unos minutos sin uso: la primera carga puede tardar 30–60 s.</p>
+</div>
+<p>El tablero lleva los resultados a una herramienta que una persona no experta puede usar: entender el problema (<strong>Contexto</strong>), explorar los datos (<strong>EDA</strong>) y pronosticar con los modelos entrenados (<strong>Modelos</strong>). Cada gráfico responde una pregunta concreta y va acompañado de una frase de interpretación.</p>
+<section id="arquitectura">
+<h2>21.1 Arquitectura<a class="headerlink" href="#arquitectura" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>recaudo-forecast/
+├── app.py                  # crea la app multipágina (use_pages=True) y expone server para gunicorn
+├── pages/
+│   ├── contexto.py         # sección 1: problema, pregunta, datos, metodología, ética
+│   ├── eda.py              # sección 2: filtros globales y figuras con insights
+│   └── modelos.py          # sección 3: líderes, predicción en vivo, diagnósticos, MCS, ACS
+├── src/
+│   ├── original_model.py   # clase del modelo original (ACS)
+│   ├── data.py             # carga y caché de datos y modelos; explicación local (Shapley)
+│   └── plots.py            # funciones de graficación y plantilla única
+├── artifacts/              # 9 modelos .joblib + metadata.json
+├── data/                   # datos procesados livianos (CSV comprimidos)
+├── assets/                 # CSS, logo
+├── tests/                  # pruebas unitarias (pytest)
+├── book/                   # este libro
+├── requirements.txt        # dependencias del tablero (versiones exactas)
+└── render.yaml             # configuración de despliegue
+</pre></div>
+</div>
+<p><strong>Separación de responsabilidades.</strong> Las páginas solo arman la interfaz y los <em>callbacks</em>; <code class="docutils literal notranslate"><span class="pre">src/data.py</span></code> lee los datos y los modelos una sola vez (<code class="docutils literal notranslate"><span class="pre">functools.lru_cache</span></code>); <code class="docutils literal notranslate"><span class="pre">src/plots.py</span></code> construye todas las figuras con una plantilla común (tipografía Inter, paleta de cinco colores, ejes con unidades e información al pasar el cursor). <strong>El tablero nunca entrena ni optimiza</strong>: solo carga los artefactos del capítulo 17.</p>
+</section>
+<section id="las-tres-secciones">
+<h2>21.2 Las tres secciones<a class="headerlink" href="#las-tres-secciones" title="Permalink to this heading">#</a></h2>
+<figure class="align-default" id="fig-dash-contexto">
+<a class="reference internal image-reference" href="_images/dashboard_contexto.png"><img alt="_images/dashboard_contexto.png" src="_images/dashboard_contexto.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Figura 1 </span><span class="caption-text">Sección <strong>Contexto</strong>: planteamiento con una cifra citada (≈ 6 518 estaciones de servicio en Colombia, Comce vía La República, 2024), pregunta de investigación, datos y diccionario de variables, diagrama de la metodología, limitaciones y ética, autoría y versión.</span><a class="headerlink" href="#fig-dash-contexto" title="Enlace permanente a esta imagen">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="fig-dash-eda">
+<a class="reference internal image-reference" href="_images/dashboard_eda.png"><img alt="_images/dashboard_eda.png" src="_images/dashboard_eda.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Figura 2 </span><span class="caption-text">Sección <strong>EDA</strong>: filtros globales (grupo de negocio, rango de fechas y tamaño del negocio) que actualizan todas las figuras; distribución del objetivo, histogramas, correlación, faltantes, atípicos, explorador bivariado con selección de ejes y color, descomposición STL, ACF/PACF y pruebas de estacionariedad. Cada figura tiene su frase de interpretación, calculada sobre los datos filtrados.</span><a class="headerlink" href="#fig-dash-eda" title="Enlace permanente a esta imagen">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="fig-dash-modelos">
+<a class="reference internal image-reference" href="_images/dashboard_modelos.png"><img alt="_images/dashboard_modelos.png" src="_images/dashboard_modelos.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Figura 3 </span><span class="caption-text">Sección <strong>Modelos</strong>: tabla de líderes ordenable y filtrable, predicción en vivo, diagnóstico del modelo seleccionado (real contra predicho, residuos, ACF e histograma), importancia SHAP global, Model Confidence Set con el modelo original incluido y la subsección del ACS (idea, pseudocódigo, diferencias con la literatura, convergencia, ablación, pruebas y veredicto).</span><a class="headerlink" href="#fig-dash-modelos" title="Enlace permanente a esta imagen">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="prediccion-en-vivo">
+<h2>21.3 Predicción en vivo<a class="headerlink" href="#prediccion-en-vivo" title="Permalink to this heading">#</a></h2>
+<p>El formulario se genera a partir del <strong>esquema de entrada</strong> guardado en <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> (nombre, tipo y rango válido de cada variable). Se puede llenar a mano o cargar un negocio-día real de test. Antes de llamar al modelo se validan tipos y rangos; un error se muestra con un mensaje claro (<code class="docutils literal notranslate"><span class="pre">dbc.Alert</span></code>) y la aplicación sigue funcionando.</p>
+<figure class="align-default" id="fig-dash-pred">
+<a class="reference internal image-reference" href="_images/dashboard_prediccion.png"><img alt="_images/dashboard_prediccion.png" src="_images/dashboard_prediccion.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Figura 4 </span><span class="caption-text">Predicción del ACS para un negocio-día de test: pronóstico, intervalos de predicción del 80 % y 90 %, venta real de ese día, pesos de los expertos en esa fila y explicación local (cascada de valores de Shapley sobre el log de la venta).</span><a class="headerlink" href="#fig-dash-pred" title="Enlace permanente a esta imagen">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="fig-dash-val">
+<a class="reference internal image-reference" href="_images/dashboard_validacion.png"><img alt="_images/dashboard_validacion.png" src="_images/dashboard_validacion.png" style="width: 70%;" /></a>
+<figcaption>
+<p><span class="caption-number">Figura 5 </span><span class="caption-text">Entrada fuera de rango: el formulario explica el problema en lugar de fallar.</span><a class="headerlink" href="#fig-dash-val" title="Enlace permanente a esta imagen">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p><strong>Intervalo de predicción.</strong> Conforme (<em>split conformal</em>): el intervalo del 80 % (90 %) es <span class="math notranslate nohighlight">\(\exp(\log(1+\hat y) \pm q)-1\)</span>, con <span class="math notranslate nohighlight">\(q\)</span> el cuantil 80 % (90 %) del error absoluto en log del modelo en el bucle externo de la validación anidada.</p></li>
+<li><p><strong>Explicación local.</strong> Valores de Shapley estimados por <strong>muestreo de 40 permutaciones</strong> (Štrumbelj y Kononenko, 2014) sobre 20 filas reales de train como referencia. Se programó con numpy en lugar de usar la librería <code class="docutils literal notranslate"><span class="pre">shap</span></code> porque esta carga numba (≈ 100 MB) y el plan gratuito de Render tiene 512 MB. El estimador cumple la <strong>eficiencia</strong> exactamente: valor base + contribuciones = predicción (verificado: 14,7739 = 14,7739 en log).</p></li>
+</ul>
+</section>
+<section id="decisiones-de-diseno-e-ingenieria">
+<h2>21.4 Decisiones de diseño e ingeniería<a class="headerlink" href="#decisiones-de-diseno-e-ingenieria" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Requisito</p></th>
+<th class="head"><p>Decisión</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Diseño coherente</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dash-bootstrap-components</span></code> con tema FLATLY, barra de navegación fija, paleta de 5 colores, tipografía Inter, tarjetas con el mismo espaciado</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gráficos de calidad</p></td>
+<td><p>Plantilla Plotly única: títulos, ejes con unidades, márgenes automáticos para que no se corten las etiquetas, información al pasar el cursor</p></td>
+</tr>
+<tr class="row-even"><td><p>Responsividad</p></td>
+<td><p>Rejilla <code class="docutils literal notranslate"><span class="pre">dbc.Row</span></code>/<code class="docutils literal notranslate"><span class="pre">dbc.Col</span></code> con puntos de corte <code class="docutils literal notranslate"><span class="pre">xs</span></code>, <code class="docutils literal notranslate"><span class="pre">sm</span></code>, <code class="docutils literal notranslate"><span class="pre">lg</span></code>; verificado a 1 400 px y a 820 px (tableta, figura 21.6)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rendimiento</p></td>
+<td><p>Datos leídos una vez (<code class="docutils literal notranslate"><span class="pre">lru_cache</span></code>); modelos cargados <strong>bajo demanda</strong> con caché de 2 (el pico de memoria medido fue ≈ 444 MB con tres modelos y ≈ 240 MB solo con la app); <code class="docutils literal notranslate"><span class="pre">prevent_initial_call</span></code> y <code class="docutils literal notranslate"><span class="pre">no_update</span></code> en la predicción</p></td>
+</tr>
+<tr class="row-even"><td><p>Robustez</p></td>
+<td><p>Validación de rangos y tipos; <code class="docutils literal notranslate"><span class="pre">try/except</span></code> alrededor de la predicción con mensaje en <code class="docutils literal notranslate"><span class="pre">dbc.Alert</span></code>; filtros que dejan menos de 50 filas muestran un aviso en lugar de gráficos vacíos</p></td>
+</tr>
+<tr class="row-odd"><td><p>Accesibilidad</p></td>
+<td><p>Contraste alto, etiquetas en todos los campos, texto alternativo del logo; la información no depende solo del color (las tablas indican «sí/no» además de colorear)</p></td>
+</tr>
+<tr class="row-even"><td><p>Reproducibilidad</p></td>
+<td><p>Mismas versiones de librerías que al entrenar; prueba de ida y vuelta de los 9 artefactos en Python 3.9 y 3.11</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="fig-dash-tableta">
+<a class="reference internal image-reference" href="_images/dashboard_tableta.png"><img alt="_images/dashboard_tableta.png" src="_images/dashboard_tableta.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Figura 6 </span><span class="caption-text">La sección EDA a 820 px de ancho (tableta): las columnas se apilan.</span><a class="headerlink" href="#fig-dash-tableta" title="Enlace permanente a esta imagen">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="despliegue-en-render">
+<h2>21.5 Despliegue en Render<a class="headerlink" href="#despliegue-en-render" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Verificar localmente: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">app.py</span></code> y abrir <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8050</span></code>, y con el comando de producción <code class="docutils literal notranslate"><span class="pre">gunicorn</span> <span class="pre">app:server</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> con versiones exactas (incluido <code class="docutils literal notranslate"><span class="pre">gunicorn</span></code>) y <code class="docutils literal notranslate"><span class="pre">render.yaml</span></code> con <code class="docutils literal notranslate"><span class="pre">PYTHON_VERSION</span> <span class="pre">=</span> <span class="pre">3.11.9</span></code>.</p></li>
+<li><p>Subir el repositorio a GitHub.</p></li>
+<li><p>En Render: <strong>New → Blueprint</strong>, elegir el repositorio y aplicar el <code class="docutils literal notranslate"><span class="pre">render.yaml</span></code> (construcción <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>, inicio <code class="docutils literal notranslate"><span class="pre">gunicorn</span> <span class="pre">app:server</span> <span class="pre">--workers</span> <span class="pre">1</span> <span class="pre">--timeout</span> <span class="pre">120</span></code>).</p></li>
+<li><p>Revisar los registros de construcción y recorrer las tres páginas en la URL pública.</p></li>
+</ol>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">recaudo-forecast</span>
+<span class="w">    </span><span class="nt">runtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python</span>
+<span class="w">    </span><span class="nt">plan</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">free</span>
+<span class="w">    </span><span class="nt">buildCommand</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install -r requirements.txt</span>
+<span class="w">    </span><span class="nt">startCommand</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gunicorn app:server --workers 1 --timeout 120</span>
+<span class="w">    </span><span class="nt">envVars</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHON_VERSION</span>
+<span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.11.9</span>
+</pre></div>
+</div>
+<p>Las capturas de este capítulo se generan con <code class="docutils literal notranslate"><span class="pre">book/capturas_dashboard.py</span></code> (Playwright con Chromium sin interfaz) a partir del tablero corriendo localmente.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="20_validacion_estadistica.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">⚖️ 20. Validación estadística del modelo original</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="22_conclusiones_e3.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">✅ 22. Conclusiones de la tercera entrega</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura">21.1 Arquitectura</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#las-tres-secciones">21.2 Las tres secciones</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediccion-en-vivo">21.3 Predicción en vivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiones-de-diseno-e-ingenieria">21.4 Decisiones de diseño e ingeniería</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#despliegue-en-render">21.5 Despliegue en Render</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

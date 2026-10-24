@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>🧾 16. Trazabilidad de correcciones &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '16_trazabilidad';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="🏆 17. Modelos benchmark: mejores combinaciones y artefactos" href="17_mejores_combinaciones.html" />
+    <link rel="prev" title="✅ 15. Conclusiones" href="15_conclusiones.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dashboard y modelo original (tercera entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🧾 16. Trazabilidad de correcciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_mejores_combinaciones.html">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_literatura.html">📚 18. Revisión de literatura y evidencia de novedad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19_modelo_original.html">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20_validacion_estadistica.html">⚖️ 20. Validación estadística del modelo original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_dashboard.html">🖥️ 21. Dashboard y despliegue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_conclusiones_e3.html">✅ 22. Conclusiones de la tercera entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_reproducibilidad.html">🔁 23. Reproducibilidad y bibliografía</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/16_trazabilidad.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>🧾 16. Trazabilidad de correcciones</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observaciones-del-docente-entrega-1">16.1 Observaciones del docente (entrega 1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correcciones-identificadas-por-el-autor-entrega-2-entrega-3">16.2 Correcciones identificadas por el autor (entrega 2 → entrega 3)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="trazabilidad-de-correcciones">
+<h1>🧾 16. Trazabilidad de correcciones<a class="headerlink" href="#trazabilidad-de-correcciones" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><strong>Estado de la retroalimentación.</strong> Al cerrar esta entrega todavía no se había recibido la retroalimentación del docente sobre la <strong>entrega 2</strong>. Esta tabla incluye (a) las observaciones de la <strong>entrega 1</strong>, verificando que siguen resueltas, y (b) los problemas que <strong>el propio autor</strong> encontró al revisar la entrega 2 y que se corrigen aquí. Cuando llegue la retroalimentación de la entrega 2, cada observación se agregará como una fila nueva.</p>
+</div>
+<section id="observaciones-del-docente-entrega-1">
+<h2>16.1 Observaciones del docente (entrega 1)<a class="headerlink" href="#observaciones-del-docente-entrega-1" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Observación del docente</p></th>
+<th class="head"><p>Acción realizada</p></th>
+<th class="head"><p>Ubicación en el libro</p></th>
+<th class="head"><p>Evidencia</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>D1</p></td>
+<td><p>Falta un análisis multivariado más completo (PCA, atípicos multivariados, clustering por tipo de negocio)</p></td>
+<td><p>PCA de 11 variables de perfil por negocio; k-means con silueta (5 grupos interpretables: KCO, tiendas, EDS, negocios con dos fuentes, casi inactivos); atípicos con Mahalanobis robusta (MCD) e Isolation Forest, con la explicación de por qué el corte χ² no es válido con perfiles multimodales</p></td>
+<td><p>Cap. <a class="reference internal" href="04b_eda_multivariado.html"><span class="doc">🧭 4b. EDA multivariado y días sin venta</span></a></p></td>
+<td><p>Tabla de cargas de PCA, tabla de grupos y gráfico de silueta; tabla cruzada de atípicos por grupo</p></td>
+</tr>
+<tr class="row-odd"><td><p>D2</p></td>
+<td><p>Tratar los días sin venta, que concentran casi todo el error</p></td>
+<td><p>Análisis de quién, cuándo y en qué rachas no se vende (cap. 4b); tarea de clasificación de caídas fuertes (cap. 13); modelo en dos partes (cap. 12.7); variable de régimen en el modelo original (cap. 19)</p></td>
+<td><p>Caps. <a class="reference internal" href="04b_eda_multivariado.html"><span class="doc">🧭 4b. EDA multivariado y días sin venta</span></a>, <a class="reference internal" href="12_regresion_resultados.html"><span class="doc">📊 12. Regresión: resultados, residuos y comparación estadística</span></a>, <a class="reference internal" href="13_clasificacion_resultados.html"><span class="doc">🚨 13. Clasificación: alerta de caída fuerte</span></a>, <a class="reference internal" href="19_modelo_original.html"><span class="doc">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</span></a></p></td>
+<td><p>Tabla de P(caída) según la historia; comparación de una contra dos partes (DM p = 0,84)</p></td>
+</tr>
+<tr class="row-even"><td><p>D3</p></td>
+<td><p>Probar un modelo en dos partes o <em>gradient boosting</em></p></td>
+<td><p>Se probaron los dos: XGBoost y HistGradientBoosting entre los benchmarks; modelo en dos partes con su prueba de Diebold-Mariano</p></td>
+<td><p>Caps. <a class="reference internal" href="12_regresion_resultados.html"><span class="doc">📊 12. Regresión: resultados, residuos y comparación estadística</span></a>, <a class="reference internal" href="17_mejores_combinaciones.html"><span class="doc">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</span></a></p></td>
+<td><p>Tabla de test: XGBoost 2.º de 7; el modelo en dos partes no mejora (se explica por qué)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="correcciones-identificadas-por-el-autor-entrega-2-entrega-3">
+<h2>16.2 Correcciones identificadas por el autor (entrega 2 → entrega 3)<a class="headerlink" href="#correcciones-identificadas-por-el-autor-entrega-2-entrega-3" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Problema encontrado</p></th>
+<th class="head"><p>Acción realizada</p></th>
+<th class="head"><p>Ubicación</p></th>
+<th class="head"><p>Evidencia</p></th>
+<th class="head"><p>¿Cambia resultados?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A1</p></td>
+<td><p>El tablero de la entrega 2 no cumplía la estructura pedida (una sola página, datos sin artefactos, sin predicción en vivo)</p></td>
+<td><p>Tablero multipágina (Contexto, EDA, Modelos) que solo carga artefactos entrenados; predicción en vivo con validación de entradas e intervalo; explicación local</p></td>
+<td><p>Cap. <a class="reference internal" href="21_dashboard.html"><span class="doc">🖥️ 21. Dashboard y despliegue</span></a></p></td>
+<td><p>Arquitectura del repositorio y prueba de los 10 <em>callbacks</em></p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>A2</p></td>
+<td><p>Los datos que exportaba el tablero estaban redondeados a 5 cifras significativas: los modelos de árboles cambiaban de predicción en algunas filas (hasta 30 % en una fila de HistGradientBoosting)</p></td>
+<td><p>Exportación con precisión completa (<code class="docutils literal notranslate"><span class="pre">%.17g</span></code>) y prueba de ida y vuelta en Python 3.9 <strong>y</strong> 3.11 (el entorno de Render)</p></td>
+<td><p>Caps. <a class="reference internal" href="17_mejores_combinaciones.html"><span class="doc">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</span></a>, <a class="reference internal" href="21_dashboard.html"><span class="doc">🖥️ 21. Dashboard y despliegue</span></a></p></td>
+<td><p>Diferencia máxima ≤ 5·10⁻⁶ COP en los 9 modelos y los dos entornos</p></td>
+<td><p>No (solo el tablero)</p></td>
+</tr>
+<tr class="row-even"><td><p>A3</p></td>
+<td><p>La comparación de la entrega 2 no incluía un método reciente del estado del arte</p></td>
+<td><p>Se agregó HistGradientBoosting (boosting por histogramas, estilo LightGBM; Ke et al., 2017) con los 4 optimizadores y la misma validación anidada</p></td>
+<td><p>Caps. <a class="reference internal" href="17_mejores_combinaciones.html"><span class="doc">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</span></a>, <a class="reference internal" href="20_validacion_estadistica.html"><span class="doc">⚖️ 20. Validación estadística del modelo original</span></a></p></td>
+<td><p>Tabla de líderes: queda 3.º entre los benchmarks (RMSE log 0,905); el MCS lo mantiene con 2 de sus 4 optimizadores</p></td>
+<td><p>Se agregan filas; el ranking de los 28 no cambia</p></td>
+</tr>
+<tr class="row-odd"><td><p>A4</p></td>
+<td><p>La tabla maestra solo tenía las 140 combinaciones</p></td>
+<td><p>Tabla maestra final con las 140, los 4 HistGradientBoosting y el modelo original, con sus métricas del bucle externo, tiempos y semilla</p></td>
+<td><p>Cap. <a class="reference internal" href="23_reproducibilidad.html"><span class="doc">🔁 23. Reproducibilidad y bibliografía</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">book/resultados/maestra_final.csv</span></code></p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>A5</p></td>
+<td><p>En la entrega 2 los modelos finales no quedaban guardados como artefactos reutilizables</p></td>
+<td><p>Reentrenamiento de la mejor combinación de cada modelo con todo train, serialización con <code class="docutils literal notranslate"><span class="pre">joblib</span></code> (<code class="docutils literal notranslate"><span class="pre">compress=3</span></code>) y <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> con versiones, semilla, hiperparámetros, esquema de entrada y métricas</p></td>
+<td><p>Cap. <a class="reference internal" href="17_mejores_combinaciones.html"><span class="doc">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</span></a></p></td>
+<td><p>Carpeta <code class="docutils literal notranslate"><span class="pre">artifacts/</span></code>; prueba de ida y vuelta</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>A7</p></td>
+<td><p>El solver del modelo original <strong>no convergía</strong> (100 % de los problemas en el tope de iteraciones) por usar momentos sin centrar (número de condición 86 550), y sus resultados parecían favorables por una regularización accidental</p></td>
+<td><p>Reformulación con la matriz de errores (número de condición 288), tope de 5 000 iteraciones y prueba unitaria de las condiciones de optimalidad (KKT); se recalcularon <strong>todos</strong> los resultados del ACS, y luego se iteró el diseño (v2 a v4) reportando cada versión</p></td>
+<td><p>Caps. <a class="reference internal" href="19_modelo_original.html"><span class="doc">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</span></a> (19.11), <a class="reference internal" href="20_validacion_estadistica.html"><span class="doc">⚖️ 20. Validación estadística del modelo original</span></a></p></td>
+<td><p>Tabla de las 4 versiones; prueba <code class="docutils literal notranslate"><span class="pre">test_solver_cumple_kkt_con_expertos_correlacionados</span></code></p></td>
+<td><p><strong>Sí</strong>: el ACS pasó de empatar con Random Forest (0,889) a quedar 3.º (0,898); su ventaja aparente en MAE desapareció</p></td>
+</tr>
+<tr class="row-even"><td><p>A6</p></td>
+<td><p>Successive Halving (cap. 10) usaba el F1 como métrica de fidelidad, que es ruidosa con pocos árboles</p></td>
+<td><p>Se documenta como limitación y como trabajo futuro (usar <em>log-loss</em> o AUC en las rondas tempranas); no afecta a la tarea de regresión elegida para esta entrega</p></td>
+<td><p>Cap. <a class="reference internal" href="10_optimizacion_hiperparametros.html"><span class="doc">🔍 10. Comparación de los métodos de optimización</span></a></p></td>
+<td><p>Tabla de 10.6</p></td>
+<td><p>No</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resultados actualizados.</strong> Las correcciones A1–A6 no modifican las métricas de los 28 modelos de regresión ni sus pruebas estadísticas: no se encontró fuga de datos ni errores en la validación anidada. La corrección A2 afectaba solo a los datos que mostraba el tablero; A3 y A4 agregan modelos sin cambiar el orden de los existentes. El ranking de la entrega 2 se mantiene: Random Forest · Grid es el mejor en RMSE log del bucle externo.</p>
+<p><strong>La corrección A7 sí cambió resultados, y desfavorablemente.</strong> Con el solver corregido, el modelo original dejó de empatar con Random Forest y su ventaja en MAE (que pasaba 5 de 5 pruebas) desapareció. Se recalcularon todas las tablas, figuras, pruebas, artefactos y el tablero que dependen del ACS, y el cambio se discute en el capítulo 19.11.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="15_conclusiones.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">✅ 15. Conclusiones</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="17_mejores_combinaciones.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observaciones-del-docente-entrega-1">16.1 Observaciones del docente (entrega 1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correcciones-identificadas-por-el-autor-entrega-2-entrega-3">16.2 Correcciones identificadas por el autor (entrega 2 → entrega 3)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

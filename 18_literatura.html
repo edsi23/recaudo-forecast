@@ -1,0 +1,1155 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>📚 18. Revisión de literatura y evidencia de novedad &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '18_literatura';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)" href="19_modelo_original.html" />
+    <link rel="prev" title="🏆 17. Modelos benchmark: mejores combinaciones y artefactos" href="17_mejores_combinaciones.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dashboard y modelo original (tercera entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="16_trazabilidad.html">🧾 16. Trazabilidad de correcciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_mejores_combinaciones.html">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">📚 18. Revisión de literatura y evidencia de novedad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19_modelo_original.html">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20_validacion_estadistica.html">⚖️ 20. Validación estadística del modelo original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_dashboard.html">🖥️ 21. Dashboard y despliegue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_conclusiones_e3.html">✅ 22. Conclusiones de la tercera entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_reproducibilidad.html">🔁 23. Reproducibilidad y bibliografía</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/18_literatura.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>📚 18. Revisión de literatura y evidencia de novedad</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#protocolo">18.1 Protocolo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-novedad">18.2 Matriz de novedad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trabajos-mas-cercanos-y-diferencias">18.3 Trabajos más cercanos y diferencias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#declaracion-de-novedad">18.4 Declaración de novedad</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="revision-de-literatura-y-evidencia-de-novedad">
+<h1>📚 18. Revisión de literatura y evidencia de novedad<a class="headerlink" href="#revision-de-literatura-y-evidencia-de-novedad" title="Permalink to this heading">#</a></h1>
+<p>La guía exige <strong>demostrar</strong> la novedad con una búsqueda documentada, no declararla. Este capítulo reporta la búsqueda (bases, cadenas, fecha y resultados), la matriz de novedad, los trabajos más cercanos (por aplicación y por familia algorítmica) y una declaración de novedad acotada a lo que la búsqueda permite afirmar.</p>
+<section id="protocolo">
+<h2>18.1 Protocolo<a class="headerlink" href="#protocolo" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Bases consultadas (4):</strong> OpenAlex (índice abierto con más de 250 millones de trabajos, sucesor de Microsoft Academic), Semantic Scholar, arXiv y Crossref. Todas se consultaron por su API pública con el script <code class="docutils literal notranslate"><span class="pre">book/revision_literatura.py</span></code>, que guarda el conteo y los 10 primeros resultados de cada búsqueda (<code class="docutils literal notranslate"><span class="pre">resultados/literatura_conteos.csv</span></code> y <code class="docutils literal notranslate"><span class="pre">literatura_resultados.csv</span></code>).</p></li>
+<li><p><strong>Limitaciones de acceso (declaradas):</strong> no se consultaron <strong>Scopus ni Web of Science</strong> por no tener acceso institucional desde el entorno de trabajo; la guía los menciona como ejemplos, no como obligatorios. <strong>DBLP</strong> se intentó y bloqueó el acceso automatizado. <strong>Semantic Scholar</strong> limitó las peticiones (error 429) en la mayoría de las cadenas, aun con reintentos espaciados; las que fallaron quedan registradas como fallidas. El <strong>conteo de Crossref</strong> no es comparable con el de las otras bases, porque cuenta cualquier coincidencia parcial de términos; de Crossref se usan solo sus 10 primeros resultados (ordenados por relevancia).</p></li>
+<li><p><strong>Cadenas (10):</strong> combinan (i) la familia del modelo (combinación de pronósticos, pesos en el símplex, árboles / particionamiento recursivo, selección dinámica, meta-aprendizaje), (ii) el problema (ventas diarias de estaciones de servicio y tiendas de conveniencia) y (iii) sinónimos en inglés y español.</p></li>
+<li><p><strong>Revisión:</strong> título de los 10 primeros resultados de cada base y cadena; <strong>resumen</strong> de los 14 trabajos más cercanos (tabla 18.3).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_colwidth&quot;</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">conteos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;resultados/literatura_conteos.csv&quot;</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;resultados/literatura_resultados.csv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;fecha de la consulta:&quot;</span><span class="p">,</span> <span class="n">conteos</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">conteos</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;cadena&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fecha de la consulta: 2026-10-24
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cadena</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>C1</th>
+      <td>"forecast combination" regime tree "sales"</td>
+    </tr>
+    <tr>
+      <th>C2</th>
+      <td>"forecast combination" simplex weights decision tree</td>
+    </tr>
+    <tr>
+      <th>C3</th>
+      <td>"model-based recursive partitioning" forecast combination</td>
+    </tr>
+    <tr>
+      <th>C4</th>
+      <td>"dynamic ensemble selection" "sales forecasting"</td>
+    </tr>
+    <tr>
+      <th>C5</th>
+      <td>"gas station" OR "fuel station" daily sales forecasting machine learning</td>
+    </tr>
+    <tr>
+      <th>C6</th>
+      <td>"convenience store" daily sales forecasting ensemble</td>
+    </tr>
+    <tr>
+      <th>C7</th>
+      <td>"combinación de pronósticos" ventas diarias</td>
+    </tr>
+    <tr>
+      <th>C8</th>
+      <td>"pronóstico de ventas" "estaciones de servicio"</td>
+    </tr>
+    <tr>
+      <th>C9</th>
+      <td>meta-learning forecast combination weights features FFORMA</td>
+    </tr>
+    <tr>
+      <th>C10</th>
+      <td>stacking non-negative weights partition "forecast combination" retail</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="matriz-de-novedad">
+<h2>18.2 Matriz de novedad<a class="headerlink" href="#matriz-de-novedad" title="Permalink to this heading">#</a></h2>
+<p><strong>Relevantes</strong> cuenta los resultados, entre los revisados, que usan una combinación de pronósticos con pesos dependientes del estado/régimen <strong>o</strong> que pronostican ventas diarias de estaciones de servicio o tiendas de conveniencia. La observación resume el resultado más cercano.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">relevantes</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># (cadena, base): (n relevantes, observación)</span>
+    <span class="p">(</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Tesis (2010) sobre cuándo conviene combinar pronósticos; sin pesos por régimen ni ventas de estaciones&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Elliott y Timmermann (2005): pesos que cambian con un régimen latente (Markov), macroeconomía&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Combinación dinámica por aprendizaje por refuerzo (Fu et al., 2022); combinación estructurada en energía&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Tetereva y Kazak (2026): árboles con pesos constantes por régimen para VaR/ES; encogimiento de pesos&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C3&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;SETAR-Tree (Godahewa et al., 2023): árbol por umbrales con modelos AR en las hojas, no combinaciones&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C3&quot;</span><span class="p">,</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Particionamiento recursivo basado en modelos aplicado a otros dominios&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C4&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Selección dinámica de ensambles para ventas por telemarketing (clasificación)&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C4&quot;</span><span class="p">,</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Selección dinámica de modelos por patrón de demanda en retail (E et al., 2022)&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C5&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Ventas de gasolineras con BiLSTM + algoritmo genético (Pan et al., 2022); ARIMA–Markov en 150 estaciones (2025)&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C5&quot;</span><span class="p">,</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;SARIMA mensual de ventas de gasolina en una estación de Zimbabue (2026)&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C6&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Selección dinámica por patrón de demanda en retail&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C6&quot;</span><span class="p">,</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Sistema híbrido de pronóstico en tiendas de conveniencia (2011, retractado)&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C7&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Combinación bayesiana con metaheurística (caso de estudio, 2018), sin régimen&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C8&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Planes de negocio; ningún pronóstico de ventas de estaciones de servicio en español&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C9&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Combinación bayesiana con variables que cambian en el tiempo (Li et al., 2022); meta-aprendizaje de ensambles&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C9&quot;</span><span class="p">,</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Meta-aprendizaje para combinación (Lemke y Gabrys, 2010); pesos por horizonte&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C10&quot;</span><span class="p">,</span> <span class="s2">&quot;OpenAlex&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Pronóstico por grupos de clientes con promedio bayesiano de modelos (Seyedan et al., 2022)&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;C10&quot;</span><span class="p">,</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Pesos negativos y encogimiento en combinación de pronósticos&quot;</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">mat</span> <span class="o">=</span> <span class="n">conteos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">mat</span><span class="p">[</span><span class="s2">&quot;relevantes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">relevantes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">])]</span>
+<span class="n">mat</span><span class="p">[</span><span class="s2">&quot;observación&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">relevantes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Sin resultados relacionados&quot;</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">])]</span>
+<span class="n">mat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mat</span><span class="p">[</span><span class="s2">&quot;resultados&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span> <span class="s2">&quot;observación&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Consulta fallida (límite de peticiones del API, error 429)&quot;</span>
+<span class="n">mat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mat</span><span class="p">[</span><span class="s2">&quot;resultados&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span> <span class="s2">&quot;relevantes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">mat</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">mat</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">),</span> <span class="s2">&quot;resultados&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">mat</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Crossref&quot;</span><span class="p">),</span> <span class="s2">&quot;resultados&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">*&quot;</span><span class="p">)</span>
+<span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;base&quot;</span><span class="p">:</span> <span class="s2">&quot;base de datos&quot;</span><span class="p">,</span> <span class="s2">&quot;cadena&quot;</span><span class="p">:</span> <span class="s2">&quot;cadena de búsqueda&quot;</span><span class="p">,</span> <span class="s2">&quot;revisados&quot;</span><span class="p">:</span> <span class="s2">&quot;revis.&quot;</span><span class="p">})</span>
+<span class="n">mat</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;base de datos&quot;</span><span class="p">,</span> <span class="s2">&quot;cadena de búsqueda&quot;</span><span class="p">,</span> <span class="s2">&quot;resultados&quot;</span><span class="p">,</span> <span class="s2">&quot;revis.&quot;</span><span class="p">,</span> <span class="s2">&quot;relevantes&quot;</span><span class="p">,</span> <span class="s2">&quot;observación&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;base de datos&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/51/pqfk6vq57gsbrjlv4ycg71j00000gn/T/ipykernel_9164/1647371610.py:26: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value &#39;[&#39;796,903*&#39; &#39;1,427,047*&#39; &#39;9,714,157*&#39; &#39;1,772,279*&#39; &#39;4,823,811*&#39; &#39;644,698*&#39;
+ &#39;10,338,666*&#39; &#39;10,339,983*&#39; &#39;3,987,688*&#39; &#39;2,508,160*&#39;]&#39; has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  mat.loc[(mat[&quot;base&quot;] == &quot;Crossref&quot;), &quot;resultados&quot;] = mat.loc[(mat[&quot;base&quot;] == &quot;Crossref&quot;), &quot;resultados&quot;].map(lambda v: f&quot;{v:,.0f}*&quot;)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>cadena de búsqueda</th>
+      <th>resultados</th>
+      <th>revis.</th>
+      <th>relevantes</th>
+      <th>observación</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th>base de datos</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">C1</th>
+      <th>OpenAlex</th>
+      <td>"forecast combination" regime tree "sales"</td>
+      <td>99.0</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>Tesis (2010) sobre cuándo conviene combinar pronósticos; sin pesos por régimen ni vent...</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>"forecast combination" regime tree "sales"</td>
+      <td>57.0</td>
+      <td>10</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>"forecast combination" regime tree "sales"</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>"forecast combination" regime tree "sales"</td>
+      <td>796,903*</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>Elliott y Timmermann (2005): pesos que cambian con un régimen latente (Markov), macroe...</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">C2</th>
+      <th>OpenAlex</th>
+      <td>"forecast combination" simplex weights decision tree</td>
+      <td>34.0</td>
+      <td>10</td>
+      <td>2.0</td>
+      <td>Combinación dinámica por aprendizaje por refuerzo (Fu et al., 2022); combinación estru...</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>"forecast combination" simplex weights decision tree</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Consulta fallida (límite de peticiones del API, error 429)</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>"forecast combination" simplex weights decision tree</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>"forecast combination" simplex weights decision tree</td>
+      <td>1,427,047*</td>
+      <td>10</td>
+      <td>3.0</td>
+      <td>Tetereva y Kazak (2026): árboles con pesos constantes por régimen para VaR/ES; encogim...</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">C3</th>
+      <th>OpenAlex</th>
+      <td>"model-based recursive partitioning" forecast combination</td>
+      <td>86.0</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>SETAR-Tree (Godahewa et al., 2023): árbol por umbrales con modelos AR en las hojas, no...</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>"model-based recursive partitioning" forecast combination</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Consulta fallida (límite de peticiones del API, error 429)</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>"model-based recursive partitioning" forecast combination</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>"model-based recursive partitioning" forecast combination</td>
+      <td>9,714,157*</td>
+      <td>10</td>
+      <td>0.0</td>
+      <td>Particionamiento recursivo basado en modelos aplicado a otros dominios</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">C4</th>
+      <th>OpenAlex</th>
+      <td>"dynamic ensemble selection" "sales forecasting"</td>
+      <td>9.0</td>
+      <td>9</td>
+      <td>1.0</td>
+      <td>Selección dinámica de ensambles para ventas por telemarketing (clasificación)</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>"dynamic ensemble selection" "sales forecasting"</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Consulta fallida (límite de peticiones del API, error 429)</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>"dynamic ensemble selection" "sales forecasting"</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>"dynamic ensemble selection" "sales forecasting"</td>
+      <td>1,772,279*</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>Selección dinámica de modelos por patrón de demanda en retail (E et al., 2022)</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">C5</th>
+      <th>OpenAlex</th>
+      <td>"gas station" OR "fuel station" daily sales forecasting machine learning</td>
+      <td>45223.0</td>
+      <td>10</td>
+      <td>2.0</td>
+      <td>Ventas de gasolineras con BiLSTM + algoritmo genético (Pan et al., 2022); ARIMA–Markov...</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>"gas station" OR "fuel station" daily sales forecasting machine learning</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Consulta fallida (límite de peticiones del API, error 429)</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>"gas station" OR "fuel station" daily sales forecasting machine learning</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>"gas station" OR "fuel station" daily sales forecasting machine learning</td>
+      <td>4,823,811*</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>SARIMA mensual de ventas de gasolina en una estación de Zimbabue (2026)</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">C6</th>
+      <th>OpenAlex</th>
+      <td>"convenience store" daily sales forecasting ensemble</td>
+      <td>49.0</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>Selección dinámica por patrón de demanda en retail</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>"convenience store" daily sales forecasting ensemble</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Consulta fallida (límite de peticiones del API, error 429)</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>"convenience store" daily sales forecasting ensemble</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>"convenience store" daily sales forecasting ensemble</td>
+      <td>644,698*</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>Sistema híbrido de pronóstico en tiendas de conveniencia (2011, retractado)</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">C7</th>
+      <th>OpenAlex</th>
+      <td>"combinación de pronósticos" ventas diarias</td>
+      <td>19.0</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>Combinación bayesiana con metaheurística (caso de estudio, 2018), sin régimen</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>"combinación de pronósticos" ventas diarias</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Consulta fallida (límite de peticiones del API, error 429)</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>"combinación de pronósticos" ventas diarias</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>"combinación de pronósticos" ventas diarias</td>
+      <td>10,338,666*</td>
+      <td>10</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">C8</th>
+      <th>OpenAlex</th>
+      <td>"pronóstico de ventas" "estaciones de servicio"</td>
+      <td>21.0</td>
+      <td>10</td>
+      <td>0.0</td>
+      <td>Planes de negocio; ningún pronóstico de ventas de estaciones de servicio en español</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>"pronóstico de ventas" "estaciones de servicio"</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Consulta fallida (límite de peticiones del API, error 429)</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>"pronóstico de ventas" "estaciones de servicio"</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>"pronóstico de ventas" "estaciones de servicio"</td>
+      <td>10,339,983*</td>
+      <td>10</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">C9</th>
+      <th>OpenAlex</th>
+      <td>meta-learning forecast combination weights features FFORMA</td>
+      <td>84.0</td>
+      <td>10</td>
+      <td>2.0</td>
+      <td>Combinación bayesiana con variables que cambian en el tiempo (Li et al., 2022); meta-a...</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>meta-learning forecast combination weights features FFORMA</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Consulta fallida (límite de peticiones del API, error 429)</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>meta-learning forecast combination weights features FFORMA</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>meta-learning forecast combination weights features FFORMA</td>
+      <td>3,987,688*</td>
+      <td>10</td>
+      <td>2.0</td>
+      <td>Meta-aprendizaje para combinación (Lemke y Gabrys, 2010); pesos por horizonte</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">C10</th>
+      <th>OpenAlex</th>
+      <td>stacking non-negative weights partition "forecast combination" retail</td>
+      <td>41.0</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>Pronóstico por grupos de clientes con promedio bayesiano de modelos (Seyedan et al., 2...</td>
+    </tr>
+    <tr>
+      <th>Semantic Scholar</th>
+      <td>stacking non-negative weights partition "forecast combination" retail</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Consulta fallida (límite de peticiones del API, error 429)</td>
+    </tr>
+    <tr>
+      <th>arXiv</th>
+      <td>stacking non-negative weights partition "forecast combination" retail</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>Sin resultados relacionados</td>
+    </tr>
+    <tr>
+      <th>Crossref</th>
+      <td>stacking non-negative weights partition "forecast combination" retail</td>
+      <td>2,508,160*</td>
+      <td>10</td>
+      <td>1.0</td>
+      <td>Pesos negativos y encogimiento en combinación de pronósticos</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>* Crossref cuenta coincidencias parciales de cualquier término; se revisan sus 10 primeros por relevancia.</p>
+</section>
+<section id="trabajos-mas-cercanos-y-diferencias">
+<h2>18.3 Trabajos más cercanos y diferencias<a class="headerlink" href="#trabajos-mas-cercanos-y-diferencias" title="Permalink to this heading">#</a></h2>
+<p>Se leyó el resumen de los trabajos más cercanos, por <strong>aplicación</strong> (ventas de estaciones de servicio y retail) y por <strong>familia algorítmica</strong> (combinación de pronósticos con pesos que dependen del estado, árboles y particionamiento, meta-aprendizaje).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cercanos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
+    <span class="p">[</span><span class="s2">&quot;Tetereva y Kazak (2026), SSRN&quot;</span><span class="p">,</span> <span class="s2">&quot;árboles de combinación por régimen&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Pesos de combinación constantes dentro de regímenes definidos por un procedimiento de árboles sobre variables macro-financieras; pérdida de VaR/ES; varios árboles con muestreo de variables por grupos&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Misma idea de regímenes por árbol. El ACS: pérdida cuadrática y pesos en el símplex resueltos con gradiente proyectado sobre la matriz de errores (búsqueda de cortes sin depender de n); encogimiento jerárquico hacia el padre y hacia el promedio; desacuerdo entre expertos como variable de régimen; ajuste cruzado; aplicación a ventas diarias&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Elliott y Timmermann (2005), IER&quot;</span><span class="p">,</span> <span class="s2">&quot;combinación con cambio de régimen&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Pesos que dependen de un estado latente de Markov estimado con el modelo de cambio de régimen&quot;</span><span class="p">,</span> <span class="s2">&quot;Régimen observable (variables del día anterior) y partición por árbol, no un estado latente; sin modelo generativo&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Montero-Manso et al. (2020), IJF — FFORMA&quot;</span><span class="p">,</span> <span class="s2">&quot;meta-aprendizaje&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;XGBoost aprende pesos (softmax) para cada serie a partir de rasgos de la serie completa&quot;</span><span class="p">,</span> <span class="s2">&quot;Pesos por negocio-día (no por serie), exactos y convexos por hoja, interpretables&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Li, Kang y Li (2022), IJF&quot;</span><span class="p">,</span> <span class="s2">&quot;combinación bayesiana con rasgos variables&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Pesos que cambian en el tiempo según rasgos de la serie, con inferencia bayesiana&quot;</span><span class="p">,</span> <span class="s2">&quot;Partición discreta y legible; solver convexo propio; sin MCMC&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;van der Laan et al. (2007) — Super Learner; Breiman (1996)&quot;</span><span class="p">,</span> <span class="s2">&quot;stacking con pesos no negativos&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Pesos globales no negativos (o convexos) estimados con validación cruzada&quot;</span><span class="p">,</span> <span class="s2">&quot;Pesos distintos por región del espacio de régimen; se compara en la ablación (pesos globales en el símplex)&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Zeileis et al. (2008) — MOB; Quinlan (1992) — M5&quot;</span><span class="p">,</span> <span class="s2">&quot;árboles de modelos&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Árboles cuyas hojas tienen un modelo paramétrico (lineal)&quot;</span><span class="p">,</span> <span class="s2">&quot;Las hojas son combinaciones convexas de expertos, con encogimiento al padre&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Godahewa et al. (2023), ML — SETAR-Tree&quot;</span><span class="p">,</span> <span class="s2">&quot;árboles por umbrales para series&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Árbol global con modelos autorregresivos en las hojas&quot;</span><span class="p">,</span> <span class="s2">&quot;Hojas que combinan modelos ya entrenados; no reemplaza a los expertos&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;E, Yu y Tian (2022), Mathematics&quot;</span><span class="p">,</span> <span class="s2">&quot;selección dinámica de modelos en retail&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Clasifica cada producto por patrón de demanda y elige o combina modelos según el desempeño por clase&quot;</span><span class="p">,</span> <span class="s2">&quot;Régimen por día (no por producto), aprendido, y pesos óptimos por hoja&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Seyedan et al. (2022), DAJ&quot;</span><span class="p">,</span> <span class="s2">&quot;promedio bayesiano por grupos&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Pronóstico por segmento de clientes y combinación por BMA&quot;</span><span class="p">,</span> <span class="s2">&quot;Pesos por régimen del día del negocio, no por segmento fijo&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Pan, Liao y Liang (2022), Petroleum Science&quot;</span><span class="p">,</span> <span class="s2">&quot;aplicación: ventas de gasolineras&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;BiLSTM multivariable con hiperparámetros por algoritmo genético; supera a XGBoost y ARIMA&quot;</span><span class="p">,</span> <span class="s2">&quot;Modelo no neuronal, por negocio-día, para EDS + tiendas + kioscos con datos por medio de pago&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Kubek y Więcek (2025), Energies&quot;</span><span class="p">,</span> <span class="s2">&quot;aplicación: demanda en estaciones de combustible&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;ARIMA con cadenas de Markov en ~150 series de estaciones&quot;</span><span class="p">,</span> <span class="s2">&quot;Combinación de modelos de ML con pesos por régimen; venta total en pesos, no volumen&quot;</span><span class="p">],</span>
+<span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;trabajo&quot;</span><span class="p">,</span> <span class="s2">&quot;familia&quot;</span><span class="p">,</span> <span class="s2">&quot;qué hace&quot;</span><span class="p">,</span> <span class="s2">&quot;qué es distinto en el ACS&quot;</span><span class="p">])</span>
+<span class="n">cercanos</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;trabajo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>familia</th>
+      <th>qué hace</th>
+      <th>qué es distinto en el ACS</th>
+    </tr>
+    <tr>
+      <th>trabajo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Tetereva y Kazak (2026), SSRN</th>
+      <td>árboles de combinación por régimen</td>
+      <td>Pesos de combinación constantes dentro de regímenes definidos por un procedimiento de ...</td>
+      <td>Misma idea de regímenes por árbol. El ACS: pérdida cuadrática y pesos en el símplex re...</td>
+    </tr>
+    <tr>
+      <th>Elliott y Timmermann (2005), IER</th>
+      <td>combinación con cambio de régimen</td>
+      <td>Pesos que dependen de un estado latente de Markov estimado con el modelo de cambio de ...</td>
+      <td>Régimen observable (variables del día anterior) y partición por árbol, no un estado la...</td>
+    </tr>
+    <tr>
+      <th>Montero-Manso et al. (2020), IJF — FFORMA</th>
+      <td>meta-aprendizaje</td>
+      <td>XGBoost aprende pesos (softmax) para cada serie a partir de rasgos de la serie completa</td>
+      <td>Pesos por negocio-día (no por serie), exactos y convexos por hoja, interpretables</td>
+    </tr>
+    <tr>
+      <th>Li, Kang y Li (2022), IJF</th>
+      <td>combinación bayesiana con rasgos variables</td>
+      <td>Pesos que cambian en el tiempo según rasgos de la serie, con inferencia bayesiana</td>
+      <td>Partición discreta y legible; solver convexo propio; sin MCMC</td>
+    </tr>
+    <tr>
+      <th>van der Laan et al. (2007) — Super Learner; Breiman (1996)</th>
+      <td>stacking con pesos no negativos</td>
+      <td>Pesos globales no negativos (o convexos) estimados con validación cruzada</td>
+      <td>Pesos distintos por región del espacio de régimen; se compara en la ablación (pesos gl...</td>
+    </tr>
+    <tr>
+      <th>Zeileis et al. (2008) — MOB; Quinlan (1992) — M5</th>
+      <td>árboles de modelos</td>
+      <td>Árboles cuyas hojas tienen un modelo paramétrico (lineal)</td>
+      <td>Las hojas son combinaciones convexas de expertos, con encogimiento al padre</td>
+    </tr>
+    <tr>
+      <th>Godahewa et al. (2023), ML — SETAR-Tree</th>
+      <td>árboles por umbrales para series</td>
+      <td>Árbol global con modelos autorregresivos en las hojas</td>
+      <td>Hojas que combinan modelos ya entrenados; no reemplaza a los expertos</td>
+    </tr>
+    <tr>
+      <th>E, Yu y Tian (2022), Mathematics</th>
+      <td>selección dinámica de modelos en retail</td>
+      <td>Clasifica cada producto por patrón de demanda y elige o combina modelos según el desem...</td>
+      <td>Régimen por día (no por producto), aprendido, y pesos óptimos por hoja</td>
+    </tr>
+    <tr>
+      <th>Seyedan et al. (2022), DAJ</th>
+      <td>promedio bayesiano por grupos</td>
+      <td>Pronóstico por segmento de clientes y combinación por BMA</td>
+      <td>Pesos por régimen del día del negocio, no por segmento fijo</td>
+    </tr>
+    <tr>
+      <th>Pan, Liao y Liang (2022), Petroleum Science</th>
+      <td>aplicación: ventas de gasolineras</td>
+      <td>BiLSTM multivariable con hiperparámetros por algoritmo genético; supera a XGBoost y ARIMA</td>
+      <td>Modelo no neuronal, por negocio-día, para EDS + tiendas + kioscos con datos por medio ...</td>
+    </tr>
+    <tr>
+      <th>Kubek y Więcek (2025), Energies</th>
+      <td>aplicación: demanda en estaciones de combustible</td>
+      <td>ARIMA con cadenas de Markov en ~150 series de estaciones</td>
+      <td>Combinación de modelos de ML con pesos por régimen; venta total en pesos, no volumen</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="declaracion-de-novedad">
+<h2>18.4 Declaración de novedad<a class="headerlink" href="#declaracion-de-novedad" title="Permalink to this heading">#</a></h2>
+<div class="admonition important">
+<p class="admonition-title">Importante</p>
+<p>Al mejor de nuestro conocimiento y según la búsqueda descrita (4 bases, 10 cadenas, consulta del 24 de octubre de 2026), <strong>no se encontraron estudios que apliquen un árbol de combinación de pronósticos con pesos en el símplex por régimen al pronóstico de la venta diaria de estaciones de servicio, tiendas de conveniencia y kioscos.</strong> Los trabajos de aplicación más cercanos pronostican ventas de gasolineras con redes neuronales (Pan et al., 2022), ARIMA–Markov (Kubek y Więcek, 2025) o SARIMA mensual (2026), sin combinación por régimen.</p>
+<p><strong>Lo que no es nuevo.</strong> La idea de que los pesos de combinación dependan de un régimen existe desde Elliott y Timmermann (2005), y <strong>Tetereva y Kazak (2026)</strong> ya usan árboles para definir regímenes con pesos constantes dentro de cada uno (para riesgo de cola financiero). El ACS <strong>no</strong> reclama la idea general.</p>
+<p><strong>Lo que sí aporta el ACS</strong> (mecanismo, no solo aplicación): (1) pesos en el símplex con pérdida cuadrática, resueltos con un gradiente proyectado propio sobre la <strong>matriz de errores</strong> de los expertos, cuya búsqueda de cortes con sumas acumuladas <strong>no depende de n</strong>; (2) <strong>encogimiento jerárquico</strong> de cada hoja hacia su padre y de la raíz hacia el promedio simple, con garantía de entrenamiento (Proposición 4); (3) el <strong>desacuerdo entre expertos</strong> como variable de régimen; (4) <strong>ajuste cruzado</strong> de los pronósticos fuera de muestra para no subestimar a los expertos que más mejoran con datos.</p>
+</div>
+<p><strong>Condición R1 (novedad en la aplicación).</strong> Se cumple según la búsqueda: no se encontró el modelo aplicado a este fenómeno y tarea. La búsqueda tiene límites declarados (sin Scopus ni Web of Science; Semantic Scholar parcial), así que la afirmación es «al mejor de nuestro conocimiento» y se acota a esas bases.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="17_mejores_combinaciones.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="19_modelo_original.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#protocolo">18.1 Protocolo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-novedad">18.2 Matriz de novedad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trabajos-mas-cercanos-y-diferencias">18.3 Trabajos más cercanos y diferencias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#declaracion-de-novedad">18.4 Declaración de novedad</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

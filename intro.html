@@ -181,6 +181,17 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
 <li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dashboard y modelo original (tercera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="16_trazabilidad.html">🧾 16. Trazabilidad de correcciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_mejores_combinaciones.html">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_literatura.html">📚 18. Revisión de literatura y evidencia de novedad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19_modelo_original.html">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20_validacion_estadistica.html">⚖️ 20. Validación estadística del modelo original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_dashboard.html">🖥️ 21. Dashboard y despliegue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_conclusiones_e3.html">✅ 22. Conclusiones de la tercera entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_reproducibilidad.html">🔁 23. Reproducibilidad y bibliografía</a></li>
+</ul>
 
     </div>
 </nav></div>
@@ -368,10 +379,55 @@ document.write(`
 </tbody>
 </table>
 <p><strong>Primera entrega (cap. 1–8):</strong> datos, limpieza, partición, análisis exploratorio, auditoría de fuga, preprocesamiento y un modelo base (SVR lineal contra líneas base ingenuas).</p>
+<p><strong>Tercera entrega (cap. 16–23):</strong> corrección de la entrega 2, selección de las mejores combinaciones y artefactos, un <strong>modelo original</strong> (Árbol de Combinación en el Símplex) con revisión de literatura, demostraciones, pruebas unitarias y validación estadística, y un <strong>tablero en Dash</strong> desplegado en Render.</p>
 <p><strong>Segunda entrega (cap. 4b y 9–15):</strong> EDA multivariado (PCA, agrupación de negocios, atípicos multivariados y días sin venta), el pipeline combinatorio de 140 modelos con Grid, Random, Bayesiana (Optuna) y Genética (DEAP), optimización computacional, evaluación de regresión y clasificación con pruebas estadísticas jerárquicas, calibración e interpretabilidad con SHAP y LIME.</p>
+<div class="tip admonition">
+<p class="admonition-title">Tablero en línea</p>
+<p><strong>URL pública (Render):</strong> <em>se completa al desplegar</em> · El primer acceso puede tardar 30–60 s (plan gratuito).</p>
+</div>
+<p><strong>Resumen ejecutivo de la tercera entrega.</strong> El mejor modelo para pronosticar la venta del día siguiente es <strong>Random Forest</strong> (RMSE en log 0,887 en la validación anidada; 0,622 en test). Se propuso un modelo original, el <strong>ACS</strong>, que combina varios modelos con pesos que dependen del régimen del negocio. Es novedoso para este problema, se implementó desde cero y queda en el grupo de los mejores, pero <strong>no supera a Random Forest de forma estadísticamente significativa</strong> (condición R3 no cumplida, cap. 20).</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Capítulo de la guía</p></th>
+<th class="head"><p>Capítulo de este libro</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0. Introducción</p></td>
+<td><p>Esta página</p></td>
+</tr>
+<tr class="row-odd"><td><p>1. Trazabilidad de correcciones</p></td>
+<td><p><a class="reference internal" href="16_trazabilidad.html"><span class="doc">🧾 16. Trazabilidad de correcciones</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>2. Datos: ETL y EDA</p></td>
+<td><p>Caps. 1–7 y <a class="reference internal" href="04b_eda_multivariado.html"><span class="doc">🧭 4b. EDA multivariado y días sin venta</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>3. Modelos benchmark</p></td>
+<td><p><a class="reference internal" href="17_mejores_combinaciones.html"><span class="doc">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</span></a> (y caps. 9–14)</p></td>
+</tr>
+<tr class="row-even"><td><p>4. Revisión de literatura y novedad</p></td>
+<td><p><a class="reference internal" href="18_literatura.html"><span class="doc">📚 18. Revisión de literatura y evidencia de novedad</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>5. Modelo original</p></td>
+<td><p><a class="reference internal" href="19_modelo_original.html"><span class="doc">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>6. Validación estadística</p></td>
+<td><p><a class="reference internal" href="20_validacion_estadistica.html"><span class="doc">⚖️ 20. Validación estadística del modelo original</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>7. Dashboard y despliegue</p></td>
+<td><p><a class="reference internal" href="21_dashboard.html"><span class="doc">🖥️ 21. Dashboard y despliegue</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>8. Conclusiones y limitaciones</p></td>
+<td><p><a class="reference internal" href="22_conclusiones_e3.html"><span class="doc">✅ 22. Conclusiones de la tercera entrega</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>9. Reproducibilidad y bibliografía</p></td>
+<td><p><a class="reference internal" href="23_reproducibilidad.html"><span class="doc">🔁 23. Reproducibilidad y bibliografía</span></a></p></td>
+</tr>
+</tbody>
+</table>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>Los datos son confidenciales y no están en el repositorio (acceso bajo solicitud y con autorización de la empresa). Los notebooks se ejecutaron localmente y se publican con sus salidas guardadas. La tabla maestra de los experimentos (<code class="docutils literal notranslate"><span class="pre">book/resultados/maestra.csv</span></code>) sí está publicada: solo tiene métricas, tiempos e hiperparámetros.</p>
+<p>Los recibos de origen (datos crudos) no están en el repositorio; el acceso es bajo solicitud y con autorización de la empresa. Los <strong>datos procesados del tablero</strong> (<code class="docutils literal notranslate"><span class="pre">data/</span></code>, negocio × día con negocios anonimizados N001…N453) y los modelos entrenados (<code class="docutils literal notranslate"><span class="pre">artifacts/</span></code>) <strong>sí se publican, con autorización de la empresa</strong>. Los notebooks se ejecutaron localmente y se publican con sus salidas guardadas; la tabla maestra de los experimentos está en <code class="docutils literal notranslate"><span class="pre">book/resultados/maestra_final.csv</span></code>.</p>
 </div>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
@@ -402,6 +458,19 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
 <li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
 <li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dashboard y modelo original (tercera entrega)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="16_trazabilidad.html">🧾 16. Trazabilidad de correcciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_mejores_combinaciones.html">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_literatura.html">📚 18. Revisión de literatura y evidencia de novedad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19_modelo_original.html">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20_validacion_estadistica.html">⚖️ 20. Validación estadística del modelo original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_dashboard.html">🖥️ 21. Dashboard y despliegue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_conclusiones_e3.html">✅ 22. Conclusiones de la tercera entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_reproducibilidad.html">🔁 23. Reproducibilidad y bibliografía</a></li>
 </ul>
 </div>
 </section>

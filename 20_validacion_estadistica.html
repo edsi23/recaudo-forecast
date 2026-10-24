@@ -1,0 +1,1819 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>⚖️ 20. Validación estadística del modelo original &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '20_validacion_estadistica';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="🖥️ 21. Dashboard y despliegue" href="21_dashboard.html" />
+    <link rel="prev" title="🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)" href="19_modelo_original.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dashboard y modelo original (tercera entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="16_trazabilidad.html">🧾 16. Trazabilidad de correcciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_mejores_combinaciones.html">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_literatura.html">📚 18. Revisión de literatura y evidencia de novedad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19_modelo_original.html">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">⚖️ 20. Validación estadística del modelo original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_dashboard.html">🖥️ 21. Dashboard y despliegue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_conclusiones_e3.html">✅ 22. Conclusiones de la tercera entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_reproducibilidad.html">🔁 23. Reproducibilidad y bibliografía</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/20_validacion_estadistica.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>⚖️ 20. Validación estadística del modelo original</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#protocolo">20.1 Protocolo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacion-de-supuestos">20.2 Verificación de supuestos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-resumen">20.3 Tabla resumen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pruebas-de-hipotesis">20.4 Pruebas de hipótesis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-confidence-set-con-el-acs-incluido">Model Confidence Set con el ACS incluido</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confirmacion-en-test-3-23-sep">Confirmación en test (3 – 23 sep)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-en-tres-conjuntos-de-datos-adicionales">20.5 Evaluación en tres conjuntos de datos adicionales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#veredicto-sobre-r3">20.6 Veredicto sobre R3</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#veredicto">Veredicto</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="validacion-estadistica-del-modelo-original">
+<h1>⚖️ 20. Validación estadística del modelo original<a class="headerlink" href="#validacion-estadistica-del-modelo-original" title="Permalink to this heading">#</a></h1>
+<p>Este capítulo responde la condición <strong>R3</strong>: ¿el ACS supera a los benchmarks de forma estadísticamente significativa? La guía define la superioridad con <strong>tres criterios simultáneos</strong>: (1) mejor métrica media del bucle externo que el mejor benchmark y que la mejor combinación de cada uno de los 7 modelos; (2) al menos tres pruebas de hipótesis distintas que rechacen tras ajustar por comparaciones múltiples (α = 0,05; 0,10 para el MCS); (3) un tamaño de efecto no despreciable.</p>
+<p><strong>Métrica de la decisión.</strong> La métrica principal del proyecto es el <strong>RMSE en log</strong>, fijada en la entrega 2 (cap. 9.6) <strong>antes</strong> de diseñar el ACS. Se reporta también el <strong>MAE en log</strong> (secundaria, presente desde la entrega 2), pero el veredicto se toma con la métrica fijada de antemano: elegir la métrica después de ver los resultados invalidaría la prueba.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.multitest</span> <span class="kn">import</span> <span class="n">multipletests</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.stattools</span> <span class="kn">import</span> <span class="n">adfuller</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">comun</span> <span class="kn">import</span> <span class="n">estilo</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">SEED</span><span class="p">,</span> <span class="n">a_log</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="n">VERDE</span><span class="p">,</span> <span class="n">GRIS</span>
+<span class="kn">from</span> <span class="nn">estadistica</span> <span class="kn">import</span> <span class="n">diebold_mariano</span><span class="p">,</span> <span class="n">ic_estacionario</span><span class="p">,</span> <span class="n">cohen_d</span><span class="p">,</span> <span class="n">cliff_delta</span><span class="p">,</span> <span class="n">magnitud_cliff</span><span class="p">,</span> <span class="n">friedman_nemenyi</span>
+<span class="kn">from</span> <span class="nn">validacion_original</span> <span class="kn">import</span> <span class="n">cargar_todo</span><span class="p">,</span> <span class="n">pruebas</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="n">estilo</span><span class="p">()</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">fold</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">variantes</span><span class="p">,</span> <span class="n">acs</span> <span class="o">=</span> <span class="n">cargar_todo</span><span class="p">()</span>
+<span class="n">RIVAL</span> <span class="o">=</span> <span class="s2">&quot;Random Forest · Grid&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span><span class="si">}</span><span class="s2"> modelos en el universo de comparación; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> negocio-días de validación externa en </span><span class="si">{</span><span class="n">sub</span><span class="p">[</span><span class="s1">&#39;fecha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> días&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>35 modelos en el universo de comparación; 12,436 negocio-días de validación externa en 28 días
+</pre></div>
+</div>
+</div>
+</div>
+<section id="protocolo">
+<h2>20.1 Protocolo<a class="headerlink" href="#protocolo" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Pareado estricto:</strong> todos los modelos se evalúan en <strong>las mismas filas</strong> de validación externa (los 4 folds de 7 días de la entrega 2), con la misma semilla y el mismo preprocesamiento (pipeline del cap. 7). El ACS pasó por la misma validación anidada (cap. 19.7).</p></li>
+<li><p><strong>Universo:</strong> 28 combinaciones de la entrega 2, 4 de HistGradientBoosting (estado del arte), el ACS y 2 líneas base: <strong>35 modelos</strong>.</p></li>
+<li><p><strong>Dos tipos de dependencia.</strong> Los errores de un mismo día están correlacionados entre negocios y los de un mismo negocio entre días. Por eso se usan dos familias de pruebas: <strong>series diarias</strong> de pérdida (28 días; MCS, Diebold-Mariano, Giacomini-White, Clark-West, SPA, bootstrap estacionario) y <strong>corte transversal por negocio</strong> (447 negocios, unidades independientes; Wilcoxon, permutación pareada, bootstrap BCa por conglomerados).</p></li>
+<li><p><strong>Potencia.</strong> La guía sugiere repetir la validación externa. Con datos temporales no se pueden barajar los folds, y 28 días es todo lo que hay; la familia por negocio compensa en parte la baja potencia de las pruebas diarias.</p></li>
+</ul>
+</section>
+<section id="verificacion-de-supuestos">
+<h2>20.2 Verificación de supuestos<a class="headerlink" href="#verificacion-de-supuestos" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">metrica</span><span class="p">,</span> <span class="n">L</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;RMSE log&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;MAE log&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">e</span><span class="p">))]:</span>
+    <span class="n">d_fila</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">preds</span><span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="n">L</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">preds</span><span class="p">[</span><span class="n">RIVAL</span><span class="p">])</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">d_fila</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">adf</span> <span class="o">=</span> <span class="n">adfuller</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">autolag</span><span class="o">=</span><span class="s2">&quot;AIC&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">sw</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">shapiro</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">pvalue</span>
+    <span class="n">ac1</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">autocorr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">neg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">d_fila</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;métrica&quot;</span><span class="p">:</span> <span class="n">metrica</span><span class="p">,</span> <span class="s2">&quot;ADF p (diferencia diaria estacionaria si &lt; 0,05)&quot;</span><span class="p">:</span> <span class="n">adf</span><span class="p">,</span>
+                  <span class="s2">&quot;Shapiro p (normalidad diaria)&quot;</span><span class="p">:</span> <span class="n">sw</span><span class="p">,</span> <span class="s2">&quot;autocorrelación rezago 1&quot;</span><span class="p">:</span> <span class="n">ac1</span><span class="p">,</span>
+                  <span class="s2">&quot;asimetría de la diferencia por negocio&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">neg</span><span class="p">),</span>
+                  <span class="s2">&quot;días&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="s2">&quot;negocios&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">neg</span><span class="p">)})</span>
+<span class="n">supuestos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;métrica&quot;</span><span class="p">)</span>
+<span class="n">supuestos</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ADF p (diferencia diaria estacionaria si &lt; 0,05)</th>
+      <th>Shapiro p (normalidad diaria)</th>
+      <th>autocorrelación rezago 1</th>
+      <th>asimetría de la diferencia por negocio</th>
+      <th>días</th>
+      <th>negocios</th>
+    </tr>
+    <tr>
+      <th>métrica</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RMSE log</th>
+      <td>0.01</td>
+      <td>0.86</td>
+      <td>-0.06</td>
+      <td>7.46</td>
+      <td>28</td>
+      <td>447</td>
+    </tr>
+    <tr>
+      <th>MAE log</th>
+      <td>0.00</td>
+      <td>0.38</td>
+      <td>0.14</td>
+      <td>-2.68</td>
+      <td>28</td>
+      <td>447</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura de los supuestos.</strong></p>
+<ul class="simple">
+<li><p><strong>Estacionariedad de la diferencia de pérdida</strong> (supuesto de Diebold-Mariano, Giacomini-White, Clark-West, MCS y SPA): el ADF la rechaza en las dos métricas (p = 0,01 y &lt; 0,01), así que la diferencia diaria es estacionaria.</p></li>
+<li><p><strong>Normalidad de la diferencia diaria:</strong> Shapiro no rechaza (p = 0,86 y 0,38). Respalda la t de Student de la corrección HLN y la d de Cohen.</p></li>
+<li><p><strong>Autocorrelación de la diferencia:</strong> es baja (−0,06 y 0,14 en el rezago 1). El DM con h = 1 es adecuado.</p></li>
+<li><p><strong>Simetría para Wilcoxon:</strong> la diferencia por negocio es muy asimétrica (7,5 en RMSE), por los pocos negocios con días sin venta. Por eso se acompaña con la permutación, que no supone simetría, y con la delta de Cliff.</p></li>
+<li><p><strong>Anidamiento:</strong> el ACS contiene a Random Forest como caso particular, así que se usa Clark-West además de Giacomini-White.</p></li>
+</ul>
+</section>
+<section id="tabla-resumen">
+<h2>20.3 Tabla resumen<a class="headerlink" href="#tabla-resumen" title="Permalink to this heading">#</a></h2>
+<p>Media ± desviación de los 4 folds externos, intervalo de confianza del 95 % del RMSE log (bootstrap BCa por negocios, que respeta la dependencia dentro de cada negocio) y tiempos de entrenamiento e inferencia del modelo final.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">estadistica</span> <span class="kn">import</span> <span class="n">ic_bca_negocios</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;resultados/original_resumen.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">lid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/lideres.csv&quot;</span><span class="p">)</span>
+<span class="n">nombres</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2"> · </span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lid</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">],</span> <span class="n">lid</span><span class="p">[</span><span class="s2">&quot;optimizador&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;ACS&quot;</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;Ingenuo estacional&quot;</span><span class="p">]</span>
+<span class="n">neg</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;negocio&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nombres</span><span class="p">:</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">preds</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">ic_bca_negocios</span><span class="p">(</span><span class="n">neg</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="n">e</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">reps</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="n">r_</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;modelo&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;RMSE log&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r_</span><span class="p">[</span><span class="s1">&#39;RMSE log media&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">r_</span><span class="p">[</span><span class="s1">&#39;RMSE log desv&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;IC 95 % RMSE log (BCa)&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">lo</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">hi</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;MAE log&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r_</span><span class="p">[</span><span class="s1">&#39;MAE log media&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">r_</span><span class="p">[</span><span class="s1">&#39;MAE log desv&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;seg entrenamiento&quot;</span><span class="p">:</span> <span class="n">r_</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seg entrenamiento&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="s2">&quot;seg inferencia (test)&quot;</span><span class="p">:</span> <span class="n">r_</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seg inferencia (test)&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
+                  <span class="s2">&quot;_o&quot;</span><span class="p">:</span> <span class="n">r_</span><span class="p">[</span><span class="s2">&quot;RMSE log media&quot;</span><span class="p">]})</span>
+<span class="n">resumen</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;_o&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;_o&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;modelo&quot;</span><span class="p">)</span>
+<span class="n">resumen</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>RMSE log</th>
+      <th>IC 95 % RMSE log (BCa)</th>
+      <th>MAE log</th>
+      <th>seg entrenamiento</th>
+      <th>seg inferencia (test)</th>
+    </tr>
+    <tr>
+      <th>modelo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Random Forest · Grid</th>
+      <td>0.8874 ± 0.1266</td>
+      <td>[0.752, 1.067]</td>
+      <td>0.2906 ± 0.0505</td>
+      <td>11.33</td>
+      <td>0.28</td>
+    </tr>
+    <tr>
+      <th>XGBoost · Random</th>
+      <td>0.8944 ± 0.1222</td>
+      <td>[0.755, 1.076]</td>
+      <td>0.2961 ± 0.0479</td>
+      <td>0.60</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>ACS (original)</th>
+      <td>0.8981 ± 0.1268</td>
+      <td>[0.749, 1.085]</td>
+      <td>0.2878 ± 0.0511</td>
+      <td>71.88</td>
+      <td>0.35</td>
+    </tr>
+    <tr>
+      <th>HistGradientBoosting · Random</th>
+      <td>0.9047 ± 0.1346</td>
+      <td>[0.770, 1.089]</td>
+      <td>0.3071 ± 0.0436</td>
+      <td>0.26</td>
+      <td>0.02</td>
+    </tr>
+    <tr>
+      <th>KNN · Genético</th>
+      <td>0.9314 ± 0.1112</td>
+      <td>[0.780, 1.122]</td>
+      <td>0.3050 ± 0.0489</td>
+      <td>0.04</td>
+      <td>0.82</td>
+    </tr>
+    <tr>
+      <th>Lasso · Bayes</th>
+      <td>0.9493 ± 0.0894</td>
+      <td>[0.799, 1.159]</td>
+      <td>0.3040 ± 0.0368</td>
+      <td>0.12</td>
+      <td>0.01</td>
+    </tr>
+    <tr>
+      <th>Ridge · Genético</th>
+      <td>0.9498 ± 0.0889</td>
+      <td>[0.799, 1.159]</td>
+      <td>0.3038 ± 0.0352</td>
+      <td>0.03</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>Árbol · Bayes</th>
+      <td>0.9516 ± 0.1143</td>
+      <td>[0.807, 1.142]</td>
+      <td>0.3324 ± 0.0414</td>
+      <td>0.23</td>
+      <td>0.01</td>
+    </tr>
+    <tr>
+      <th>SVR lineal · Grid</th>
+      <td>0.9883 ± 0.0963</td>
+      <td>[0.826, 1.214]</td>
+      <td>0.3083 ± 0.0272</td>
+      <td>0.08</td>
+      <td>0.01</td>
+    </tr>
+    <tr>
+      <th>Ingenuo estacional</th>
+      <td>1.3164 ± 0.1520</td>
+      <td>[1.069, 1.647]</td>
+      <td>0.3838 ± 0.0729</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura.</strong></p>
+<ul class="simple">
+<li><p><strong>En RMSE log</strong> el ACS queda <strong>3.º</strong> (0,8981 ± 0,1268), detrás de Random Forest (0,8874) y XGBoost (0,8944). Los intervalos BCa de los tres se solapan casi por completo.</p></li>
+<li><p><strong>En MAE log</strong> es el <strong>1.º</strong> (0,2878 contra 0,2906 de Random Forest).</p></li>
+<li><p><strong>Costo:</strong> entrenar el ACS toma 72 s, unas 6 veces Random Forest, porque entrena los 4 expertos 5 veces. La predicción de test toma 0,35 s, casi lo mismo que Random Forest.</p></li>
+</ul>
+</section>
+<section id="pruebas-de-hipotesis">
+<h2>20.4 Pruebas de hipótesis<a class="headerlink" href="#pruebas-de-hipotesis" title="Permalink to this heading">#</a></h2>
+<p>Seis pruebas por métrica, del ACS contra el mejor benchmark (Random Forest · Grid), más Clark-West por el anidamiento: el ACS <strong>contiene</strong> a Random Forest como caso particular (pesos <span class="math notranslate nohighlight">\(w = e_{\text{RF}}\)</span> en todas las hojas), que es exactamente el caso para el que Clark y West (2007) corrigen el sesgo del Diebold-Mariano. Los p-valores se ajustan con Holm y con Benjamini-Hochberg <strong>dentro de cada métrica</strong> (7 comparaciones por métrica, 14 en total).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clark_west_diario</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">f_restr</span><span class="p">,</span> <span class="n">f_amplio</span><span class="p">,</span> <span class="n">dias</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">f_restr</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">f_amplio</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">f_restr</span> <span class="o">-</span> <span class="n">f_amplio</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">dias</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">fd</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fd</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">tablas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">metrica</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rmse&quot;</span><span class="p">,</span> <span class="s2">&quot;mae&quot;</span><span class="p">]:</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">mcs</span><span class="p">,</span> <span class="n">dia</span> <span class="o">=</span> <span class="n">pruebas</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">RIVAL</span><span class="p">,</span> <span class="n">metrica</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">metrica</span> <span class="o">==</span> <span class="s2">&quot;rmse&quot;</span><span class="p">:</span>
+        <span class="n">cw</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">clark_west_diario</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">preds</span><span class="p">[</span><span class="n">RIVAL</span><span class="p">],</span> <span class="n">preds</span><span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">],</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="s2">&quot;prueba&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Clark-West (RF anidado en el ACS)&quot;</span><span class="p">,</span> <span class="s2">&quot;H0&quot;</span><span class="p">:</span> <span class="s2">&quot;el ACS no mejora al modelo anidado (RF)&quot;</span><span class="p">,</span>
+                                         <span class="s2">&quot;supuestos&quot;</span><span class="p">:</span> <span class="s2">&quot;modelos anidados; pérdida cuadrática diaria&quot;</span><span class="p">,</span> <span class="s2">&quot;estadístico&quot;</span><span class="p">:</span> <span class="n">cw</span><span class="p">,</span> <span class="s2">&quot;p crudo&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span>
+                                         <span class="s2">&quot;métrica&quot;</span><span class="p">:</span> <span class="s2">&quot;RMSE log&quot;</span><span class="p">}])],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">t</span><span class="p">[</span><span class="s2">&quot;p Holm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s2">&quot;p crudo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;holm&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">t</span><span class="p">[</span><span class="s2">&quot;p BH&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">multipletests</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s2">&quot;p crudo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;fdr_bh&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">tablas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">pruebas_tab</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">tablas</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pruebas_tab</span><span class="p">[</span><span class="s2">&quot;prueba&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pruebas_tab</span><span class="p">[</span><span class="s2">&quot;prueba&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; vs </span><span class="si">{</span><span class="n">RIVAL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pruebas_tab</span><span class="p">[</span><span class="s2">&quot;rechaza H0 (ajustado)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pruebas_tab</span><span class="p">[</span><span class="s2">&quot;prueba&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Model Confidence&quot;</span><span class="p">),</span> <span class="s2">&quot;—&quot;</span><span class="p">,</span>
+                                                <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pruebas_tab</span><span class="p">[</span><span class="s2">&quot;p Holm&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">,</span> <span class="s2">&quot;sí&quot;</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">))</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;métrica&quot;</span><span class="p">,</span> <span class="s2">&quot;prueba&quot;</span><span class="p">,</span> <span class="s2">&quot;H0&quot;</span><span class="p">,</span> <span class="s2">&quot;supuestos&quot;</span><span class="p">,</span> <span class="s2">&quot;estadístico&quot;</span><span class="p">,</span> <span class="s2">&quot;p crudo&quot;</span><span class="p">,</span> <span class="s2">&quot;p Holm&quot;</span><span class="p">,</span> <span class="s2">&quot;p BH&quot;</span><span class="p">,</span> <span class="s2">&quot;d de Cohen&quot;</span><span class="p">,</span> <span class="s2">&quot;delta de Cliff&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;magnitud&quot;</span><span class="p">,</span> <span class="s2">&quot;ACS mejor en (% negocios)&quot;</span><span class="p">,</span> <span class="s2">&quot;IC 95 % (bootstrap estacionario)&quot;</span><span class="p">,</span> <span class="s2">&quot;rechaza H0 (ajustado)&quot;</span><span class="p">]</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_colwidth&quot;</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">pruebas_tab</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>métrica</th>
+      <th>prueba</th>
+      <th>H0</th>
+      <th>supuestos</th>
+      <th>estadístico</th>
+      <th>p crudo</th>
+      <th>p Holm</th>
+      <th>p BH</th>
+      <th>d de Cohen</th>
+      <th>delta de Cliff</th>
+      <th>magnitud</th>
+      <th>ACS mejor en (% negocios)</th>
+      <th>IC 95 % (bootstrap estacionario)</th>
+      <th>rechaza H0 (ajustado)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>RMSE log</td>
+      <td>Model Confidence Set (35 modelos)</td>
+      <td>el ACS pertenece al conjunto de los mejores (igual pérdi...</td>
+      <td>pérdida diaria estacionaria; bootstrap por bloques de 3 ...</td>
+      <td>NaN</td>
+      <td>0.57</td>
+      <td>1.00</td>
+      <td>0.79</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>RMSE log</td>
+      <td>Diebold-Mariano (HLN)</td>
+      <td>igual pérdida esperada (bilateral)</td>
+      <td>diferencia de pérdida estacionaria (ADF), h = 1</td>
+      <td>1.29</td>
+      <td>0.21</td>
+      <td>1.00</td>
+      <td>0.49</td>
+      <td>0.24</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[-0.0064, 0.0446]</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>RMSE log</td>
+      <td>Giacomini-White</td>
+      <td>igual habilidad predictiva condicional</td>
+      <td>instrumentos: constante y diferencia del día anterior</td>
+      <td>2.23</td>
+      <td>0.33</td>
+      <td>1.00</td>
+      <td>0.57</td>
+      <td>0.24</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>RMSE log</td>
+      <td>SPA de Hansen (benchmark Random Forest · Grid)</td>
+      <td>el ACS no es mejor que el benchmark</td>
+      <td>bootstrap estacionario, bloques de 3</td>
+      <td>NaN</td>
+      <td>0.92</td>
+      <td>1.00</td>
+      <td>0.92</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RMSE log</td>
+      <td>Wilcoxon por negocio</td>
+      <td>mediana de la diferencia por negocio = 0</td>
+      <td>negocios independientes; diferencias simétricas</td>
+      <td>45,564.00</td>
+      <td>0.10</td>
+      <td>0.60</td>
+      <td>0.35</td>
+      <td>NaN</td>
+      <td>0.00</td>
+      <td>despreciable</td>
+      <td>44.97</td>
+      <td>NaN</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>RMSE log</td>
+      <td>Permutación pareada por negocio</td>
+      <td>intercambiabilidad de las pérdidas</td>
+      <td>negocios independientes</td>
+      <td>0.00</td>
+      <td>0.73</td>
+      <td>1.00</td>
+      <td>0.85</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>RMSE log</td>
+      <td>Clark-West (RF anidado en el ACS)</td>
+      <td>el ACS no mejora al modelo anidado (RF)</td>
+      <td>modelos anidados; pérdida cuadrática diaria</td>
+      <td>1.73</td>
+      <td>0.05</td>
+      <td>0.33</td>
+      <td>0.33</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>MAE log</td>
+      <td>Model Confidence Set (35 modelos)</td>
+      <td>el ACS pertenece al conjunto de los mejores (igual pérdi...</td>
+      <td>pérdida diaria estacionaria; bootstrap por bloques de 3 ...</td>
+      <td>NaN</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>MAE log</td>
+      <td>Diebold-Mariano (HLN)</td>
+      <td>igual pérdida esperada (bilateral)</td>
+      <td>diferencia de pérdida estacionaria (ADF), h = 1</td>
+      <td>-1.05</td>
+      <td>0.30</td>
+      <td>1.00</td>
+      <td>0.48</td>
+      <td>-0.20</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[-0.0077, 0.0027]</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>MAE log</td>
+      <td>Giacomini-White</td>
+      <td>igual habilidad predictiva condicional</td>
+      <td>instrumentos: constante y diferencia del día anterior</td>
+      <td>2.23</td>
+      <td>0.33</td>
+      <td>1.00</td>
+      <td>0.48</td>
+      <td>-0.20</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>MAE log</td>
+      <td>SPA de Hansen (benchmark Random Forest · Grid)</td>
+      <td>el ACS no es mejor que el benchmark</td>
+      <td>bootstrap estacionario, bloques de 3</td>
+      <td>NaN</td>
+      <td>0.14</td>
+      <td>0.81</td>
+      <td>0.48</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>MAE log</td>
+      <td>Wilcoxon por negocio</td>
+      <td>mediana de la diferencia por negocio = 0</td>
+      <td>negocios independientes; diferencias simétricas</td>
+      <td>47,764.00</td>
+      <td>0.40</td>
+      <td>1.00</td>
+      <td>0.48</td>
+      <td>NaN</td>
+      <td>0.01</td>
+      <td>despreciable</td>
+      <td>47.20</td>
+      <td>NaN</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>MAE log</td>
+      <td>Permutación pareada por negocio</td>
+      <td>intercambiabilidad de las pérdidas</td>
+      <td>negocios independientes</td>
+      <td>-0.00</td>
+      <td>0.37</td>
+      <td>1.00</td>
+      <td>0.48</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura de las pruebas.</strong></p>
+<ul class="simple">
+<li><p><strong>RMSE log (métrica principal): ninguna prueba rechaza.</strong></p>
+<ul>
+<li><p>El MCS mantiene al ACS (p = 0,57) junto con otros 10 modelos.</p></li>
+<li><p>Diebold-Mariano (p = 0,21), Giacomini-White (0,33) y SPA (0,92) no rechazan.</p></li>
+<li><p>Clark-West, la prueba indicada por el anidamiento, da t = 1,73, que no sobrevive al ajuste de Holm.</p></li>
+<li><p>Por negocio, el ACS es mejor en solo el 45 % de los negocios (Wilcoxon p = 0,10; delta de Cliff 0,005, despreciable).</p></li>
+</ul>
+</li>
+<li><p><strong>MAE log (secundaria): tampoco rechaza ninguna.</strong> El ACS tiene la menor media, pero la diferencia (d = −0,20) no es significativa con 28 días, y el MCS conserva 19 modelos.</p></li>
+<li><p>En total se hicieron <strong>13 comparaciones</strong>: 7 en RMSE y 6 en MAE (11 pareadas y 2 MCS). Ninguna pareada rechaza al 5 % ni siquiera sin ajustar, salvo Clark-West, así que el tipo de ajuste no cambia la conclusión.</p></li>
+</ul>
+<section id="model-confidence-set-con-el-acs-incluido">
+<h3>Model Confidence Set con el ACS incluido<a class="headerlink" href="#model-confidence-set-con-el-acs-incluido" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcs_r</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;resultados/original_mcs_rmse.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">mcs_m</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;resultados/original_mcs_mae.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">mcs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">({</span><span class="s2">&quot;RMSE log&quot;</span><span class="p">:</span> <span class="n">mcs_r</span><span class="p">[[</span><span class="s2">&quot;p MCS&quot;</span><span class="p">,</span> <span class="s2">&quot;en el conjunto&quot;</span><span class="p">]],</span> <span class="s2">&quot;MAE log&quot;</span><span class="p">:</span> <span class="n">mcs_m</span><span class="p">[[</span><span class="s2">&quot;p MCS&quot;</span><span class="p">,</span> <span class="s2">&quot;en el conjunto&quot;</span><span class="p">]]},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mcs</span> <span class="o">=</span> <span class="n">mcs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mcs_r</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;en el conjunto al 90 %: RMSE log </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">mcs_r</span><span class="p">[</span><span class="s1">&#39;en el conjunto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> modelos; MAE log </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">mcs_m</span><span class="p">[</span><span class="s1">&#39;en el conjunto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> modelo(s)&quot;</span><span class="p">)</span>
+<span class="n">mcs</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>en el conjunto al 90 %: RMSE log 11 modelos; MAE log 19 modelo(s)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="2" halign="left">RMSE log</th>
+      <th colspan="2" halign="left">MAE log</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>p MCS</th>
+      <th>en el conjunto</th>
+      <th>p MCS</th>
+      <th>en el conjunto</th>
+    </tr>
+    <tr>
+      <th>Model name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Random Forest · Grid</th>
+      <td>1.00</td>
+      <td>True</td>
+      <td>0.28</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>Random Forest · Random</th>
+      <td>0.57</td>
+      <td>True</td>
+      <td>0.24</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>Random Forest · Bayes</th>
+      <td>0.57</td>
+      <td>True</td>
+      <td>0.24</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>XGBoost · Random</th>
+      <td>0.53</td>
+      <td>True</td>
+      <td>0.07</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>ACS (original)</th>
+      <td>0.57</td>
+      <td>True</td>
+      <td>1.00</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>XGBoost · Genético</th>
+      <td>0.49</td>
+      <td>True</td>
+      <td>0.04</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>Random Forest · Genético</th>
+      <td>0.57</td>
+      <td>True</td>
+      <td>0.24</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>XGBoost · Bayes</th>
+      <td>0.57</td>
+      <td>True</td>
+      <td>0.24</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>HistGradientBoosting · Random</th>
+      <td>0.12</td>
+      <td>True</td>
+      <td>0.00</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>HistGradientBoosting · Bayes</th>
+      <td>0.22</td>
+      <td>True</td>
+      <td>0.00</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>HistGradientBoosting · Grid</th>
+      <td>0.01</td>
+      <td>False</td>
+      <td>0.00</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>XGBoost · Grid</th>
+      <td>0.12</td>
+      <td>True</td>
+      <td>0.18</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>HistGradientBoosting · Genético</th>
+      <td>0.02</td>
+      <td>False</td>
+      <td>0.00</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>KNN · Genético</th>
+      <td>0.01</td>
+      <td>False</td>
+      <td>0.00</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="confirmacion-en-test-3-23-sep">
+<h3>Confirmación en test (3 – 23 sep)<a class="headerlink" href="#confirmacion-en-test-3-23-sep" title="Permalink to this heading">#</a></h3>
+<p>El test no se usó para elegir nada; se usa aquí solo como confirmación independiente (21 días).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/pred_test.csv.gz&quot;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">])</span>
+<span class="n">yt</span> <span class="o">=</span> <span class="n">a_log</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">metrica</span><span class="p">,</span> <span class="n">L</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;RMSE log&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;MAE log&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">e</span><span class="p">))]:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">L</span><span class="p">(</span><span class="n">yt</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="s2">&quot;acs&quot;</span><span class="p">]))</span> <span class="o">-</span> <span class="n">L</span><span class="p">(</span><span class="n">yt</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">])))</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="s2">&quot;fecha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">dm</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">diebold_mariano</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">ic_estacionario</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">m_acs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">yt</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="s2">&quot;acs&quot;</span><span class="p">]))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="k">if</span> <span class="n">metrica</span> <span class="o">==</span> <span class="s2">&quot;RMSE log&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yt</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="s2">&quot;acs&quot;</span><span class="p">])))</span>
+    <span class="n">m_rf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">yt</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">]))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="k">if</span> <span class="n">metrica</span> <span class="o">==</span> <span class="s2">&quot;RMSE log&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yt</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">])))</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;métrica&quot;</span><span class="p">:</span> <span class="n">metrica</span><span class="p">,</span> <span class="s2">&quot;ACS&quot;</span><span class="p">:</span> <span class="n">m_acs</span><span class="p">,</span> <span class="s2">&quot;Random Forest&quot;</span><span class="p">:</span> <span class="n">m_rf</span><span class="p">,</span> <span class="s2">&quot;DM (HLN)&quot;</span><span class="p">:</span> <span class="n">dm</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span>
+                  <span class="s2">&quot;IC 95 </span><span class="si">% d</span><span class="s2">iferencia diaria&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">lo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">hi</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="s2">&quot;d de Cohen&quot;</span><span class="p">:</span> <span class="n">cohen_d</span><span class="p">(</span><span class="n">d</span><span class="p">)})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;métrica&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ACS</th>
+      <th>Random Forest</th>
+      <th>DM (HLN)</th>
+      <th>p</th>
+      <th>IC 95 % diferencia diaria</th>
+      <th>d de Cohen</th>
+    </tr>
+    <tr>
+      <th>métrica</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RMSE log</th>
+      <td>0.61</td>
+      <td>0.62</td>
+      <td>-1.85</td>
+      <td>0.08</td>
+      <td>[-0.0287, -0.0006]</td>
+      <td>-0.40</td>
+    </tr>
+    <tr>
+      <th>MAE log</th>
+      <td>0.21</td>
+      <td>0.22</td>
+      <td>-3.50</td>
+      <td>0.00</td>
+      <td>[-0.0078, -0.0028]</td>
+      <td>-0.76</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura de la confirmación en test.</strong> Aquí el ACS sí mejora a Random Forest:</p>
+<ul class="simple">
+<li><p><strong>RMSE log:</strong> 0,611 contra 0,622. El intervalo del bootstrap estacionario de la diferencia diaria <strong>excluye el 0</strong> ([−0,029; −0,001]), aunque el DM queda en p = 0,08 (d = −0,40).</p></li>
+<li><p><strong>MAE log:</strong> DM p &lt; 0,01, con d = −0,76.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p><strong>Este resultado no cuenta para R3</strong>, por dos razones:</p>
+<ol class="arabic simple">
+<li><p>El test (21 días) <strong>no es la evaluación que fija la guía</strong>: esa es el bucle externo.</p></li>
+<li><p><strong>El test también se miró durante la iteración del diseño.</strong> El script de cada versión imprimía su RMSE de test (0,618, 0,621, 0,621 y 0,611), y la v4 se eligió después de verlo. Por eso es una comprobación contaminada.</p></li>
+</ol>
+<p>Que el test favorezca al ACS mientras el bucle externo favorece a Random Forest dice, sobre todo, que <strong>la diferencia entre los dos está en el nivel del ruido</strong> de un trimestre de datos.</p>
+</div>
+</section>
+</section>
+<section id="evaluacion-en-tres-conjuntos-de-datos-adicionales">
+<h2>20.5 Evaluación en tres conjuntos de datos adicionales<a class="headerlink" href="#evaluacion-en-tres-conjuntos-de-datos-adicionales" title="Permalink to this heading">#</a></h2>
+<p>Mismo diseño (85 días por entidad: 14 de historia, 50 de train, 21 de test), mismos folds externos (4 × 7 días), misma semilla y <strong>mismo presupuesto</strong> (16 evaluaciones bayesianas) para los 8 benchmarks; el ACS usa como expertos los mismos 4 modelos, con los hiperparámetros elegidos en cada fold de <strong>ese</strong> conjunto.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Conjunto</p></th>
+<th class="head"><p>Naturaleza</p></th>
+<th class="head"><p>Entidades</p></th>
+<th class="head"><p>Particularidad</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>M5 (Walmart; Makridakis et al., 2022)</p></td>
+<td><p>ventas minoristas por tienda × departamento</p></td>
+<td><p>70</p></td>
+<td><p>sin ceros, muy regular</p></td>
+</tr>
+<tr class="row-odd"><td><p>Online Retail II (UCI; Chen, 2019)</p></td>
+<td><p>ingreso diario de comercio electrónico por producto</p></td>
+<td><p>60</p></td>
+<td><p>19 % de días sin venta, devoluciones negativas</p></td>
+</tr>
+<tr class="row-even"><td><p>ElectricityLoadDiagrams (UCI; Trindade, 2015)</p></td>
+<td><p>consumo diario de energía por cliente</p></td>
+<td><p>368</p></td>
+<td><p>series suaves, escalas muy distintas</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">experimentos_externos</span> <span class="kn">import</span> <span class="n">CONJUNTOS</span><span class="p">,</span> <span class="n">MODELOS</span><span class="p">,</span> <span class="n">EXT</span><span class="p">,</span> <span class="n">cargar_conjunto</span>
+<span class="n">NOMBRE</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;knn&quot;</span><span class="p">:</span> <span class="s2">&quot;KNN&quot;</span><span class="p">,</span> <span class="s2">&quot;ridge&quot;</span><span class="p">:</span> <span class="s2">&quot;Ridge&quot;</span><span class="p">,</span> <span class="s2">&quot;lasso&quot;</span><span class="p">:</span> <span class="s2">&quot;Lasso&quot;</span><span class="p">,</span> <span class="s2">&quot;arbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Árbol&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">:</span> <span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span> <span class="s2">&quot;xgb&quot;</span><span class="p">:</span> <span class="s2">&quot;XGBoost&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;svr&quot;</span><span class="p">:</span> <span class="s2">&quot;SVR lineal&quot;</span><span class="p">,</span> <span class="s2">&quot;hgb&quot;</span><span class="p">:</span> <span class="s2">&quot;HistGradientBoosting&quot;</span><span class="p">}</span>
+<span class="n">filas</span><span class="p">,</span> <span class="n">rangos</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CONJUNTOS</span><span class="p">:</span>
+    <span class="n">tr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cargar_conjunto</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">yl</span> <span class="o">=</span> <span class="n">a_log</span><span class="p">(</span><span class="n">tr</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">met</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">MODELOS</span><span class="p">:</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">EXT</span> <span class="o">/</span> <span class="s2">&quot;resultados&quot;</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">__bayes.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+        <span class="n">met</span><span class="p">[</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">m</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;metricas&quot;</span><span class="p">][</span><span class="s2">&quot;rmse_log&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">rr</span><span class="p">[</span><span class="s2">&quot;folds&quot;</span><span class="p">]]),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;metricas&quot;</span><span class="p">][</span><span class="s2">&quot;mae_log&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">rr</span><span class="p">[</span><span class="s2">&quot;folds&quot;</span><span class="p">]]))</span>
+    <span class="n">ac</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">EXT</span> <span class="o">/</span> <span class="s2">&quot;resultados&quot;</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">__acs.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+    <span class="n">rm</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">yl</span><span class="p">[</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;pred&quot;</span><span class="p">][</span><span class="s2">&quot;fila&quot;</span><span class="p">]]</span> <span class="o">-</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;pred&quot;</span><span class="p">][</span><span class="s2">&quot;ACS&quot;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">ac</span><span class="p">]</span>
+    <span class="n">ma</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yl</span><span class="p">[</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;pred&quot;</span><span class="p">][</span><span class="s2">&quot;fila&quot;</span><span class="p">]]</span> <span class="o">-</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;pred&quot;</span><span class="p">][</span><span class="s2">&quot;ACS&quot;</span><span class="p">]))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">ac</span><span class="p">]</span>
+    <span class="n">met</span><span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">rm</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ma</span><span class="p">))</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">met</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RMSE log&quot;</span><span class="p">,</span> <span class="s2">&quot;MAE log&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">rangos</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s2">&quot;RMSE log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;conjunto&quot;</span><span class="p">:</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&quot;modelo&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;RMSE log&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;RMSE log&quot;</span><span class="p">],</span> <span class="s2">&quot;MAE log&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;MAE log&quot;</span><span class="p">],</span>
+                      <span class="s2">&quot;rango RMSE&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s2">&quot;RMSE log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">()[</span><span class="n">n</span><span class="p">]),</span> <span class="s2">&quot;rango MAE&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s2">&quot;MAE log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">()[</span><span class="n">n</span><span class="p">])})</span>
+<span class="n">ext</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span>
+<span class="n">ext</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;modelo&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;conjunto&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;rango RMSE&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="o">**</span><span class="p">{</span><span class="s2">&quot;rango medio&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;rango medio&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>conjunto</th>
+      <th>electricidad</th>
+      <th>m5</th>
+      <th>retail</th>
+      <th>rango medio</th>
+    </tr>
+    <tr>
+      <th>modelo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ACS (original)</th>
+      <td>2</td>
+      <td>2</td>
+      <td>4</td>
+      <td>2.67</td>
+    </tr>
+    <tr>
+      <th>SVR lineal</th>
+      <td>6</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2.67</td>
+    </tr>
+    <tr>
+      <th>Ridge</th>
+      <td>4</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3.33</td>
+    </tr>
+    <tr>
+      <th>Random Forest</th>
+      <td>1</td>
+      <td>5</td>
+      <td>6</td>
+      <td>4.00</td>
+    </tr>
+    <tr>
+      <th>Lasso</th>
+      <td>7</td>
+      <td>4</td>
+      <td>2</td>
+      <td>4.33</td>
+    </tr>
+    <tr>
+      <th>XGBoost</th>
+      <td>5</td>
+      <td>6</td>
+      <td>5</td>
+      <td>5.33</td>
+    </tr>
+    <tr>
+      <th>HistGradientBoosting</th>
+      <td>3</td>
+      <td>7</td>
+      <td>7</td>
+      <td>5.67</td>
+    </tr>
+    <tr>
+      <th>KNN</th>
+      <td>8</td>
+      <td>8</td>
+      <td>8</td>
+      <td>8.00</td>
+    </tr>
+    <tr>
+      <th>Árbol</th>
+      <td>9</td>
+      <td>9</td>
+      <td>9</td>
+      <td>9.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ext</span><span class="p">[</span><span class="n">ext</span><span class="p">[</span><span class="s2">&quot;modelo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">,</span> <span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span> <span class="s2">&quot;Ridge&quot;</span><span class="p">,</span> <span class="s2">&quot;SVR lineal&quot;</span><span class="p">])]</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="s2">&quot;modelo&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;conjunto&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RMSE log&quot;</span><span class="p">,</span> <span class="s2">&quot;MAE log&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="3" halign="left">RMSE log</th>
+      <th colspan="3" halign="left">MAE log</th>
+    </tr>
+    <tr>
+      <th>conjunto</th>
+      <th>electricidad</th>
+      <th>m5</th>
+      <th>retail</th>
+      <th>electricidad</th>
+      <th>m5</th>
+      <th>retail</th>
+    </tr>
+    <tr>
+      <th>modelo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ACS (original)</th>
+      <td>0.22</td>
+      <td>0.18</td>
+      <td>1.27</td>
+      <td>0.06</td>
+      <td>0.13</td>
+      <td>0.89</td>
+    </tr>
+    <tr>
+      <th>Random Forest</th>
+      <td>0.22</td>
+      <td>0.18</td>
+      <td>1.30</td>
+      <td>0.06</td>
+      <td>0.13</td>
+      <td>0.89</td>
+    </tr>
+    <tr>
+      <th>Ridge</th>
+      <td>0.22</td>
+      <td>0.18</td>
+      <td>1.27</td>
+      <td>0.07</td>
+      <td>0.13</td>
+      <td>0.90</td>
+    </tr>
+    <tr>
+      <th>SVR lineal</th>
+      <td>0.23</td>
+      <td>0.18</td>
+      <td>1.25</td>
+      <td>0.08</td>
+      <td>0.13</td>
+      <td>0.87</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Friedman sobre los 4 conjuntos (Masser + 3 externos), con el rango de RMSE log de cada modelo en cada conjunto</span>
+<span class="n">r_m</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">m</span><span class="p">]</span><span class="si">}</span><span class="s2"> · </span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;knn&quot;</span><span class="p">,</span> <span class="s2">&quot;ridge&quot;</span><span class="p">,</span> <span class="s2">&quot;lasso&quot;</span><span class="p">,</span> <span class="s2">&quot;arbol&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="s2">&quot;xgb&quot;</span><span class="p">,</span> <span class="s2">&quot;svr&quot;</span><span class="p">,</span> <span class="s2">&quot;hgb&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Genético&quot;</span><span class="p">,</span> <span class="s2">&quot;Genético&quot;</span><span class="p">,</span> <span class="s2">&quot;Bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;Bayes&quot;</span><span class="p">,</span> <span class="s2">&quot;Grid&quot;</span><span class="p">,</span> <span class="s2">&quot;Random&quot;</span><span class="p">,</span> <span class="s2">&quot;Grid&quot;</span><span class="p">,</span> <span class="s2">&quot;Random&quot;</span><span class="p">])],</span>
+    <span class="s2">&quot;RMSE log media&quot;</span><span class="p">]</span>
+<span class="n">r_m</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">NOMBRE</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;knn&quot;</span><span class="p">,</span> <span class="s2">&quot;ridge&quot;</span><span class="p">,</span> <span class="s2">&quot;lasso&quot;</span><span class="p">,</span> <span class="s2">&quot;arbol&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="s2">&quot;xgb&quot;</span><span class="p">,</span> <span class="s2">&quot;svr&quot;</span><span class="p">,</span> <span class="s2">&quot;hgb&quot;</span><span class="p">]]</span>
+<span class="n">tabla_f</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;masser&quot;</span><span class="p">:</span> <span class="n">r_m</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">ext</span><span class="p">[</span><span class="n">ext</span><span class="p">[</span><span class="s2">&quot;conjunto&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;modelo&quot;</span><span class="p">)[</span><span class="s2">&quot;RMSE log&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CONJUNTOS</span><span class="p">}})</span><span class="o">.</span><span class="n">T</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="n">friedman_nemenyi</span><span class="p">(</span><span class="n">tabla_f</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Friedman con 4 conjuntos y 9 modelos: χ² = </span><span class="si">{</span><span class="n">fn</span><span class="p">[</span><span class="s1">&#39;chi2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, p = </span><span class="si">{</span><span class="n">fn</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">; CD de Nemenyi = </span><span class="si">{</span><span class="n">fn</span><span class="p">[</span><span class="s1">&#39;cd&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">fn</span><span class="p">[</span><span class="s2">&quot;rangos&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;rango medio&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Friedman con 4 conjuntos y 9 modelos: χ² = 15.33, p = 0.053; CD de Nemenyi = 6.01
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>rango medio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ACS (original)</th>
+      <td>2.75</td>
+    </tr>
+    <tr>
+      <th>Random Forest</th>
+      <td>3.25</td>
+    </tr>
+    <tr>
+      <th>Ridge</th>
+      <td>4.25</td>
+    </tr>
+    <tr>
+      <th>SVR lineal</th>
+      <td>4.25</td>
+    </tr>
+    <tr>
+      <th>XGBoost</th>
+      <td>4.50</td>
+    </tr>
+    <tr>
+      <th>Lasso</th>
+      <td>4.75</td>
+    </tr>
+    <tr>
+      <th>HistGradientBoosting</th>
+      <td>5.25</td>
+    </tr>
+    <tr>
+      <th>KNN</th>
+      <td>7.25</td>
+    </tr>
+    <tr>
+      <th>Árbol</th>
+      <td>8.75</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura de los conjuntos externos</strong> (no se usaron para diseñar ninguna versión del ACS):</p>
+<ul>
+<li><p><strong>El ACS no es el mejor en ningún conjunto externo:</strong> es 2.º en Electricity y en M5 y 4.º en Online Retail. El mejor es Random Forest en Electricity y el SVR lineal en M5 y Retail.</p></li>
+<li><p><strong>Pero es el más consistente.</strong> Sumando Masser, tiene el <strong>mejor rango medio</strong> (2,75, contra 3,25 de Random Forest). El modelo que gana en un conjunto pierde en otro:</p>
+<ul class="simple">
+<li><p>Random Forest es 1.º en Electricity y Masser, pero 5.º y 6.º en M5 y Retail.</p></li>
+<li><p>El SVR lineal es 1.º en M5 y Retail, pero 6.º en Electricity.</p></li>
+</ul>
+<p>Es el comportamiento esperable de una combinación: <strong>robusta, pero no la mejor en cada caso</strong>.</p>
+</li>
+<li><p><strong>Friedman con 4 conjuntos no rechaza</strong> (p = 0,053) y la diferencia crítica de Nemenyi (6,0 rangos) es enorme. Con 4 conjuntos no se puede afirmar que el ACS supere a ningún modelo en general; Demšar (2006) recomienda al menos 10.</p></li>
+<li><p>Los mejores modelos en M5 y Retail son lineales y el SVR <strong>no está</strong> entre los expertos del ACS. Los expertos se fijaron de antemano con los resultados del panel de Masser; agregarlo ahora sería ajustar el modelo a estos datos.</p></li>
+</ul>
+</section>
+<section id="veredicto-sobre-r3">
+<h2>20.6 Veredicto sobre R3<a class="headerlink" href="#veredicto-sobre-r3" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_rmse</span> <span class="o">=</span> <span class="n">pruebas_tab</span><span class="p">[</span><span class="n">pruebas_tab</span><span class="p">[</span><span class="s2">&quot;métrica&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;RMSE log&quot;</span><span class="p">]</span>
+<span class="n">p_mae</span> <span class="o">=</span> <span class="n">pruebas_tab</span><span class="p">[</span><span class="n">pruebas_tab</span><span class="p">[</span><span class="s2">&quot;métrica&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;MAE log&quot;</span><span class="p">]</span>
+<span class="n">bench</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">,</span> <span class="s2">&quot;Ingenuo estacional&quot;</span><span class="p">,</span> <span class="s2">&quot;Persistencia&quot;</span><span class="p">])</span>
+<span class="n">criterios</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
+    <span class="p">{</span><span class="s2">&quot;criterio (guía, sec. 6.1)&quot;</span><span class="p">:</span> <span class="s2">&quot;1. Media del bucle externo mejor que el mejor benchmark y que los 7 modelos&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;RMSE log (principal)&quot;</span><span class="p">:</span> <span class="s2">&quot;no&quot;</span> <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">,</span> <span class="s2">&quot;RMSE log media&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">bench</span><span class="p">[</span><span class="s2">&quot;RMSE log media&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;sí&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;MAE log (secundaria)&quot;</span><span class="p">:</span> <span class="s2">&quot;no&quot;</span> <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">,</span> <span class="s2">&quot;MAE log media&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">bench</span><span class="p">[</span><span class="s2">&quot;MAE log media&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;sí&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;criterio (guía, sec. 6.1)&quot;</span><span class="p">:</span> <span class="s2">&quot;2. Al menos 3 pruebas distintas rechazan con p ajustado &lt; 0,05 (MCS: ACS único en el conjunto)&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;RMSE log (principal)&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">p_rmse</span><span class="p">[</span><span class="s1">&#39;rechaza H0 (ajustado)&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;sí&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> de </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">p_rmse</span><span class="p">[</span><span class="s1">&#39;rechaza H0 (ajustado)&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;—&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> pruebas pareadas; MCS con </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">mcs_r</span><span class="p">[</span><span class="s1">&#39;en el conjunto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> modelos&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;MAE log (secundaria)&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">p_mae</span><span class="p">[</span><span class="s1">&#39;rechaza H0 (ajustado)&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;sí&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> de </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">p_mae</span><span class="p">[</span><span class="s1">&#39;rechaza H0 (ajustado)&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;—&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> pruebas pareadas; MCS con </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">mcs_m</span><span class="p">[</span><span class="s1">&#39;en el conjunto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> modelo&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;criterio (guía, sec. 6.1)&quot;</span><span class="p">:</span> <span class="s2">&quot;3. Efecto no despreciable (|δ| ≥ 0,147 o |d| ≥ 0,2)&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;RMSE log (principal)&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;d = </span><span class="si">{</span><span class="n">p_rmse</span><span class="p">[</span><span class="s1">&#39;d de Cohen&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">; δ = </span><span class="si">{</span><span class="n">p_rmse</span><span class="p">[</span><span class="s1">&#39;delta de Cliff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;MAE log (secundaria)&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;d = </span><span class="si">{</span><span class="n">p_mae</span><span class="p">[</span><span class="s1">&#39;d de Cohen&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">; δ = </span><span class="si">{</span><span class="n">p_mae</span><span class="p">[</span><span class="s1">&#39;delta de Cliff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;criterio (guía, sec. 6.1)&quot;</span><span class="p">:</span> <span class="s2">&quot;Generalización: mejor en los 3 conjuntos externos&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;RMSE log (principal)&quot;</span><span class="p">:</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;MAE log (secundaria)&quot;</span><span class="p">:</span> <span class="s2">&quot;no&quot;</span><span class="p">},</span>
+<span class="p">])</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;criterio (guía, sec. 6.1)&quot;</span><span class="p">)</span>
+<span class="n">criterios</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>RMSE log (principal)</th>
+      <th>MAE log (secundaria)</th>
+    </tr>
+    <tr>
+      <th>criterio (guía, sec. 6.1)</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1. Media del bucle externo mejor que el mejor benchmark y que los 7 modelos</th>
+      <td>no</td>
+      <td>sí</td>
+    </tr>
+    <tr>
+      <th>2. Al menos 3 pruebas distintas rechazan con p ajustado &lt; 0,05 (MCS: ACS único en el conjunto)</th>
+      <td>0 de 6 pruebas pareadas; MCS con 11 modelos</td>
+      <td>0 de 5 pruebas pareadas; MCS con 19 modelo</td>
+    </tr>
+    <tr>
+      <th>3. Efecto no despreciable (|δ| ≥ 0,147 o |d| ≥ 0,2)</th>
+      <td>d = 0.24; δ = 0.005</td>
+      <td>d = -0.20; δ = 0.008</td>
+    </tr>
+    <tr>
+      <th>Generalización: mejor en los 3 conjuntos externos</th>
+      <td>no</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="veredicto">
+<h3>Veredicto<a class="headerlink" href="#veredicto" title="Permalink to this heading">#</a></h3>
+<div class="admonition important">
+<p class="admonition-title">Importante</p>
+<p><strong>R3 no se cumple.</strong> En la métrica principal (RMSE log, fijada en la entrega 2 antes de diseñar el modelo), el ACS <strong>no supera</strong> a Random Forest:</p>
+<ul class="simple">
+<li><p>su media del bucle externo es 0,011 peor;</p></li>
+<li><p><strong>ninguna</strong> de las 6 pruebas pareadas rechaza, y tampoco ninguna de las 5 en MAE log;</p></li>
+<li><p>el efecto es pequeño o despreciable;</p></li>
+<li><p>en los conjuntos externos no es el mejor en ninguno.</p></li>
+</ul>
+<p>El tope de la nota según la guía es <strong>4,0</strong>.</p>
+</div>
+<p><strong>Lo que sí muestra la evidencia, sin que alcance para R3:</strong></p>
+<ol class="arabic simple">
+<li><p>El ACS está siempre en el <strong>grupo de los mejores</strong>: en el MCS de las dos métricas, con el menor MAE medio y con intervalos que se solapan con los de Random Forest.</p></li>
+<li><p>Es el <strong>más consistente entre conjuntos</strong>: tiene el mejor rango medio en los 4.</p></li>
+<li><p><strong>Mejora a Random Forest en test</strong>, pero esa comparación está contaminada por la iteración del diseño.</p></li>
+</ol>
+<p><strong>Causas probables de la no superioridad:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Información.</strong> El error dominante (días sin venta súbitos) no tiene señal en el día anterior, y ningún combinador de expertos que fallan igual lo puede corregir.</p></li>
+<li><p><strong>Expertos muy correlacionados.</strong> La ganancia posible de combinar es pequeña: el puzzle de la combinación (Smith y Wallis, 2009).</p></li>
+<li><p><strong>El combinador sobreajusta</strong> con pocos datos (19.9 y 19.11).</p></li>
+<li><p><strong>Potencia.</strong> Con 28 días de validación externa, diferencias de 1 % en RMSE no son detectables.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="19_modelo_original.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="21_dashboard.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">🖥️ 21. Dashboard y despliegue</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#protocolo">20.1 Protocolo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacion-de-supuestos">20.2 Verificación de supuestos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-resumen">20.3 Tabla resumen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pruebas-de-hipotesis">20.4 Pruebas de hipótesis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-confidence-set-con-el-acs-incluido">Model Confidence Set con el ACS incluido</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confirmacion-en-test-3-23-sep">Confirmación en test (3 – 23 sep)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-en-tres-conjuntos-de-datos-adicionales">20.5 Evaluación en tres conjuntos de datos adicionales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#veredicto-sobre-r3">20.6 Veredicto sobre R3</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#veredicto">Veredicto</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

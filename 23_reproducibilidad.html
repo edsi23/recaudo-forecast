@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>🔁 23. Reproducibilidad y bibliografía &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '23_reproducibilidad';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="prev" title="✅ 22. Conclusiones de la tercera entrega" href="22_conclusiones_e3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dashboard y modelo original (tercera entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="16_trazabilidad.html">🧾 16. Trazabilidad de correcciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_mejores_combinaciones.html">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_literatura.html">📚 18. Revisión de literatura y evidencia de novedad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19_modelo_original.html">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20_validacion_estadistica.html">⚖️ 20. Validación estadística del modelo original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_dashboard.html">🖥️ 21. Dashboard y despliegue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_conclusiones_e3.html">✅ 22. Conclusiones de la tercera entrega</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🔁 23. Reproducibilidad y bibliografía</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/23_reproducibilidad.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>🔁 23. Reproducibilidad y bibliografía</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entorno">23.1 Entorno</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orden-de-ejecucion">23.2 Orden de ejecución</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-maestra-de-experimentos">23.3 Tabla maestra de experimentos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliografia">23.4 Bibliografía</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="reproducibilidad-y-bibliografia">
+<h1>🔁 23. Reproducibilidad y bibliografía<a class="headerlink" href="#reproducibilidad-y-bibliografia" title="Permalink to this heading">#</a></h1>
+<section id="entorno">
+<h2>23.1 Entorno<a class="headerlink" href="#entorno" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Uso</p></th>
+<th class="head"><p>Archivo</p></th>
+<th class="head"><p>Python</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Libro y experimentos</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">requirements-libro.txt</span></code> (entorno conda <code class="docutils literal notranslate"><span class="pre">ml_venv</span></code>)</p></td>
+<td><p>3.9.25</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tablero (Render)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></p></td>
+<td><p>3.11.9</p></td>
+</tr>
+</tbody>
+</table>
+<p>Las dos listas fijan las <strong>mismas versiones</strong> de numpy (1.26.4), pandas (2.1.0), scipy (1.11.2), scikit-learn (1.3.0), xgboost (2.1.4) y joblib (1.3.2), así que los artefactos entrenados con el libro se cargan igual en el tablero (prueba de ida y vuelta en los dos entornos, cap. <a class="reference internal" href="17_mejores_combinaciones.html"><span class="doc">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</span></a>). En macOS, XGBoost requiere OpenMP: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">conda-forge</span> <span class="pre">llvm-openmp</span></code>.</p>
+<p><strong>Semilla global:</strong> <code class="docutils literal notranslate"><span class="pre">SEED</span> <span class="pre">=</span> <span class="pre">42</span></code> (en <code class="docutils literal notranslate"><span class="pre">book/comun.py</span></code>), propagada a numpy, scikit-learn, XGBoost, SMOTE/ADASYN, Optuna (TPE), el algoritmo genético (DEAP), el muestreo de las explicaciones de Shapley y las particiones del bootstrap.</p>
+</section>
+<section id="orden-de-ejecucion">
+<h2>23.2 Orden de ejecución<a class="headerlink" href="#orden-de-ejecucion" title="Permalink to this heading">#</a></h2>
+<p>Con la carpeta <code class="docutils literal notranslate"><span class="pre">Data/</span></code> al lado del repositorio (acceso con autorización de la empresa), desde <code class="docutils literal notranslate"><span class="pre">book/</span></code>:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Paso</p></th>
+<th class="head"><p>Comando</p></th>
+<th class="head"><p>Produce</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>ejecutar <code class="docutils literal notranslate"><span class="pre">02_carga_y_limpieza.ipynb</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Data/processed/panel_negocio_dia.csv</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">experimentos.py</span></code></p></td>
+<td><p>las 140 combinaciones (≈ 50 min con 10 núcleos)</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">estudio_optimizadores.py</span></code></p></td>
+<td><p>estudio de convergencia de los optimizadores</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">artefactos.py</span></code></p></td>
+<td><p>7 artefactos de la entrega 2 con su metadata</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">datos_externos.py</span></code></p></td>
+<td><p>paneles M5, Online Retail II y Electricity (descarga pública)</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">modelo_original.py</span></code></p></td>
+<td><p>validación anidada del ACS (≈ 3 min)</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">experimentos_externos.py</span></code></p></td>
+<td><p>8 benchmarks + ACS en los 3 conjuntos externos y HistGradientBoosting en Masser</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">validacion_original.py</span></code></p></td>
+<td><p>pruebas de hipótesis del ACS</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">exportar_app.py</span></code></p></td>
+<td><p>artefacto del ACS y del HGB, datos del tablero (<code class="docutils literal notranslate"><span class="pre">data/</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">revision_literatura.py</span></code></p></td>
+<td><p>búsqueda de literatura (<code class="docutils literal notranslate"><span class="pre">resultados/literatura_*.csv</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>ejecutar los notebooks y <code class="docutils literal notranslate"><span class="pre">jupyter-book</span> <span class="pre">build</span> <span class="pre">book</span></code> (desde la raíz)</p></td>
+<td><p>el libro</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pytest</span> <span class="pre">tests</span></code> (desde la raíz)</p></td>
+<td><p>16 pruebas del modelo original</p></td>
+</tr>
+</tbody>
+</table>
+<p>Los cómputos costosos (pasos 2, 3, 6 y 7) guardan sus resultados en archivos; los notebooks los leen y reproducen las tablas y figuras.</p>
+</section>
+<section id="tabla-maestra-de-experimentos">
+<h2>23.3 Tabla maestra de experimentos<a class="headerlink" href="#tabla-maestra-de-experimentos" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">book/resultados/maestra_final.csv</span></code> (145 filas): las 112 combinaciones de clasificación y las 28 de regresión de la entrega 2, las 4 de HistGradientBoosting y el modelo original. Cada fila tiene la tarea, el modelo, el balanceo, el optimizador, la semilla, el número de evaluaciones, la media y la desviación de cada métrica en el bucle externo, las métricas de test, los tiempos de entrenamiento e inferencia y los hiperparámetros finales.</p>
+</section>
+<section id="bibliografia">
+<h2>23.4 Bibliografía<a class="headerlink" href="#bibliografia" title="Permalink to this heading">#</a></h2>
+<p>Las referencias de la tercera entrega están en <code class="docutils literal notranslate"><span class="pre">book/references.bib</span></code> (formato BibTeX). Las más usadas: combinación de pronósticos <span id="id1">[<a class="reference internal" href="#id14" title="J. M. Bates and C. W. J. Granger. The combination of forecasts. Operational Research Quarterly, 20(4):451–468, 1969.">BG69</a>, <a class="reference internal" href="#id34" title="Jeremy Smith and Kenneth F. Wallis. A simple explanation of the forecast combination puzzle. Oxford Bulletin of Economics and Statistics, 71(3):331–355, 2009.">SW09</a>, <a class="reference internal" href="#id39" title="Xiaoqian Wang, Rob J. Hyndman, Feng Li, and Yanfei Kang. Forecast combinations: an over 50-year review. International Journal of Forecasting, 39(4):1518–1547, 2023.">WHLK23</a>]</span>, pesos por régimen <span id="id2">[<a class="reference internal" href="#id21" title="Graham Elliott and Allan Timmermann. Optimal forecast combination under regime switching. International Economic Review, 46(4):1081–1102, 2005. doi:10.1111/j.1468-2354.2005.00361.x.">ET05</a>, <a class="reference internal" href="#id36" title="Anastasija Tetereva and Ekaterina Kazak. Forecast combination for tail risk with regulator-aware decision trees. SSRN 6187441, 2026. doi:10.2139/ssrn.6187441.">TK26</a>]</span>, stacking <span id="id3">[<a class="reference internal" href="#id16" title="Leo Breiman. Stacked regressions. Machine Learning, 24:49–64, 1996.">Bre96</a>, <a class="reference internal" href="#id38" title="Mark J. van der Laan, Eric C. Polley, and Alan E. Hubbard. Super learner. Statistical Applications in Genetics and Molecular Biology, 2007.">vdLPH07</a>, <a class="reference internal" href="#id40" title="David H. Wolpert. Stacked generalization. Neural Networks, 5(2):241–259, 1992.">Wol92</a>]</span>, árboles de modelos <span id="id4">[<a class="reference internal" href="#id22" title="Rakshitha Godahewa, Geoffrey I. Webb, Daniel Schmidt, and Christoph Bergmeir. Setar-tree: a novel and accurate tree algorithm for global time series forecasting. Machine Learning, 2023. doi:10.1007/s10994-023-06316-x.">GWSB23</a>, <a class="reference internal" href="#id32" title="J. R. Quinlan. Learning with continuous classes. In 5th Australian Joint Conference on Artificial Intelligence. 1992.">Qui92</a>, <a class="reference internal" href="#id41" title="Achim Zeileis, Torsten Hothorn, and Kurt Hornik. Model-based recursive partitioning. Journal of Computational and Graphical Statistics, 17(2):492–514, 2008.">ZHH08</a>]</span>, meta-aprendizaje <span id="id5">[<a class="reference internal" href="#id28" title="Li Li, Yanfei Kang, and Feng Li. Bayesian forecast combination using time-varying features. International Journal of Forecasting, 2022. doi:10.1016/j.ijforecast.2022.06.002.">LKL22</a>, <a class="reference internal" href="#id30" title="Pablo Montero-Manso, George Athanasopoulos, Rob J. Hyndman, and Thiyanga S. Talagala. Fforma: feature-based forecast model averaging. International Journal of Forecasting, 36(1):86–92, 2020.">MMAHT20</a>]</span>, optimización <span id="id6">[<a class="reference internal" href="#id15" title="Amir Beck. First-Order Methods in Optimization. SIAM, 2017.">Bec17</a>, <a class="reference internal" href="#id19" title="John Duchi, Shai Shalev-Shwartz, Yoram Singer, and Tushar Chandra. Efficient projections onto the l1-ball for learning in high dimensions. In ICML. 2008.">DSSSC08</a>, <a class="reference internal" href="#id24" title="Michael Held, Philip Wolfe, and Harlan P. Crowder. Validation of subgradient optimization. Mathematical Programming, 6:62–88, 1974.">HWC74</a>]</span>, comparación estadística <span id="id7">[<a class="reference internal" href="#id18" title="Janez Demšar. Statistical comparisons of classifiers over multiple data sets. Journal of Machine Learning Research, 7:1–30, 2006.">Demvsar06</a>, <a class="reference internal" href="#id23" title="Peter R. Hansen, Asger Lunde, and James M. Nason. The model confidence set. Econometrica, 79(2):453–497, 2011.">HLN11</a>]</span>, interpretabilidad <span id="id8">[<a class="reference internal" href="#id35" title="Erik Štrumbelj and Igor Kononenko. Explaining prediction models and individual predictions with feature contributions. Knowledge and Information Systems, 41:647–665, 2014.">vStrumbeljK14</a>]</span>, estado del arte <span id="id9">[<a class="reference internal" href="#id25" title="Guolin Ke and others. Lightgbm: a highly efficient gradient boosting decision tree. In NeurIPS. 2017.">K+17</a>]</span>, aplicaciones cercanas <span id="id10">[<a class="reference internal" href="#id20" title="Erjiang E, Ming Yu, and Xin Tian. Dynamic model selection based on demand pattern classification in retail sales forecasting. Mathematics, 10(17):3179, 2022. doi:10.3390/math10173179.">EYT22</a>, <a class="reference internal" href="#id26" title="Daniel Kubek and Paweł Więcek. Hybrid demand forecasting in fuel supply chains: arima with non-homogeneous markov chains and feature-conditioned evaluation. Energies, 18:6044, 2025. doi:10.3390/en18226044.">KWikecek25</a>, <a class="reference internal" href="#id31" title="Shiyuan Pan, Qi Liao, and Yongtu Liang. Multivariable sales prediction for filling stations via ga improved bilstm. Petroleum Science, 2022. doi:10.1016/j.petsci.2022.05.005.">PLL22</a>, <a class="reference internal" href="#id33" title="Mahya Seyedan, Fereshteh Mafakheri, and Chun Wang. Cluster-based demand forecasting using bayesian model averaging: an ensemble learning approach. Decision Analytics Journal, 3:100033, 2022.">SMW22</a>]</span>, datos externos <span id="id11">[<a class="reference internal" href="#id17" title="Daqing Chen. Online retail ii. UCI Machine Learning Repository, 2019. doi:10.24432/C5CG6D.">Che19</a>, <a class="reference internal" href="#id29" title="Spyros Makridakis, Evangelos Spiliotis, and Vassilios Assimakopoulos. M5 accuracy competition: results, findings, and conclusions. International Journal of Forecasting, 38(4):1346–1364, 2022.">MSA22</a>, <a class="reference internal" href="#id37" title="Artur Trindade. Electricityloaddiagrams20112014. UCI Machine Learning Repository, 2015. doi:10.24432/C58C86.">Tri15</a>]</span> y contexto <span id="id12">[<a class="reference internal" href="#id27" title="La República. Terpel, biomax y primax lideran el mercado de las estaciones de gasolina en colombia. https://www.larepublica.co/empresas/terpel-biomax-y-primax-lideran-el-mercado-de-las-estaciones-de-gasolina-en-colombia-3813893, 2024.">LaRepublica24</a>]</span>.</p>
+<div class="docutils container" id="id13">
+<div class="citation" id="id14" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">BG69</a><span class="fn-bracket">]</span></span>
+<p>J. M. Bates and C. W. J. Granger. The combination of forecasts. <em>Operational Research Quarterly</em>, 20(4):451–468, 1969.</p>
+</div>
+<div class="citation" id="id15" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">Bec17</a><span class="fn-bracket">]</span></span>
+<p>Amir Beck. <em>First-Order Methods in Optimization</em>. SIAM, 2017.</p>
+</div>
+<div class="citation" id="id16" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Bre96</a><span class="fn-bracket">]</span></span>
+<p>Leo Breiman. Stacked regressions. <em>Machine Learning</em>, 24:49–64, 1996.</p>
+</div>
+<div class="citation" id="id17" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">Che19</a><span class="fn-bracket">]</span></span>
+<p>Daqing Chen. Online retail ii. UCI Machine Learning Repository, 2019. <a class="reference external" href="https://doi.org/10.24432/C5CG6D">doi:10.24432/C5CG6D</a>.</p>
+</div>
+<div class="citation" id="id18" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">Demvsar06</a><span class="fn-bracket">]</span></span>
+<p>Janez Demšar. Statistical comparisons of classifiers over multiple data sets. <em>Journal of Machine Learning Research</em>, 7:1–30, 2006.</p>
+</div>
+<div class="citation" id="id19" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">DSSSC08</a><span class="fn-bracket">]</span></span>
+<p>John Duchi, Shai Shalev-Shwartz, Yoram Singer, and Tushar Chandra. Efficient projections onto the l1-ball for learning in high dimensions. In <em>ICML</em>. 2008.</p>
+</div>
+<div class="citation" id="id20" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">EYT22</a><span class="fn-bracket">]</span></span>
+<p>Erjiang E, Ming Yu, and Xin Tian. Dynamic model selection based on demand pattern classification in retail sales forecasting. <em>Mathematics</em>, 10(17):3179, 2022. <a class="reference external" href="https://doi.org/10.3390/math10173179">doi:10.3390/math10173179</a>.</p>
+</div>
+<div class="citation" id="id21" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">ET05</a><span class="fn-bracket">]</span></span>
+<p>Graham Elliott and Allan Timmermann. Optimal forecast combination under regime switching. <em>International Economic Review</em>, 46(4):1081–1102, 2005. <a class="reference external" href="https://doi.org/10.1111/j.1468-2354.2005.00361.x">doi:10.1111/j.1468-2354.2005.00361.x</a>.</p>
+</div>
+<div class="citation" id="id22" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">GWSB23</a><span class="fn-bracket">]</span></span>
+<p>Rakshitha Godahewa, Geoffrey I. Webb, Daniel Schmidt, and Christoph Bergmeir. Setar-tree: a novel and accurate tree algorithm for global time series forecasting. <em>Machine Learning</em>, 2023. <a class="reference external" href="https://doi.org/10.1007/s10994-023-06316-x">doi:10.1007/s10994-023-06316-x</a>.</p>
+</div>
+<div class="citation" id="id23" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">HLN11</a><span class="fn-bracket">]</span></span>
+<p>Peter R. Hansen, Asger Lunde, and James M. Nason. The model confidence set. <em>Econometrica</em>, 79(2):453–497, 2011.</p>
+</div>
+<div class="citation" id="id24" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">HWC74</a><span class="fn-bracket">]</span></span>
+<p>Michael Held, Philip Wolfe, and Harlan P. Crowder. Validation of subgradient optimization. <em>Mathematical Programming</em>, 6:62–88, 1974.</p>
+</div>
+<div class="citation" id="id25" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">K+17</a><span class="fn-bracket">]</span></span>
+<p>Guolin Ke and others. Lightgbm: a highly efficient gradient boosting decision tree. In <em>NeurIPS</em>. 2017.</p>
+</div>
+<div class="citation" id="id26" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">KWikecek25</a><span class="fn-bracket">]</span></span>
+<p>Daniel Kubek and Paweł Więcek. Hybrid demand forecasting in fuel supply chains: arima with non-homogeneous markov chains and feature-conditioned evaluation. <em>Energies</em>, 18:6044, 2025. <a class="reference external" href="https://doi.org/10.3390/en18226044">doi:10.3390/en18226044</a>.</p>
+</div>
+<div class="citation" id="id28" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">LKL22</a><span class="fn-bracket">]</span></span>
+<p>Li Li, Yanfei Kang, and Feng Li. Bayesian forecast combination using time-varying features. <em>International Journal of Forecasting</em>, 2022. <a class="reference external" href="https://doi.org/10.1016/j.ijforecast.2022.06.002">doi:10.1016/j.ijforecast.2022.06.002</a>.</p>
+</div>
+<div class="citation" id="id29" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">MSA22</a><span class="fn-bracket">]</span></span>
+<p>Spyros Makridakis, Evangelos Spiliotis, and Vassilios Assimakopoulos. M5 accuracy competition: results, findings, and conclusions. <em>International Journal of Forecasting</em>, 38(4):1346–1364, 2022.</p>
+</div>
+<div class="citation" id="id30" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">MMAHT20</a><span class="fn-bracket">]</span></span>
+<p>Pablo Montero-Manso, George Athanasopoulos, Rob J. Hyndman, and Thiyanga S. Talagala. Fforma: feature-based forecast model averaging. <em>International Journal of Forecasting</em>, 36(1):86–92, 2020.</p>
+</div>
+<div class="citation" id="id31" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">PLL22</a><span class="fn-bracket">]</span></span>
+<p>Shiyuan Pan, Qi Liao, and Yongtu Liang. Multivariable sales prediction for filling stations via ga improved bilstm. <em>Petroleum Science</em>, 2022. <a class="reference external" href="https://doi.org/10.1016/j.petsci.2022.05.005">doi:10.1016/j.petsci.2022.05.005</a>.</p>
+</div>
+<div class="citation" id="id32" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Qui92</a><span class="fn-bracket">]</span></span>
+<p>J. R. Quinlan. Learning with continuous classes. In <em>5th Australian Joint Conference on Artificial Intelligence</em>. 1992.</p>
+</div>
+<div class="citation" id="id33" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">SMW22</a><span class="fn-bracket">]</span></span>
+<p>Mahya Seyedan, Fereshteh Mafakheri, and Chun Wang. Cluster-based demand forecasting using bayesian model averaging: an ensemble learning approach. <em>Decision Analytics Journal</em>, 3:100033, 2022.</p>
+</div>
+<div class="citation" id="id34" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">SW09</a><span class="fn-bracket">]</span></span>
+<p>Jeremy Smith and Kenneth F. Wallis. A simple explanation of the forecast combination puzzle. <em>Oxford Bulletin of Economics and Statistics</em>, 71(3):331–355, 2009.</p>
+</div>
+<div class="citation" id="id36" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">TK26</a><span class="fn-bracket">]</span></span>
+<p>Anastasija Tetereva and Ekaterina Kazak. Forecast combination for tail risk with regulator-aware decision trees. SSRN 6187441, 2026. <a class="reference external" href="https://doi.org/10.2139/ssrn.6187441">doi:10.2139/ssrn.6187441</a>.</p>
+</div>
+<div class="citation" id="id37" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">Tri15</a><span class="fn-bracket">]</span></span>
+<p>Artur Trindade. Electricityloaddiagrams20112014. UCI Machine Learning Repository, 2015. <a class="reference external" href="https://doi.org/10.24432/C58C86">doi:10.24432/C58C86</a>.</p>
+</div>
+<div class="citation" id="id38" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">vdLPH07</a><span class="fn-bracket">]</span></span>
+<p>Mark J. van der Laan, Eric C. Polley, and Alan E. Hubbard. Super learner. <em>Statistical Applications in Genetics and Molecular Biology</em>, 2007.</p>
+</div>
+<div class="citation" id="id39" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">WHLK23</a><span class="fn-bracket">]</span></span>
+<p>Xiaoqian Wang, Rob J. Hyndman, Feng Li, and Yanfei Kang. Forecast combinations: an over 50-year review. <em>International Journal of Forecasting</em>, 39(4):1518–1547, 2023.</p>
+</div>
+<div class="citation" id="id40" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Wol92</a><span class="fn-bracket">]</span></span>
+<p>David H. Wolpert. Stacked generalization. <em>Neural Networks</em>, 5(2):241–259, 1992.</p>
+</div>
+<div class="citation" id="id41" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">ZHH08</a><span class="fn-bracket">]</span></span>
+<p>Achim Zeileis, Torsten Hothorn, and Kurt Hornik. Model-based recursive partitioning. <em>Journal of Computational and Graphical Statistics</em>, 17(2):492–514, 2008.</p>
+</div>
+<div class="citation" id="id35" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">vStrumbeljK14</a><span class="fn-bracket">]</span></span>
+<p>Erik Štrumbelj and Igor Kononenko. Explaining prediction models and individual predictions with feature contributions. <em>Knowledge and Information Systems</em>, 41:647–665, 2014.</p>
+</div>
+<div class="citation" id="id27" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">LaRepublica24</a><span class="fn-bracket">]</span></span>
+<p>La República. Terpel, biomax y primax lideran el mercado de las estaciones de gasolina en colombia. https://www.larepublica.co/empresas/terpel-biomax-y-primax-lideran-el-mercado-de-las-estaciones-de-gasolina-en-colombia-3813893, 2024.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="22_conclusiones_e3.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">✅ 22. Conclusiones de la tercera entrega</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entorno">23.1 Entorno</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orden-de-ejecucion">23.2 Orden de ejecución</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabla-maestra-de-experimentos">23.3 Tabla maestra de experimentos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliografia">23.4 Bibliografía</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1792 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="es" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS) &#8212; Pronóstico de ventas diarias por negocio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '19_modelo_original';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="⚖️ 20. Validación estadística del modelo original" href="20_validacion_estadistica.html" />
+    <link rel="prev" title="📚 18. Revisión de literatura y evidencia de novedad" href="18_literatura.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Pronóstico de ventas diarias por negocio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Datos y análisis exploratorio</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_base_de_datos.html">📘 1. Base de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_carga_y_limpieza.html">🧹 2. Carga y limpieza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_particion_y_objetivo.html">✂️ 3. Partición y variable objetivo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_eda_uni_bi_multivariado.html">🔎 4. EDA univariado, bivariado y multivariado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_eda_multivariado.html">🧭 4b. EDA multivariado y días sin venta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_auditoria_fuga.html">🚨 5. Auditoría de fuga de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_eda_temporal.html">⏱️ 6. EDA temporal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_preprocesamiento.html">⚙️ 7. Preprocesamiento</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelo base (primera entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08_modelo_base.html">🤖 8. Modelo base</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modelos y resultados (segunda entrega)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_diseno_experimental.html">🧪 9. Diseño experimental de la segunda entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_optimizacion_hiperparametros.html">🔍 10. Comparación de los métodos de optimización</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_optimizacion_computacional.html">⚙️ 11. Optimización computacional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_regresion_resultados.html">📊 12. Regresión: resultados, residuos y comparación estadística</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_clasificacion_resultados.html">🚨 13. Clasificación: alerta de caída fuerte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_interpretabilidad.html">🧠 14. Interpretabilidad: SHAP y LIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_conclusiones.html">✅ 15. Conclusiones</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dashboard y modelo original (tercera entrega)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="16_trazabilidad.html">🧾 16. Trazabilidad de correcciones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_mejores_combinaciones.html">🏆 17. Modelos benchmark: mejores combinaciones y artefactos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_literatura.html">📚 18. Revisión de literatura y evidencia de novedad</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20_validacion_estadistica.html">⚖️ 20. Validación estadística del modelo original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21_dashboard.html">🖥️ 21. Dashboard y despliegue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_conclusiones_e3.html">✅ 22. Conclusiones de la tercera entrega</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23_reproducibilidad.html">🔁 23. Reproducibilidad y bibliografía</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/edsi23/recaudo-forecast" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Repositorio de origen"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/19_modelo_original.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivacion">19.1 Motivación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formulacion-matematica">19.2 Formulación matemática</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudocodigo">19.3 Pseudocódigo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#propiedades-demostradas">19.4 Propiedades demostradas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacion-empirica-de-la-complejidad">Verificación empírica de la complejidad</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacion">19.5 Implementación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pruebas-unitarias">19.6 Pruebas unitarias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hiperparametros-dentro-de-la-validacion-anidada">19.7 Hiperparámetros dentro de la validación anidada</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#el-arbol-final">El árbol final</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ablacion-y-reglas-estandar-de-combinacion">19.8 Ablación y reglas estándar de combinación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensibilidad-estabilidad-y-robustez">19.9 Sensibilidad, estabilidad y robustez</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretabilidad-acs-contra-random-forest">19.10 Interpretabilidad: ACS contra Random Forest</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#historia-del-diseno-cuatro-versiones">19.11 Historia del diseño: cuatro versiones</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modelo-original-arbol-de-combinacion-en-el-simplex-acs">
+<h1>🌳 19. Modelo original: Árbol de Combinación en el Símplex (ACS)<a class="headerlink" href="#modelo-original-arbol-de-combinacion-en-el-simplex-acs" title="Permalink to this heading">#</a></h1>
+<section id="motivacion">
+<h2>19.1 Motivación<a class="headerlink" href="#motivacion" title="Permalink to this heading">#</a></h2>
+<p>La entrega 2 dejó tres hallazgos que apuntan a una misma idea:</p>
+<ol class="arabic simple">
+<li><p><strong>Ningún modelo gana en todas partes.</strong> Random Forest tiene el menor error medio, pero por negocio empata con Ridge y Lasso (Friedman–Nemenyi, cap. 12). Su ventaja viene de los negocios <strong>irregulares</strong>; en los estables un modelo lineal pronostica igual de bien.</p></li>
+<li><p><strong>El régimen del negocio se puede leer el día anterior</strong>: volatilidad de la semana (<code class="docutils literal notranslate"><span class="pre">std7</span></code>), días sin venta, nivel, lo que vendió ayer (cap. 4b).</p></li>
+<li><p><strong>Las reglas de combinación globales no ayudan</strong>: un promedio o un stacking con pesos fijos no aprovecha que el mejor experto cambia según el régimen.</p></li>
+</ol>
+<p>La propuesta es un <strong>ensamble cuyos pesos dependen del régimen</strong>: un árbol parte el espacio de régimen y en cada hoja combina a los expertos con pesos <strong>convexos</strong> (no negativos que suman 1), estimados resolviendo un problema cuadrático convexo con un solver propio. Una variable de régimen nueva es el <strong>desacuerdo entre expertos</strong> (desviación estándar de sus pronósticos): mide la incertidumbre del ensamble en ese punto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">original_model</span> <span class="kn">import</span> <span class="n">ArbolCombinacionSimplex</span><span class="p">,</span> <span class="n">EnsambleRegimen</span><span class="p">,</span> <span class="n">proyectar_simplex</span><span class="p">,</span> <span class="n">resolver_pesos</span>
+
+<span class="kn">from</span> <span class="nn">comun</span> <span class="kn">import</span> <span class="n">estilo</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">SEED</span><span class="p">,</span> <span class="n">a_log</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">,</span> <span class="n">VERDE</span><span class="p">,</span> <span class="n">GRIS</span><span class="p">,</span> <span class="n">PALETA</span>
+<span class="kn">from</span> <span class="nn">datos</span> <span class="kn">import</span> <span class="n">preparar</span><span class="p">,</span> <span class="n">partir</span><span class="p">,</span> <span class="n">X_COLS</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="n">estilo</span><span class="p">()</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">partir</span><span class="p">(</span><span class="n">preparar</span><span class="p">())</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">DATA</span> <span class="o">/</span> <span class="s2">&quot;processed&quot;</span> <span class="o">/</span> <span class="s2">&quot;modelo_original.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">final</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;expertos:&quot;</span><span class="p">,</span> <span class="n">final</span><span class="o">.</span><span class="n">nombres_</span><span class="p">,</span> <span class="s2">&quot;| variables de régimen:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">final</span><span class="o">.</span><span class="n">columnas_regimen</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;desacuerdo&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>expertos: [&#39;rf&#39;, &#39;xgb&#39;, &#39;ridge&#39;, &#39;knn&#39;, &#39;lag7&#39;] | variables de régimen: [&#39;std7&#39;, &#39;dias_sin_venta7&#39;, &#39;media7&#39;, &#39;lag1&#39;, &#39;nivel&#39;, &#39;festivo&#39;, &#39;dia_semana&#39;, &#39;part_efectivo&#39;, &#39;desacuerdo&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="formulacion-matematica">
+<h2>19.2 Formulación matemática<a class="headerlink" href="#formulacion-matematica" title="Permalink to this heading">#</a></h2>
+<p>Sean <span class="math notranslate nohighlight">\(K\)</span> expertos con pronósticos <span class="math notranslate nohighlight">\(\hat y_{ik}\)</span> del negocio-día <span class="math notranslate nohighlight">\(i\)</span>, llevados a la escala del entrenamiento <span class="math notranslate nohighlight">\(z_{ik} = \log(1 + \hat y_{ik})\)</span>, el objetivo <span class="math notranslate nohighlight">\(y_i = \log(1 + \text{venta}_i)\)</span> y <span class="math notranslate nohighlight">\(q\)</span> variables de régimen <span class="math notranslate nohighlight">\(g_i \in \mathbb{R}^q\)</span>. El ACS pronostica</p>
+<div class="math notranslate nohighlight" id="equation-eq-acs">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-acs" title="Enlace permanente a esta ecuación">#</a></span>\[
+\hat y_i \;=\; \sum_{k=1}^{K} w_{h(g_i),\,k}\; z_{ik}, \qquad w_h \in \Delta_K = \Big\{ w \in \mathbb{R}^K : w_k \ge 0,\ \textstyle\sum_k w_k = 1 \Big\}
+\]</div>
+<p>donde <span class="math notranslate nohighlight">\(h(g)\)</span> es la hoja del árbol a la que llega <span class="math notranslate nohighlight">\(g\)</span>. Como <span class="math notranslate nohighlight">\(\sum_k w_k = 1\)</span>, el error de la combinación se escribe con los <strong>errores de los expertos</strong> <span class="math notranslate nohighlight">\(e_{ik} = y_i - z_{ik}\)</span>: <span class="math notranslate nohighlight">\(\;y_i - w^\top z_i = w^\top e_i\)</span>. En cada hoja <span class="math notranslate nohighlight">\(h\)</span> con <span class="math notranslate nohighlight">\(n_h\)</span> filas y padre con pesos <span class="math notranslate nohighlight">\(p\)</span> y <span class="math notranslate nohighlight">\(n_{\text{padre}}\)</span> filas, los pesos resuelven</p>
+<div class="math notranslate nohighlight" id="equation-eq-hoja">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-hoja" title="Enlace permanente a esta ecuación">#</a></span>\[
+w_h = \arg\min_{w \in \Delta_K}\; f_h(w), \qquad
+f_h(w) = w^\top D_h\, w + \lambda\,\frac{n_{\text{padre}}}{n_h}\,\lVert w - p \rVert_2^2, \qquad D_h = \frac{1}{n_h}\sum_{i \in h} e_i e_i^\top
+\]</div>
+<p>El primer término es <strong>exactamente</strong> el error cuadrático medio de la combinación en la hoja; el segundo <strong>encoge</strong> los pesos hacia los del padre, más cuanto más pequeña es la hoja. En la <strong>raíz</strong> el encogimiento es hacia el <strong>promedio simple</strong> <span class="math notranslate nohighlight">\(p = \tfrac1K\mathbf 1\)</span> con la misma <span class="math notranslate nohighlight">\(\lambda\)</span>: es la respuesta al «puzzle de la combinación de pronósticos» (Smith y Wallis, 2009), según el cual los pesos estimados suelen perder contra el promedio simple porque el error de estimarlos supera la ganancia de combinar.</p>
+<p><strong>Por qué <span class="math notranslate nohighlight">\(D_h\)</span> y no los momentos de <span class="math notranslate nohighlight">\(z\)</span>.</strong> Escribir el ECM con <span class="math notranslate nohighlight">\(A = \tfrac1n Z^\top Z\)</span>, <span class="math notranslate nohighlight">\(b = \tfrac1n Z^\top y\)</span> da el mismo valor dentro del símplex, pero con pronósticos en log (todos cerca de 15) <span class="math notranslate nohighlight">\(A\)</span> tiene un autovalor enorme en la dirección de <span class="math notranslate nohighlight">\(\mathbf 1\)</span> (≈ 1 213 contra 0,014 en nuestros datos: número de condición 86 550) y el gradiente proyectado no converge en la práctica. <span class="math notranslate nohighlight">\(D_h\)</span> elimina esa dirección (número de condición 288). La primera versión del modelo usaba <span class="math notranslate nohighlight">\(A\)</span> (ver 19.11). Con <span class="math notranslate nohighlight">\(\lambda' = \lambda\,n_{\text{padre}}/n_h\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-grad">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-grad" title="Enlace permanente a esta ecuación">#</a></span>\[
+\nabla f_h(w) = 2 D_h w + 2\lambda'(w - p)
+\]</div>
+<p><strong>Solver: gradiente proyectado</strong> con paso <span class="math notranslate nohighlight">\(1/L\)</span>, <span class="math notranslate nohighlight">\(L = 2(\lambda_{\max}(D_h) + \lambda')\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-pg">
+<span class="eqno">(4)<a class="headerlink" href="#equation-eq-pg" title="Enlace permanente a esta ecuación">#</a></span>\[
+w^{(t+1)} = \Pi_{\Delta_K}\!\Big(w^{(t)} - \tfrac{1}{L}\nabla f_h\big(w^{(t)}\big)\Big), \qquad
+\Pi_{\Delta_K}(v) = \max(v - \theta, 0),\ \ \theta = \frac{\sum_{j \le \rho} u_j - 1}{\rho}
+\]</div>
+<p>donde <span class="math notranslate nohighlight">\(u\)</span> es <span class="math notranslate nohighlight">\(v\)</span> ordenado de mayor a menor y <span class="math notranslate nohighlight">\(\rho = \max\{j : u_j - (\sum_{r \le j} u_r - 1)/j &gt; 0\}\)</span> (proyección exacta al símplex de Held, Wolfe y Crowder, 1974; Duchi et al., 2008).</p>
+<p><strong>Criterio de partición.</strong> Para una variable de régimen <span class="math notranslate nohighlight">\(j\)</span> y un umbral <span class="math notranslate nohighlight">\(u\)</span> (uno de <span class="math notranslate nohighlight">\(B\)</span> cuantiles), los hijos <span class="math notranslate nohighlight">\(L = \{g_j \le u\}\)</span> y <span class="math notranslate nohighlight">\(R = \{g_j &gt; u\}\)</span> resuelven <a class="reference internal" href="#equation-eq-hoja">(2)</a> y la partición elegida minimiza</p>
+<div class="math notranslate nohighlight" id="equation-eq-split">
+<span class="eqno">(5)<a class="headerlink" href="#equation-eq-split" title="Enlace permanente a esta ecuación">#</a></span>\[
+\mathrm{ECM}(j, u) = \frac{n_L\, \mathrm{ECM}_L(w_L) + n_R\, \mathrm{ECM}_R(w_R)}{n_L + n_R}
+\]</div>
+<p>y se acepta solo si mejora el ECM del nodo en más de una fracción <code class="docutils literal notranslate"><span class="pre">ganancia_min</span></code>. Como <span class="math notranslate nohighlight">\(D\)</span> de cada hijo se obtiene con <strong>sumas acumuladas</strong> de <span class="math notranslate nohighlight">\(e_i e_i^\top\)</span> ordenadas por <span class="math notranslate nohighlight">\(g_j\)</span>, evaluar un umbral <strong>no depende de <span class="math notranslate nohighlight">\(n\)</span></strong>.</p>
+<p><strong>De dónde salen los <span class="math notranslate nohighlight">\(z_{ik}\)</span> de entrenamiento.</strong> Si el combinador se ajustara con pronósticos dentro de muestra, premiaría al experto que más memoriza (un bosque con hojas de 2 filas). Por eso los <span class="math notranslate nohighlight">\(z_{ik}\)</span> de entrenamiento son <strong>fuera de muestra por ajuste cruzado</strong> (<em>cross-fitting</em>, como en el stacking de Wolpert, 1992, y el Super Learner de van der Laan et al., 2007): los días de train se parten en 4 bloques contiguos y cada bloque se pronostica con expertos entrenados con <strong>los otros 3 bloques</strong>. Así los expertos tienen casi tantos datos como los finales, y los pesos no castigan a los expertos que más mejoran con datos (ver 19.11). Las variables solo usan el pasado (cap. 5) y todo ocurre dentro del train de cada fold externo, así que no hay fuga hacia la validación. Para predecir, los expertos se reentrenan con todo train.</p>
+</section>
+<section id="pseudocodigo">
+<h2>19.3 Pseudocódigo<a class="headerlink" href="#pseudocodigo" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Algoritmo ACS
+Entrada : train (X, y, fecha); expertos f_1..f_K; variables de régimen g; hiperparámetros
+          max_depth D, min_samples_leaf m, λ, B umbrales, ganancia_min γ, tol, max_iter
+Salida  : árbol T con pesos w_h ∈ Δ_K en cada hoja; expertos reentrenados
+
+ 1  dividir los días de train en 4 bloques contiguos
+ 2  para cada bloque b:                                                 # ajuste cruzado
+ 3      entrenar f_1..f_K con los otros bloques;  Z_b ← log(1 + f_k(X_b)),  G_b ← [g(X_b), sd_k(Z_b)]
+ 4  Z, y, G ← unir los bloques;  y ← log(1 + y);  E ← y·1ᵀ − Z          # errores de los expertos
+ 5  w_raíz ← PG(D = EᵀE/n, p = (1/K)·1, λ&#39; = λ)                        # ec. (eq-pg), encoge al promedio
+ 6  CRECER(todas las filas, w_raíz, profundidad 0)
+ 7  reentrenar f_1..f_K con todo train;  devolver T
+
+ CRECER(I, w, d):
+ 8  si d = D  o  |I| &lt; 2m:  hoja con pesos w;  terminar
+ 9  para cada variable j y umbral u ∈ cuantiles de G[I, j]:
+10      con sumas acumuladas de e eᵀ: D_L, D_R
+11      si n_L ≥ m y n_R ≥ m:  w_L ← PG(D_L, w, λ n/n_L);  w_R ← PG(D_R, w, λ n/n_R)
+12      ECM(j, u) ← ec. (eq-split)
+13  si ECM(nodo) − min ECM(j, u) ≤ γ·ECM(nodo):  hoja con pesos w;  terminar
+14  CRECER(I_L, w_L, d + 1);  CRECER(I_R, w_R, d + 1)
+
+ PG(D, p, λ&#39;):                                                         # gradiente proyectado
+15  L ← 2(λ_max(D) + λ&#39;);  w ← p
+16  repetir hasta ‖w_nuevo − w‖_∞ &lt; tol  o  max_iter (5 000):  w ← Π_Δ(w − ∇f(w)/L)
+
+ Predicción de una fila x:  bajar por T según g(x) hasta la hoja h;  ŷ = expm1(Σ_k w_h,k · log(1 + f_k(x)))
+</pre></div>
+</div>
+</section>
+<section id="propiedades-demostradas">
+<h2>19.4 Propiedades demostradas<a class="headerlink" href="#propiedades-demostradas" title="Permalink to this heading">#</a></h2>
+<p><strong>Proposición 1 (convexidad y unicidad).</strong> <span class="math notranslate nohighlight">\(f_h\)</span> es convexa; si <span class="math notranslate nohighlight">\(\lambda' &gt; 0\)</span> es <span class="math notranslate nohighlight">\(\mu\)</span>-fuertemente convexa con <span class="math notranslate nohighlight">\(\mu = 2\lambda'\)</span>, y <a class="reference internal" href="#equation-eq-hoja">(2)</a> tiene un único minimizador.</p>
+<p><em>Demostración.</em> <span class="math notranslate nohighlight">\(D_h = \frac{1}{n_h}\sum e_i e_i^\top\)</span> es semidefinida positiva, así que <span class="math notranslate nohighlight">\(w^\top D_h w\)</span> es convexa, y <span class="math notranslate nohighlight">\(\lambda'\lVert w - p\rVert^2\)</span> tiene hessiano <span class="math notranslate nohighlight">\(2\lambda' I\)</span>. El hessiano de <span class="math notranslate nohighlight">\(f_h\)</span> es <span class="math notranslate nohighlight">\(2D_h + 2\lambda' I \succeq 2\lambda' I\)</span>. <span class="math notranslate nohighlight">\(\Delta_K\)</span> es convexo, cerrado y acotado (compacto), así que existe un mínimo (Weierstrass), y la convexidad fuerte lo hace único. <span class="math notranslate nohighlight">\(\blacksquare\)</span></p>
+<p><strong>Proposición 2 (convergencia del solver).</strong> Con paso <span class="math notranslate nohighlight">\(1/L\)</span>, el gradiente proyectado <a class="reference internal" href="#equation-eq-pg">(4)</a> cumple
+<span class="math notranslate nohighlight">\(f_h(w^{(t)}) - f_h^\star \le \dfrac{L\, \lVert w^{(0)} - w^\star\rVert^2}{2t} \le \dfrac{L}{t}\)</span>, y si <span class="math notranslate nohighlight">\(\lambda' &gt; 0\)</span>, <span class="math notranslate nohighlight">\(\lVert w^{(t)} - w^\star \rVert^2 \le (1 - \mu/L)^t \lVert w^{(0)} - w^\star\rVert^2\)</span> (convergencia lineal).</p>
+<p><em>Demostración.</em> <span class="math notranslate nohighlight">\(\nabla f_h\)</span> es Lipschitz con constante <span class="math notranslate nohighlight">\(L = 2(\lambda_{\max}(D_h) + \lambda')\)</span>, el mayor autovalor del hessiano. Para una función convexa <span class="math notranslate nohighlight">\(L\)</span>-suave y un conjunto convexo cerrado, el gradiente proyectado con paso <span class="math notranslate nohighlight">\(1/L\)</span> satisface el lema de descenso <span class="math notranslate nohighlight">\(f(w^{(t+1)}) \le f(w) + \nabla f(w)^\top(w^{(t+1)} - w) + \tfrac{L}{2}\lVert w^{(t+1)}-w\rVert^2\)</span> y la desigualdad de la proyección <span class="math notranslate nohighlight">\(\langle w^{(t)} - \tfrac1L\nabla f - w^{(t+1)}, w^\star - w^{(t+1)}\rangle \le 0\)</span>; sumando ambas desde <span class="math notranslate nohighlight">\(t = 0\)</span> y telescopando se obtiene la cota <span class="math notranslate nohighlight">\(O(1/t)\)</span> (Beck, 2017, Teorema 10.21). Con convexidad fuerte, el mapa de gradiente es una contracción con factor <span class="math notranslate nohighlight">\(1 - \mu/L\)</span> (Beck, 2017, Teorema 10.29). La segunda desigualdad usa que el diámetro de <span class="math notranslate nohighlight">\(\Delta_K\)</span> es <span class="math notranslate nohighlight">\(\sqrt 2\)</span>: <span class="math notranslate nohighlight">\(\lVert w^{(0)} - w^\star\rVert^2 \le 2\)</span>. <span class="math notranslate nohighlight">\(\blacksquare\)</span></p>
+<p><em>Consecuencia práctica:</em> la tasa lineal <span class="math notranslate nohighlight">\((1-\mu/L)\)</span> depende del número de condición <span class="math notranslate nohighlight">\(L/\mu\)</span>. Con la matriz de errores <span class="math notranslate nohighlight">\(D_h\)</span> (condición ≈ 288 en estos datos) el solver converge en cientos de iteraciones; con los momentos sin centrar de la primera versión (condición ≈ 86 550) no convergía en 500 (19.11). La prueba unitaria <code class="docutils literal notranslate"><span class="pre">test_solver_cumple_kkt_con_expertos_correlacionados</span></code> verifica las condiciones de optimalidad en ese caso.</p>
+<p><strong>Proposición 3 (terminación del árbol).</strong> El algoritmo termina con a lo sumo <span class="math notranslate nohighlight">\(\min(2^{D+1} - 1,\; 2n/m)\)</span> nodos.</p>
+<p><em>Demostración.</em> Cada partición produce dos hijos con al menos <span class="math notranslate nohighlight">\(m\)</span> filas y la profundidad está acotada por <span class="math notranslate nohighlight">\(D\)</span>, así que el árbol es binario de profundidad <span class="math notranslate nohighlight">\(\le D\)</span> (<span class="math notranslate nohighlight">\(\le 2^{D+1}-1\)</span> nodos) y sus hojas son disjuntas con <span class="math notranslate nohighlight">\(\ge m\)</span> filas (<span class="math notranslate nohighlight">\(\le n/m\)</span> hojas, <span class="math notranslate nohighlight">\(\le 2n/m\)</span> nodos). Cada nodo evalúa a lo sumo <span class="math notranslate nohighlight">\(qB\)</span> candidatos y cada solver para en a lo sumo <code class="docutils literal notranslate"><span class="pre">max_iter</span></code> iteraciones. <span class="math notranslate nohighlight">\(\blacksquare\)</span></p>
+<p><strong>Proposición 4 (casi nunca peor que el mejor experto en entrenamiento).</strong> Sea <span class="math notranslate nohighlight">\(\mathrm{ECM}(T)\)</span> el error cuadrático medio del árbol sobre sus datos de ajuste. Entonces <span class="math notranslate nohighlight">\(\mathrm{ECM}(T) \le \min_k \mathrm{ECM}(e_k) + \lambda(1 - 1/K)\)</span>, donde <span class="math notranslate nohighlight">\(e_k\)</span> es «usar solo el experto <span class="math notranslate nohighlight">\(k\)</span>». Con <span class="math notranslate nohighlight">\(\lambda \to 0\)</span> el árbol nunca es peor que el mejor experto; con <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span> se cede a lo sumo <span class="math notranslate nohighlight">\(\lambda(1-1/K)\)</span> de ajuste a cambio de estabilidad.</p>
+<p><em>Demostración.</em> (i) En la raíz, cada vértice <span class="math notranslate nohighlight">\(e_k \in \Delta_K\)</span> es factible, así que <span class="math notranslate nohighlight">\(\mathrm{ECM}(w_{\text{raíz}}) \le f(w_{\text{raíz}}) \le f(e_k) = \mathrm{ECM}(e_k) + \lambda\lVert e_k - \tfrac1K\mathbf 1\rVert^2\)</span>, y <span class="math notranslate nohighlight">\(\lVert e_k - \tfrac1K \mathbf 1\rVert^2 = 1 - 1/K\)</span>. (ii) En un hijo <span class="math notranslate nohighlight">\(h\)</span> con padre de pesos <span class="math notranslate nohighlight">\(p\)</span>: <span class="math notranslate nohighlight">\(p\)</span> es factible y su penalización es 0, así que <span class="math notranslate nohighlight">\(\mathrm{ECM}_h(w_h) \le f_h(w_h) \le f_h(p) = \mathrm{ECM}_h(p)\)</span>. Promediando sobre los dos hijos, <span class="math notranslate nohighlight">\(\mathrm{ECM}(\text{hijos}) \le \mathrm{ECM}(\text{padre})\)</span>: ninguna partición empeora el ajuste, y por inducción el árbol no supera el ECM de la raíz. <span class="math notranslate nohighlight">\(\blacksquare\)</span></p>
+<p>La Proposición 4 es una garantía <strong>de entrenamiento</strong>: no asegura que el ACS gane fuera de muestra, como se verá en el capítulo 20.</p>
+<p><strong>Proposición 5 (complejidad).</strong> Con <span class="math notranslate nohighlight">\(n\)</span> filas, <span class="math notranslate nohighlight">\(K\)</span> expertos, <span class="math notranslate nohighlight">\(q\)</span> variables de régimen, <span class="math notranslate nohighlight">\(B\)</span> umbrales, profundidad <span class="math notranslate nohighlight">\(D\)</span> e <span class="math notranslate nohighlight">\(I\)</span> iteraciones del solver:</p>
+<ul class="simple">
+<li><p><em>Entrenamiento del árbol:</em> <span class="math notranslate nohighlight">\(O\big(D\, q\, (n \log n + n K^2) + N_{\text{nodos}}\, q\, B\, (K^3 + I K^2)\big)\)</span>. En cada nivel las filas se reparten entre los nodos: ordenar cuesta <span class="math notranslate nohighlight">\(O(n \log n)\)</span> y las sumas acumuladas de <span class="math notranslate nohighlight">\(e_i e_i^\top\)</span> <span class="math notranslate nohighlight">\(O(nK^2)\)</span> por variable; cada candidato resuelve dos problemas de tamaño <span class="math notranslate nohighlight">\(K\)</span> (<span class="math notranslate nohighlight">\(K^3\)</span> por el autovalor, <span class="math notranslate nohighlight">\(IK^2\)</span> por las iteraciones), <strong>sin depender de <span class="math notranslate nohighlight">\(n\)</span></strong>.</p></li>
+<li><p><em>Inferencia:</em> <span class="math notranslate nohighlight">\(O(D + K)\)</span> por fila para el árbol, más el costo de los <span class="math notranslate nohighlight">\(K\)</span> expertos.</p></li>
+<li><p><em>Memoria:</em> <span class="math notranslate nohighlight">\(O(nK^2)\)</span> para las sumas acumuladas de un nodo.</p></li>
+<li><p><em>Total del ensamble:</em> <span class="math notranslate nohighlight">\((n_{\text{bloques}} + 1)\times\)</span> el costo de entrenar los expertos, más el árbol.</p></li>
+</ul>
+<section id="verificacion-empirica-de-la-complejidad">
+<h3>Verificación empírica de la complejidad<a class="headerlink" href="#verificacion-empirica-de-la-complejidad" title="Permalink to this heading">#</a></h3>
+<p>Se mide el tiempo de ajuste de <strong>un nivel</strong> del árbol (la raíz evalúa todos los candidatos) variando por separado <span class="math notranslate nohighlight">\(n\)</span> (replicando los pronósticos fuera de muestra con un pequeño ruido), <span class="math notranslate nohighlight">\(q\)</span> y <span class="math notranslate nohighlight">\(B\)</span>, con 3 repeticiones (mediana). Con un solo nivel y pocos umbrales domina el término <span class="math notranslate nohighlight">\(q(n\log n + nK^2)\)</span>, así que el exponente en <span class="math notranslate nohighlight">\(n\)</span> debe estar cerca de 1; con <span class="math notranslate nohighlight">\(n\)</span> fijo, el costo de los candidatos crece lineal en <span class="math notranslate nohighlight">\(q\)</span> y en <span class="math notranslate nohighlight">\(B\)</span> y <strong>no depende de <span class="math notranslate nohighlight">\(n\)</span></strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span><span class="p">,</span> <span class="n">y_oof</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">final</span><span class="o">.</span><span class="n">oof_</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
+<span class="n">f4</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">))</span> <span class="k">else</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># 4 decimales</span>
+
+
+<span class="k">def</span> <span class="nf">tiempo_fit</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">reps</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="c1"># un solo nivel (la raíz evalúa todos los candidatos): aísla los términos n log n + n K^2 y q B (K^3 + I K^2)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_oof</span><span class="p">),</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">Z</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">K</span><span class="p">)),</span> <span class="n">G</span><span class="p">[</span><span class="n">idx</span><span class="p">][:,</span> <span class="p">:</span><span class="n">q</span><span class="p">]</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">))])</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reps</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">ArbolCombinacionSimplex</span><span class="p">(</span><span class="n">n_expertos</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n_umbrales</span><span class="o">=</span><span class="n">B</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_oof</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">ts</span><span class="p">))</span>
+
+
+<span class="n">tam</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8000</span><span class="p">,</span> <span class="mi">16000</span><span class="p">,</span> <span class="mi">32000</span><span class="p">,</span> <span class="mi">64000</span><span class="p">,</span> <span class="mi">128000</span><span class="p">,</span> <span class="mi">256000</span><span class="p">]</span>
+<span class="n">t_n</span> <span class="o">=</span> <span class="p">[</span><span class="n">tiempo_fit</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">tam</span><span class="p">]</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">t_q</span> <span class="o">=</span> <span class="p">[</span><span class="n">tiempo_fit</span><span class="p">(</span><span class="mi">16000</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qs</span><span class="p">]</span>
+<span class="n">Bs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">]</span>
+<span class="n">t_B</span> <span class="o">=</span> <span class="p">[</span><span class="n">tiempo_fit</span><span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">Bs</span><span class="p">]</span>
+<span class="n">b_n</span><span class="p">,</span> <span class="n">b_q</span><span class="p">,</span> <span class="n">b_B</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">tam</span><span class="p">,</span> <span class="n">t_n</span><span class="p">),</span> <span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="n">t_q</span><span class="p">),</span> <span class="p">(</span><span class="n">Bs</span><span class="p">,</span> <span class="n">t_B</span><span class="p">)])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">a_</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tam</span><span class="p">,</span> <span class="n">t_n</span><span class="p">,</span> <span class="n">b_n</span><span class="p">,</span> <span class="s2">&quot;n (filas; B = 2, q = 9)&quot;</span><span class="p">,</span> <span class="n">AZUL</span><span class="p">),</span> <span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qs</span><span class="p">,</span> <span class="n">t_q</span><span class="p">,</span> <span class="n">b_q</span><span class="p">,</span> <span class="s2">&quot;q (variables de régimen; n = 16 000)&quot;</span><span class="p">,</span> <span class="n">NARANJA</span><span class="p">),</span>
+                             <span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">Bs</span><span class="p">,</span> <span class="n">t_B</span><span class="p">,</span> <span class="n">b_B</span><span class="p">,</span> <span class="s2">&quot;B (umbrales; n = 4 000)&quot;</span><span class="p">,</span> <span class="n">VERDE</span><span class="p">)]:</span>
+    <span class="n">a_</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">);</span> <span class="n">a_</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">et</span><span class="p">);</span> <span class="n">a_</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;segundos&quot;</span><span class="p">);</span> <span class="n">a_</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;exponente empírico </span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Tiempo de ajuste de un nivel del árbol&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">b_final</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">t_n</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">t_n</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tam</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">tam</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;segundos por n:&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">tam</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">t_n</span><span class="p">,</span> <span class="mi">3</span><span class="p">))))</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;exponente empírico&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">b_n</span><span class="p">,</span> <span class="n">b_final</span><span class="p">,</span> <span class="n">b_q</span><span class="p">,</span> <span class="n">b_B</span><span class="p">],</span>
+              <span class="s2">&quot;teórico&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;≈ 1 (n log n + n K²)&quot;</span><span class="p">,</span> <span class="s2">&quot;≈ 1&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">]},</span>
+             <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;n (todo el rango)&quot;</span><span class="p">,</span> <span class="s2">&quot;n (128 mil → 256 mil)&quot;</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>segundos por n: {8000: 0.067, 16000: 0.087, 32000: 0.118, 64000: 0.198, 128000: 0.407, 256000: 0.799}
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>exponente empírico</th>
+      <th>teórico</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>n (todo el rango)</th>
+      <td>0.72</td>
+      <td>≈ 1 (n log n + n K²)</td>
+    </tr>
+    <tr>
+      <th>n (128 mil → 256 mil)</th>
+      <td>0.97</td>
+      <td>≈ 1</td>
+    </tr>
+    <tr>
+      <th>q</th>
+      <td>0.84</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>1.01</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/ee66effcef2d61e4ea90ad0fc5b59fc6da0930f6c4274507797260dcf636a1c4.png" src="_images/ee66effcef2d61e4ea90ad0fc5b59fc6da0930f6c4274507797260dcf636a1c4.png" />
+</div>
+</div>
+<p><strong>Lectura.</strong></p>
+<ul class="simple">
+<li><p><strong>En <span class="math notranslate nohighlight">\(q\)</span> y en <span class="math notranslate nohighlight">\(B\)</span> los exponentes son 0,84 y 1,01</strong>, cerca de 1, como predice la Proposición 5: evaluar candidatos cuesta lineal en el número de variables y de umbrales.</p></li>
+<li><p><strong>En <span class="math notranslate nohighlight">\(n\)</span> el exponente sobre todo el rango es 0,72</strong>, porque hasta ~32 mil filas domina el <strong>costo fijo</strong> de resolver los problemas de hoja, que no depende de <span class="math notranslate nohighlight">\(n\)</span> (la ventaja de las sumas acumuladas).</p></li>
+<li><p><strong>En el tramo final (128 mil → 256 mil filas) el exponente es 0,97</strong>: ahí domina el término <span class="math notranslate nohighlight">\(n\log n + nK^2\)</span> y el comportamiento es lineal, como dice la teoría.</p></li>
+<li><p>Ajustar el árbol es barato (0,8 s con 256 mil filas); el costo del ACS completo lo dominan los expertos, que se entrenan 5 veces (4 bloques y el final).</p></li>
+</ul>
+</section>
+</section>
+<section id="implementacion">
+<h2>19.5 Implementación<a class="headerlink" href="#implementacion" title="Permalink to this heading">#</a></h2>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">ArbolCombinacionSimplex</span></code> (en <code class="docutils literal notranslate"><span class="pre">src/original_model.py</span></code>) hereda de <code class="docutils literal notranslate"><span class="pre">BaseEstimator</span></code> y <code class="docutils literal notranslate"><span class="pre">RegressorMixin</span></code>, así que funciona con <code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> y <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code>. Solo usa numpy para los cálculos; scikit-learn aporta la interfaz y las validaciones de entrada. Las piezas centrales:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">proyectar_simplex</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">resolver_pesos</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>def proyectar_simplex(v):
+    &quot;&quot;&quot;Proyección euclidiana de v sobre el símplex {w : w &gt;= 0, sum(w) = 1}.
+
+    Algoritmo exacto por ordenamiento (Held et al., 1974; Duchi et al., 2008), O(K log K).
+
+    Parameters
+    ----------
+    v : numpy.ndarray, forma (K,)
+
+    Returns
+    -------
+    numpy.ndarray
+        El punto del símplex más cercano a ``v``.
+    &quot;&quot;&quot;
+    u = np.sort(v)[::-1]
+    acum = np.cumsum(u) - 1.0
+    k = np.arange(1, len(v) + 1)
+    rho = np.nonzero(u - acum / k &gt; 0)[0][-1]
+    theta = acum[rho] / (rho + 1.0)
+    return np.maximum(v - theta, 0.0)
+
+def resolver_pesos(A, b, previo, lam, max_iter=5000, tol=1e-9):
+    &quot;&quot;&quot;Pesos óptimos en el símplex para una hoja, por gradiente proyectado.
+
+    Minimiza  f(w) = w&#39;Aw - 2b&#39;w + lam * ||w - previo||^2   sujeto a  w &gt;= 0, sum(w) = 1.
+    En el ACS, A = E&#39;E/n es la matriz de segundos momentos de los errores de los expertos y b = 0
+    (ver ``_momentos``), así que f es el error cuadrático medio de la combinación más la penalización.
+
+    Parameters
+    ----------
+    A : numpy.ndarray, forma (K, K)
+        Matriz de segundos momentos de los expertos (semidefinida positiva).
+    b : numpy.ndarray, forma (K,)
+    previo : numpy.ndarray, forma (K,)
+        Pesos hacia los que se encoge la solución (los del nodo padre).
+    lam : float
+        Fuerza del encogimiento (&gt;= 0). Con lam &gt; 0 el problema es fuertemente convexo.
+    max_iter : int
+    tol : float
+        Parada cuando ||w_{t+1} - w_t||_inf &lt; tol.
+
+    Returns
+    -------
+    tuple
+        ``(w, n_iter)``.
+
+    Notes
+    -----
+    El gradiente 2(Aw - b) + 2 lam (w - previo) es Lipschitz con constante L = 2(lambda_max(A) + lam).
+    Con paso 1/L el gradiente proyectado converge a la solución global (el símplex es convexo y
+    cerrado), con f(w_t) - f* &lt;= L ||w_0 - w*||^2 / (2t); si lam &gt; 0 la convergencia es lineal
+    (ver la demostración en el capítulo del modelo original del libro).
+    &quot;&quot;&quot;
+    L = 2.0 * (np.linalg.eigvalsh(A)[-1] + lam)
+    paso = 1.0 / max(L, 1e-12)
+    w = previo.copy()
+    for t in range(1, max_iter + 1):
+        grad = 2.0 * (A @ w - b) + 2.0 * lam * (w - previo)
+        nuevo = proyectar_simplex(w - paso * grad)
+        if np.max(np.abs(nuevo - w)) &lt; tol:
+            return nuevo, t
+        w = nuevo
+    return w, max_iter
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">ArbolCombinacionSimplex</span><span class="o">.</span><span class="n">_mejor_particion</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    def _mejor_particion(self, idx, Z, G, y, w_padre):
+        &quot;&quot;&quot;Busca (variable, umbral) que minimiza el ECM ponderado de los dos hijos.
+
+        Usa sumas acumuladas de los productos de errores e e&#39; ordenadas por la variable: evaluar un
+        umbral cuesta O(K^3 + I K^2) y no depende de n.
+        &quot;&quot;&quot;
+        n, m = len(idx), self.min_samples_leaf
+        # errores de los expertos en el nodo y sus productos por fila: e e&#39; (ver _momentos)
+        En = y[idx][:, None] - Z[idx]
+        ee = np.einsum(&quot;ij,ik-&gt;ijk&quot;, En, En)
+        mejor = None
+        for j in range(G.shape[1]):
+            g = G[idx, j]
+            orden = np.argsort(g, kind=&quot;mergesort&quot;)
+            gs = g[orden]
+            c_ee = np.cumsum(ee[orden], 0)
+            tot_ee = c_ee[-1]
+            K = Z.shape[1]
+            umbrales = np.unique(np.quantile(gs, np.linspace(0, 1, self.n_umbrales + 2)[1:-1]))
+            for u in umbrales:
+                k = np.searchsorted(gs, u, side=&quot;right&quot;)  # filas con g &lt;= u
+                if k &lt; m or n - k &lt; m:
+                    continue
+                res = []
+                for nh, s_ee in [(k, c_ee[k - 1]), (n - k, tot_ee - c_ee[k - 1])]:
+                    A, b, c = s_ee / nh, np.zeros(K), 0.0
+                    lam_h = self.lam * n / nh
+                    wh, it = resolver_pesos(A, b, w_padre, lam_h, self.max_iter, self.tol)
+                    self.iteraciones_.append(it)
+                    res.append((wh, _ecm(A, b, c, wh), nh))
+                ecm = (res[0][1] * res[0][2] + res[1][1] * res[1][2]) / n
+                if mejor is None or ecm &lt; mejor[&quot;ecm&quot;]:
+                    mejor = {&quot;var&quot;: j, &quot;umbral&quot;: float(u), &quot;ecm&quot;: ecm, &quot;w_izq&quot;: res[0][0], &quot;ecm_izq&quot;: res[0][1],
+                             &quot;w_der&quot;: res[1][0], &quot;ecm_der&quot;: res[1][1]}
+        return mejor
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pruebas-unitarias">
+<h2>19.6 Pruebas unitarias<a class="headerlink" href="#pruebas-unitarias" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">tests/test_original_model.py</span></code> (pytest) verifica: (i) que el modelo <strong>aprende</strong> en un conjunto sintético con solución conocida (dos regímenes, cada uno con un experto bueno: el árbol debe partir en <span class="math notranslate nohighlight">\(g = 0\)</span> y dar peso <span class="math notranslate nohighlight">\(&gt; 0{,}95\)</span> al experto correcto de cada lado); (ii) la <strong>reproducibilidad</strong> con la misma semilla; (iii) el <strong>manejo de entradas inválidas</strong> (parámetros fuera de rango, nulos, dimensiones incorrectas, predecir sin entrenar); (iv) la <strong>compatibilidad</strong> con <code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">get_params</span></code> y <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code>; y además que el solver coincide con una búsqueda exhaustiva y que se cumple la Proposición 4.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">salida</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;pytest&quot;</span><span class="p">,</span> <span class="s2">&quot;../tests&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-header&quot;</span><span class="p">,</span> <span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;no:cacheprovider&quot;</span><span class="p">],</span>
+                        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">salida</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span> <span class="k">if</span> <span class="s2">&quot;PASSED&quot;</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">or</span> <span class="s2">&quot;FAILED&quot;</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">or</span> <span class="s2">&quot;passed&quot;</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">or</span> <span class="s2">&quot;failed&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>../tests/test_original_model.py::test_proyeccion_queda_en_el_simplex <span class=" -Color -Color-Green">PASSED [  6%]</span>
+../tests/test_original_model.py::test_proyeccion_de_un_punto_del_simplex_es_el_mismo_punto <span class=" -Color -Color-Green">PASSED [ 12%]</span>
+../tests/test_original_model.py::test_solver_coincide_con_busqueda_exhaustiva <span class=" -Color -Color-Green">PASSED [ 18%]</span>
+../tests/test_original_model.py::test_solver_cumple_kkt_con_expertos_correlacionados <span class=" -Color -Color-Green">PASSED [ 25%]</span>
+../tests/test_original_model.py::test_aprende_los_dos_regimenes <span class=" -Color -Color-Green">PASSED   [ 31%]</span>
+../tests/test_original_model.py::test_no_es_peor_que_el_mejor_experto_en_entrenamiento <span class=" -Color -Color-Green">PASSED [ 37%]</span>
+../tests/test_original_model.py::test_profundidad_cero_da_pesos_globales <span class=" -Color -Color-Green">PASSED [ 43%]</span>
+../tests/test_original_model.py::test_misma_semilla_mismo_resultado <span class=" -Color -Color-Green">PASSED [ 50%]</span>
+../tests/test_original_model.py::test_parametros_invalidos[params0] <span class=" -Color -Color-Green">PASSED [ 56%]</span>
+../tests/test_original_model.py::test_parametros_invalidos[params1] <span class=" -Color -Color-Green">PASSED [ 62%]</span>
+../tests/test_original_model.py::test_parametros_invalidos[params2] <span class=" -Color -Color-Green">PASSED [ 68%]</span>
+../tests/test_original_model.py::test_parametros_invalidos[params3] <span class=" -Color -Color-Green">PASSED [ 75%]</span>
+../tests/test_original_model.py::test_nulos_y_dimensiones_incorrectas <span class=" -Color -Color-Green">PASSED [ 81%]</span>
+../tests/test_original_model.py::test_predecir_sin_entrenar <span class=" -Color -Color-Green">PASSED       [ 87%]</span>
+../tests/test_original_model.py::test_clone_y_get_params <span class=" -Color -Color-Green">PASSED          [ 93%]</span>
+../tests/test_original_model.py::test_funciona_en_cross_val_score <span class=" -Color -Color-Green">PASSED [100%]</span>
+<span class=" -Color -Color-Green">============================== </span><span class=" -Color -Color-Bold -Color-Bold-Green">16 passed</span><span class=" -Color -Color-Green"> in 0.65s ==============================</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="hiperparametros-dentro-de-la-validacion-anidada">
+<h2>19.7 Hiperparámetros dentro de la validación anidada<a class="headerlink" href="#hiperparametros-dentro-de-la-validacion-anidada" title="Permalink to this heading">#</a></h2>
+<p>El ACS pasa por <strong>el mismo protocolo</strong> que los 28 benchmarks: los mismos 4 folds externos, la misma semilla y el mismo presupuesto de <strong>16 evaluaciones</strong> con optimización bayesiana (TPE). En cada fold externo:</p>
+<ol class="arabic simple">
+<li><p>Los expertos usan los hiperparámetros elegidos <strong>en el bucle interno de ese fold</strong> en la entrega 2 (para Random Forest, XGBoost, Ridge y KNN, su mejor optimizador).</p></li>
+<li><p>Se generan los pronósticos fuera de muestra (4 bloques, ajuste cruzado) dentro del train del fold.</p></li>
+<li><p><strong>Bucle interno del ACS:</strong> esos pronósticos se parten en el tiempo (los primeros 3/4 de los días para ajustar el árbol, el último 1/4 para medir) y el TPE busca <code class="docutils literal notranslate"><span class="pre">max_depth</span></code> ∈ [0, 4], <code class="docutils literal notranslate"><span class="pre">min_samples_leaf</span></code> ∈ [100, 2000] (log) y <span class="math notranslate nohighlight">\(\lambda\)</span> ∈ [0,01; 10] (log).</p></li>
+<li><p>Con los mejores hiperparámetros se reajusta el árbol y se predice la semana de validación externa.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="s2">&quot;fold externo&quot;</span><span class="p">:</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;fold&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;params_arbol&quot;</span><span class="p">],</span> <span class="s2">&quot;hojas&quot;</span><span class="p">:</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;n_hojas&quot;</span><span class="p">],</span> <span class="s2">&quot;segundos&quot;</span><span class="p">:</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;seg_fit&quot;</span><span class="p">]}</span>
+                   <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;folds&quot;</span><span class="p">]])</span>
+<span class="n">hp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;todo train&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;params_final&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">final</span><span class="o">.</span><span class="n">arbol_</span><span class="o">.</span><span class="n">n_hojas</span><span class="p">(),</span> <span class="n">r</span><span class="p">[</span><span class="s2">&quot;seg_fit_final&quot;</span><span class="p">]]</span>
+<span class="n">f4</span><span class="p">(</span><span class="n">hp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fold externo</th>
+      <th>max_depth</th>
+      <th>min_samples_leaf</th>
+      <th>lam</th>
+      <th>hojas</th>
+      <th>segundos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>4</td>
+      <td>267</td>
+      <td>0.0151</td>
+      <td>11</td>
+      <td>60.4076</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>3</td>
+      <td>248</td>
+      <td>2.5722</td>
+      <td>6</td>
+      <td>29.1712</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>4</td>
+      <td>188</td>
+      <td>0.0351</td>
+      <td>14</td>
+      <td>80.1296</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>3</td>
+      <td>819</td>
+      <td>0.1407</td>
+      <td>6</td>
+      <td>36.1091</td>
+    </tr>
+    <tr>
+      <th>final</th>
+      <td>todo train</td>
+      <td>2</td>
+      <td>318</td>
+      <td>0.0136</td>
+      <td>4</td>
+      <td>71.8749</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="el-arbol-final">
+<h3>El árbol final<a class="headerlink" href="#el-arbol-final" title="Permalink to this heading">#</a></h3>
+<p>Así quedó el árbol ajustado con todo train (el que usa el tablero). Los nombres de los nodos son los del ajuste final:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nombres_g</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">final</span><span class="o">.</span><span class="n">columnas_regimen</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;desacuerdo&quot;</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">describir</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pref</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">final</span><span class="o">.</span><span class="n">arbol_</span><span class="o">.</span><span class="n">nodos_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">pesos</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">final</span><span class="o">.</span><span class="n">nombres_</span><span class="p">,</span> <span class="n">n</span><span class="p">[</span><span class="s2">&quot;pesos&quot;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="s2">&quot;var&quot;</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pref</span><span class="si">}</span><span class="s2">nodo </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: n = </span><span class="si">{</span><span class="n">n</span><span class="p">[</span><span class="s1">&#39;n&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">, ECM = </span><span class="si">{</span><span class="n">n</span><span class="p">[</span><span class="s1">&#39;ecm&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  →  ¿</span><span class="si">{</span><span class="n">nombres_g</span><span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="s1">&#39;var&#39;</span><span class="p">]]</span><span class="si">}</span><span class="s2"> ≤ </span><span class="si">{</span><span class="n">n</span><span class="p">[</span><span class="s1">&#39;umbral&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">?&quot;</span><span class="p">)</span>
+        <span class="n">describir</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="s2">&quot;izq&quot;</span><span class="p">],</span> <span class="n">pref</span> <span class="o">+</span> <span class="s2">&quot;   sí: &quot;</span><span class="p">);</span> <span class="n">describir</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="s2">&quot;der&quot;</span><span class="p">],</span> <span class="n">pref</span> <span class="o">+</span> <span class="s2">&quot;   no: &quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pref</span><span class="si">}</span><span class="s2">HOJA </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: n = </span><span class="si">{</span><span class="n">n</span><span class="p">[</span><span class="s1">&#39;n&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">, ECM = </span><span class="si">{</span><span class="n">n</span><span class="p">[</span><span class="s1">&#39;ecm&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, pesos [</span><span class="si">{</span><span class="n">pesos</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+<span class="n">describir</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>nodo 0: n = 22,205, ECM = 0.630  →  ¿part_efectivo ≤ 0.616?
+   sí: nodo 1: n = 11,756, ECM = 0.326  →  ¿dia_semana ≤ 4.000?
+   sí:    sí: HOJA 2: n = 8,463, ECM = 0.372, pesos [rf 0.47, xgb 0.04, ridge 0.00, knn 0.37, lag7 0.11]
+   sí:    no: HOJA 3: n = 3,293, ECM = 0.182, pesos [rf 0.05, xgb 0.30, ridge 0.00, knn 0.28, lag7 0.37]
+   no: nodo 4: n = 10,449, ECM = 0.959  →  ¿nivel ≤ 11.437?
+   no:    sí: HOJA 5: n = 615, ECM = 2.989, pesos [rf 0.49, xgb 0.14, ridge 0.22, knn 0.14, lag7 0.00]
+   no:    no: HOJA 6: n = 9,834, ECM = 0.824, pesos [rf 0.24, xgb 0.62, ridge 0.00, knn 0.15, lag7 0.00]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Interpretación.</strong> El árbol final tiene 4 hojas y sus cortes son legibles:</p>
+<ol class="arabic simple">
+<li><p><strong>Primer corte: el tipo de negocio</strong> (<code class="docutils literal notranslate"><span class="pre">part_efectivo</span></code> ≤ 0,62). Los negocios que venden mucho en efectivo (KCO y tiendas, cap. 4b) quedan a un lado y los que venden con datáfono y crédito (EDS) al otro.</p></li>
+<li><p><strong>Negocios de efectivo, de lunes a viernes:</strong> Random Forest (0,47) y KNN (0,37).</p></li>
+<li><p><strong>Negocios de efectivo, sábado y domingo:</strong> el <strong>ingenuo estacional</strong> pesa 0,37 y XGBoost 0,30. El fin de semana se parece más al mismo día de la semana anterior que a la media reciente.</p></li>
+<li><p><strong>Negocios grandes con datáfono y crédito (EDS):</strong> <strong>XGBoost</strong> (0,62) y Random Forest (0,24).</p></li>
+<li><p><strong>Negocios muy pequeños</strong> (<code class="docutils literal notranslate"><span class="pre">nivel</span></code> ≤ 11,4, unos 90 mil COP por día): Random Forest (0,49) y Ridge (0,22). Es la hoja con más error (ECM 3,0).</p></li>
+</ol>
+<p>Ninguna hoja usa a Ridge salvo la de negocios muy pequeños, y la variable de desacuerdo no aparece en el árbol final.</p>
+</section>
+</section>
+<section id="ablacion-y-reglas-estandar-de-combinacion">
+<h2>19.8 Ablación y reglas estándar de combinación<a class="headerlink" href="#ablacion-y-reglas-estandar-de-combinacion" title="Permalink to this heading">#</a></h2>
+<p>Se retira <strong>un componente a la vez</strong> y se reajusta con los mismos hiperparámetros y los mismos pronósticos fuera de muestra, en los 4 folds externos. Se compara además con las <strong>reglas estándar</strong> que pide la guía (promedio simple, pesos por error global, pesos globales en el símplex y stacking lineal sin restricciones).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">abl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;resultados/original_ablacion.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;resultados/original_resumen.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">abl</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;ACS completo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;ACS (original)&quot;</span><span class="p">,</span> <span class="n">abl</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">abl</span> <span class="o">=</span> <span class="n">abl</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">abl</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;experto&quot;</span><span class="p">)])</span>
+<span class="n">abl</span><span class="p">[</span><span class="s2">&quot;Δ RMSE log vs ACS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">abl</span><span class="p">[</span><span class="s2">&quot;RMSE log media&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">abl</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;ACS completo&quot;</span><span class="p">,</span> <span class="s2">&quot;RMSE log media&quot;</span><span class="p">]</span>
+<span class="n">abl</span><span class="p">[</span><span class="s2">&quot;Δ MAE log vs ACS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">abl</span><span class="p">[</span><span class="s2">&quot;MAE log media&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">abl</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;ACS completo&quot;</span><span class="p">,</span> <span class="s2">&quot;MAE log media&quot;</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">abl</span><span class="p">[</span><span class="s2">&quot;RMSE log media&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+<span class="n">colores</span> <span class="o">=</span> <span class="p">[</span><span class="n">NARANJA</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="s2">&quot;ACS completo&quot;</span> <span class="k">else</span> <span class="n">GRIS</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;sin&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">AZUL</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colores</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;Random Forest · Grid&quot;</span><span class="p">,</span> <span class="s2">&quot;RMSE log media&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#0b0b0b&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Random Forest (mejor benchmark)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.005</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;RMSE log medio del bucle externo&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Ablación (gris) y reglas estándar (azul)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">f4</span><span class="p">(</span><span class="n">abl</span><span class="p">[[</span><span class="s2">&quot;RMSE log media&quot;</span><span class="p">,</span> <span class="s2">&quot;Δ RMSE log vs ACS&quot;</span><span class="p">,</span> <span class="s2">&quot;MAE log media&quot;</span><span class="p">,</span> <span class="s2">&quot;Δ MAE log vs ACS&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;RMSE log media&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>RMSE log media</th>
+      <th>Δ RMSE log vs ACS</th>
+      <th>MAE log media</th>
+      <th>Δ MAE log vs ACS</th>
+    </tr>
+    <tr>
+      <th>modelo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>sin knn</th>
+      <td>0.8970</td>
+      <td>-0.0011</td>
+      <td>0.2913</td>
+      <td>0.0035</td>
+    </tr>
+    <tr>
+      <th>sin lag7</th>
+      <td>0.8974</td>
+      <td>-0.0008</td>
+      <td>0.2844</td>
+      <td>-0.0034</td>
+    </tr>
+    <tr>
+      <th>ACS completo</th>
+      <td>0.8981</td>
+      <td>0.0000</td>
+      <td>0.2878</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <th>pesos globales en el símplex</th>
+      <td>0.8989</td>
+      <td>0.0008</td>
+      <td>0.2863</td>
+      <td>-0.0015</td>
+    </tr>
+    <tr>
+      <th>sin desacuerdo</th>
+      <td>0.8994</td>
+      <td>0.0013</td>
+      <td>0.2877</td>
+      <td>-0.0001</td>
+    </tr>
+    <tr>
+      <th>sin encogimiento (lam = 0)</th>
+      <td>0.9002</td>
+      <td>0.0021</td>
+      <td>0.2871</td>
+      <td>-0.0008</td>
+    </tr>
+    <tr>
+      <th>sin rf</th>
+      <td>0.9003</td>
+      <td>0.0022</td>
+      <td>0.2894</td>
+      <td>0.0015</td>
+    </tr>
+    <tr>
+      <th>stacking lineal</th>
+      <td>0.9004</td>
+      <td>0.0023</td>
+      <td>0.2901</td>
+      <td>0.0023</td>
+    </tr>
+    <tr>
+      <th>sin ridge</th>
+      <td>0.9009</td>
+      <td>0.0028</td>
+      <td>0.2889</td>
+      <td>0.0011</td>
+    </tr>
+    <tr>
+      <th>sin xgb</th>
+      <td>0.9025</td>
+      <td>0.0044</td>
+      <td>0.2873</td>
+      <td>-0.0005</td>
+    </tr>
+    <tr>
+      <th>sin árbol (profundidad 0)</th>
+      <td>0.9032</td>
+      <td>0.0051</td>
+      <td>0.2882</td>
+      <td>0.0004</td>
+    </tr>
+    <tr>
+      <th>pesos por error global (1/ECM)</th>
+      <td>0.9124</td>
+      <td>0.0143</td>
+      <td>0.2893</td>
+      <td>0.0015</td>
+    </tr>
+    <tr>
+      <th>promedio simple</th>
+      <td>0.9295</td>
+      <td>0.0314</td>
+      <td>0.2931</td>
+      <td>0.0053</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/6f8d8006eb580acd6dd1e9e796041e14f74dfb2d057581a4d2bbab40eeb800ab.png" src="_images/6f8d8006eb580acd6dd1e9e796041e14f74dfb2d057581a4d2bbab40eeb800ab.png" />
+</div>
+</div>
+<p><strong>Lectura de la ablación (v4).</strong></p>
+<ul class="simple">
+<li><p><strong>Los componentes aportan poco y no todos en la misma dirección.</strong></p>
+<ul>
+<li><p>Retirar XGBoost (+0,0044), Ridge (+0,0028), Random Forest (+0,0022), el encogimiento (+0,0021) o el desacuerdo (+0,0013) empeora el RMSE log.</p></li>
+<li><p>Retirar KNN (−0,0011) o el ingenuo estacional (−0,0008) lo <strong>mejora</strong> levemente.</p></li>
+<li><p>Sin el árbol, con pesos globales y λ buscada, el RMSE log sube 0,005.</p></li>
+<li><p>Todas las diferencias son del orden de milésimas, comparables con el ruido entre folds (desviación ≈ 0,13).</p></li>
+</ul>
+</li>
+<li><p><strong>El ACS supera a las cuatro reglas estándar</strong>, pero a una apenas: pesos globales en el símplex 0,8989 (+0,0008), stacking lineal 0,9004 (+0,0023), pesos por error global 0,9124 (+0,0143) y promedio simple 0,9295 (+0,0314). La partición por régimen agrega <strong>muy poco</strong> sobre los pesos globales bien estimados. Es otra cara del puzzle de la combinación.</p></li>
+<li><p><strong>En MAE log</strong> varios componentes empeoran el resultado: sin ellos el MAE baja hasta 0,0034. No hay una estructura que mejore uniformemente las dos métricas.</p></li>
+</ul>
+</section>
+<section id="sensibilidad-estabilidad-y-robustez">
+<h2>19.9 Sensibilidad, estabilidad y robustez<a class="headerlink" href="#sensibilidad-estabilidad-y-robustez" title="Permalink to this heading">#</a></h2>
+<p><strong>Sensibilidad a los hiperparámetros propios.</strong> Con los pronósticos fuera de muestra del modelo final, se ajusta el árbol en los primeros 3/4 de los días y se mide en el último 1/4, para una rejilla de profundidad × <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">XZ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">Z</span><span class="p">,</span> <span class="n">G</span><span class="p">])</span>
+<span class="n">corte</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_oof</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="n">prof</span><span class="p">,</span> <span class="n">lams</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">]</span>
+<span class="n">sens</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">prof</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">lams</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">prof</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lams</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">ArbolCombinacionSimplex</span><span class="p">(</span><span class="n">n_expertos</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;params_final&#39;</span><span class="p">][</span><span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">XZ</span><span class="p">[:</span><span class="n">corte</span><span class="p">],</span> <span class="n">y_oof</span><span class="p">[:</span><span class="n">corte</span><span class="p">])</span>
+        <span class="n">sens</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">a</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">XZ</span><span class="p">[</span><span class="n">corte</span><span class="p">:])</span> <span class="o">-</span> <span class="n">y_oof</span><span class="p">[</span><span class="n">corte</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">sens</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sens</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;max_depth&quot;</span><span class="p">,</span> <span class="s2">&quot;λ&quot;</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sens</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues_r&quot;</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lams</span><span class="p">)));</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">lams</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prof</span><span class="p">)));</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">prof</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prof</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lams</span><span class="p">)):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sens</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;λ (encogimiento)&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;max_depth&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;RMSE log en el último cuarto de los pronósticos fuera de muestra&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c37e6512b51134a5782037c102d4bfdd6f158cd7af0fe3e5efd60fd26c872ba0.png" src="_images/c37e6512b51134a5782037c102d4bfdd6f158cd7af0fe3e5efd60fd26c872ba0.png" />
+</div>
+</div>
+<p><strong>Lectura.</strong></p>
+<ul class="simple">
+<li><p><strong>El mejor punto es profundidad 2 con λ chica:</strong> 0,774, contra 0,785 sin árbol.</p></li>
+<li><p><strong>Más profundidad empeora:</strong> con 3 y 4 niveles el error sube a 0,783–0,789. El árbol empieza a sobreajustar con muy pocas particiones.</p></li>
+<li><p><strong>Un λ grande (≥ 1) empeora mucho</strong> (hasta 0,83): encoge las hojas hacia el promedio simple y pierde la adaptación por régimen.</p></li>
+<li><p>La búsqueda bayesiana eligió justamente profundidad 2 y λ = 0,014.</p></li>
+<li><p><strong>Advertencia:</strong> este mapa mide el error <strong>dentro</strong> de los pronósticos fuera de muestra (su último cuarto). La mejora interna de 0,011 sobre los pesos globales <strong>no se trasladó</strong> a la validación externa (cap. 20): es el patrón de sobreajuste del combinador que se discute en 19.11.</p></li>
+</ul>
+<p><strong>Estabilidad ante semillas.</strong> El árbol es determinista; el azar está en los expertos (Random Forest y XGBoost). Se reentrena el ACS final con 3 semillas distintas para los expertos y se mide en test.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">modelo_original</span> <span class="kn">import</span> <span class="n">ensamble</span><span class="p">,</span> <span class="n">buscar_arbol</span><span class="p">,</span> <span class="n">EXPERTOS</span>
+<span class="kn">from</span> <span class="nn">experimentos</span> <span class="kn">import</span> <span class="n">cargar</span>
+<span class="kn">from</span> <span class="nn">modelos</span> <span class="kn">import</span> <span class="n">crear_modelo</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">cargar</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">,</span> <span class="n">o</span><span class="p">)[</span><span class="s2">&quot;params_final&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">EXPERTOS</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">42</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2026</span><span class="p">]:</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">ensamble</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">expertos</span> <span class="o">=</span> <span class="p">[(</span><span class="n">m</span><span class="p">,</span> <span class="n">crear_modelo</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="n">m</span><span class="p">],</span> <span class="n">semilla</span><span class="o">=</span><span class="n">s</span><span class="p">))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">EXPERTOS</span><span class="p">]</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">reajustar_arbol</span><span class="p">(</span><span class="o">**</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;params_final&quot;</span><span class="p">])</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+    <span class="n">rf</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">modelos_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">X_COLS</span><span class="p">])</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;semilla de los expertos&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;RMSE log ACS (test)&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">a_log</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)),</span>
+                  <span class="s2">&quot;RMSE log Random Forest (test)&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">a_log</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">rf</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)),</span>
+                  <span class="s2">&quot;MAE log ACS (test)&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a_log</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">p</span><span class="p">))),</span>
+                  <span class="s2">&quot;MAE log Random Forest (test)&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a_log</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">rf</span><span class="p">)))})</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;semilla de los expertos&quot;</span><span class="p">)</span>
+<span class="n">sem</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;desv. estándar&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sem</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">f4</span><span class="p">(</span><span class="n">sem</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>RMSE log ACS (test)</th>
+      <th>RMSE log Random Forest (test)</th>
+      <th>MAE log ACS (test)</th>
+      <th>MAE log Random Forest (test)</th>
+    </tr>
+    <tr>
+      <th>semilla de los expertos</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>42</th>
+      <td>0.6108</td>
+      <td>0.6221</td>
+      <td>0.2111</td>
+      <td>0.2164</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.6116</td>
+      <td>0.6198</td>
+      <td>0.2118</td>
+      <td>0.2170</td>
+    </tr>
+    <tr>
+      <th>2026</th>
+      <td>0.6092</td>
+      <td>0.6218</td>
+      <td>0.2097</td>
+      <td>0.2156</td>
+    </tr>
+    <tr>
+      <th>desv. estándar</th>
+      <td>0.0012</td>
+      <td>0.0013</td>
+      <td>0.0010</td>
+      <td>0.0007</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura.</strong> La variación por semilla de los expertos es pequeña (±0,001 en RMSE log). <strong>En las tres semillas el ACS es mejor que Random Forest en test</strong>, tanto en RMSE log (0,609–0,612 contra 0,620–0,622) como en MAE log (0,210–0,212 contra 0,216–0,217). Es una ventaja estable en test, aunque en la validación externa el ACS queda por debajo de Random Forest. Que los dos periodos no coincidan es otra señal de que la diferencia entre los dos modelos está en el nivel del ruido.</p>
+<p><strong>Robustez ante un experto con ruido.</strong> Si un experto se degrada, el ACS debería bajar su peso. Se agrega ruido gaussiano creciente a los pronósticos de Random Forest (fuera de muestra y en la evaluación) y se compara el ACS con el promedio simple.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">sd</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]:</span>
+    <span class="n">Zr</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">Zr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Zr</span><span class="p">))</span>
+    <span class="n">XZr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">Zr</span><span class="p">,</span> <span class="n">G</span><span class="p">])</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">ArbolCombinacionSimplex</span><span class="p">(</span><span class="n">n_expertos</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="o">**</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;params_final&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">XZr</span><span class="p">[:</span><span class="n">corte</span><span class="p">],</span> <span class="n">y_oof</span><span class="p">[:</span><span class="n">corte</span><span class="p">])</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;ruido en RF (desv., log)&quot;</span><span class="p">:</span> <span class="n">sd</span><span class="p">,</span> <span class="s2">&quot;peso medio de RF&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">pesos</span><span class="p">(</span><span class="n">XZr</span><span class="p">[</span><span class="n">corte</span><span class="p">:])[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+                  <span class="s2">&quot;RMSE log ACS&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">a</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">XZr</span><span class="p">[</span><span class="n">corte</span><span class="p">:])</span> <span class="o">-</span> <span class="n">y_oof</span><span class="p">[</span><span class="n">corte</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)),</span>
+                  <span class="s2">&quot;RMSE log promedio simple&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Zr</span><span class="p">[</span><span class="n">corte</span><span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">y_oof</span><span class="p">[</span><span class="n">corte</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))})</span>
+<span class="n">f4</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ruido en RF (desv., log)</th>
+      <th>peso medio de RF</th>
+      <th>RMSE log ACS</th>
+      <th>RMSE log promedio simple</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0000</td>
+      <td>0.2585</td>
+      <td>0.7753</td>
+      <td>0.8349</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.2500</td>
+      <td>0.0166</td>
+      <td>0.7856</td>
+      <td>0.8372</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.5000</td>
+      <td>0.0119</td>
+      <td>0.7906</td>
+      <td>0.8398</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0000</td>
+      <td>0.0141</td>
+      <td>0.7868</td>
+      <td>0.8607</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.0000</td>
+      <td>0.0016</td>
+      <td>0.7854</td>
+      <td>0.9194</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura: el ACS es robusto ante un experto degradado.</strong></p>
+<ul class="simple">
+<li><p>Con apenas 0,25 de ruido en Random Forest, su peso medio cae de 0,26 a 0,02: el ACS <strong>deja de usarlo</strong>.</p></li>
+<li><p>Su error casi no cambia (0,775 a 0,79).</p></li>
+<li><p>El promedio simple, en cambio, se degrada de 0,835 a 0,92.</p></li>
+</ul>
+<p>Es la ventaja práctica de aprender los pesos en lugar de fijarlos.</p>
+<p><strong>Menor tamaño de muestra.</strong> Se reduce la fracción de negocios con que se ajusta el árbol (manteniendo la evaluación) para ver cuánto depende de la cantidad de datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">frac</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]:</span>
+    <span class="n">sel</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">corte</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">frac</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">ArbolCombinacionSimplex</span><span class="p">(</span><span class="n">n_expertos</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;params_final&quot;</span><span class="p">],</span> <span class="s2">&quot;min_samples_leaf&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;params_final&quot;</span><span class="p">][</span><span class="s2">&quot;min_samples_leaf&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">frac</span><span class="p">))})</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">XZ</span><span class="p">[:</span><span class="n">corte</span><span class="p">][</span><span class="n">sel</span><span class="p">],</span> <span class="n">y_oof</span><span class="p">[:</span><span class="n">corte</span><span class="p">][</span><span class="n">sel</span><span class="p">])</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;fracción de filas para ajustar&quot;</span><span class="p">:</span> <span class="n">frac</span><span class="p">,</span> <span class="s2">&quot;filas&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="s2">&quot;hojas&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">n_hojas</span><span class="p">(),</span>
+                  <span class="s2">&quot;RMSE log ACS&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">a</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">XZ</span><span class="p">[</span><span class="n">corte</span><span class="p">:])</span> <span class="o">-</span> <span class="n">y_oof</span><span class="p">[</span><span class="n">corte</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)),</span>
+                  <span class="s2">&quot;RMSE log RF solo&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Z</span><span class="p">[</span><span class="n">corte</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_oof</span><span class="p">[</span><span class="n">corte</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))})</span>
+<span class="n">f4</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fracción de filas para ajustar</th>
+      <th>filas</th>
+      <th>hojas</th>
+      <th>RMSE log ACS</th>
+      <th>RMSE log RF solo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0000</td>
+      <td>16653</td>
+      <td>4</td>
+      <td>0.7753</td>
+      <td>0.7900</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.5000</td>
+      <td>8296</td>
+      <td>4</td>
+      <td>0.7950</td>
+      <td>0.7900</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.2500</td>
+      <td>4142</td>
+      <td>4</td>
+      <td>0.8043</td>
+      <td>0.7900</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.1000</td>
+      <td>1661</td>
+      <td>4</td>
+      <td>0.8950</td>
+      <td>0.7900</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura: el ACS necesita datos.</strong></p>
+<ul class="simple">
+<li><p>Con todas las filas de ajuste (16 653) el árbol mejora a Random Forest solo en el último cuarto de los pronósticos fuera de muestra (0,775 contra 0,790).</p></li>
+<li><p>Con la mitad o menos queda <strong>peor</strong> que Random Forest solo (0,795, 0,804 y 0,895).</p></li>
+<li><p>Por eso la v4 usa el ajuste cruzado, que da al árbol pronósticos de <strong>todos</strong> los días de train. En negocios nuevos o con poca historia conviene volver a los pesos globales (profundidad 0).</p></li>
+</ul>
+</section>
+<section id="interpretabilidad-acs-contra-random-forest">
+<h2>19.10 Interpretabilidad: ACS contra Random Forest<a class="headerlink" href="#interpretabilidad-acs-contra-random-forest" title="Permalink to this heading">#</a></h2>
+<p>Se usa la misma técnica para los dos modelos: <strong>KernelSHAP</strong> sobre la predicción en log, con la misma muestra de 60 filas de test y la misma referencia (20 centroides de train). El ACS es además interpretable <strong>por construcción</strong>: cada predicción es una combinación convexa de expertos con pesos que dependen de una hoja con reglas legibles (19.7).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/shap_global.csv&quot;</span><span class="p">)</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">sh</span><span class="p">[</span><span class="n">sh</span><span class="p">[</span><span class="s2">&quot;clave&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;acs&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">])]</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;clave&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;shap_abs&quot;</span><span class="p">)</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;acs&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">comp</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">yy</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">comp</span><span class="p">[</span><span class="s2">&quot;rf&quot;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">AZUL</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">yy</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">comp</span><span class="p">[</span><span class="s2">&quot;acs&quot;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">NARANJA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ACS&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">yy</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">index</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% d</span><span class="s2">e la importancia media |SHAP|&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Importancia global: ACS contra Random Forest&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">comp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;acs&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>variable</th>
+      <th>lag1</th>
+      <th>media7</th>
+      <th>lag7</th>
+      <th>nivel</th>
+      <th>lag14</th>
+      <th>part_efectivo</th>
+      <th>part_rumbo</th>
+      <th>dia_semana</th>
+      <th>part_mi_empresa</th>
+      <th>part_datafono</th>
+      <th>part_credito_clientes</th>
+      <th>std7</th>
+      <th>dias_sin_venta7</th>
+      <th>festivo</th>
+    </tr>
+    <tr>
+      <th>clave</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>acs</th>
+      <td>40.90</td>
+      <td>21.70</td>
+      <td>14.80</td>
+      <td>8.90</td>
+      <td>7.30</td>
+      <td>2.00</td>
+      <td>0.90</td>
+      <td>0.90</td>
+      <td>0.80</td>
+      <td>0.80</td>
+      <td>0.50</td>
+      <td>0.40</td>
+      <td>0.20</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>rf</th>
+      <td>48.90</td>
+      <td>27.80</td>
+      <td>6.40</td>
+      <td>10.60</td>
+      <td>4.20</td>
+      <td>0.30</td>
+      <td>0.10</td>
+      <td>0.50</td>
+      <td>0.20</td>
+      <td>0.30</td>
+      <td>0.20</td>
+      <td>0.40</td>
+      <td>0.10</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/4c02815cac92533ba8202ff9991bf3bb92cc6d89a38202a4576f78cdbc15daf6.png" src="_images/4c02815cac92533ba8202ff9991bf3bb92cc6d89a38202a4576f78cdbc15daf6.png" />
+</div>
+</div>
+<p><strong>Lectura.</strong></p>
+<ul class="simple">
+<li><p><strong>El orden de las variables es casi el mismo:</strong> <code class="docutils literal notranslate"><span class="pre">lag1</span></code> y <code class="docutils literal notranslate"><span class="pre">media7</span></code> dominan en los dos modelos. El ACS no «inventa» señal; combina la de sus expertos.</p></li>
+<li><p><strong>La importancia del ACS está más repartida:</strong> <code class="docutils literal notranslate"><span class="pre">lag7</span></code> pesa 14,8 % (contra 6,4 % en Random Forest), por el ingenuo estacional que usa en fin de semana. El mix de medios también pesa más (<code class="docutils literal notranslate"><span class="pre">part_efectivo</span></code> 2,0 % contra 0,3 %), porque decide en qué hoja cae cada fila.</p></li>
+<li><p><strong>Interpretable por construcción.</strong> A diferencia de Random Forest, cada predicción del ACS se explica en dos niveles: <strong>qué hoja</strong> (reglas legibles sobre el tipo de negocio, el día y el tamaño) y <strong>qué peso</strong> tiene cada experto. El tablero muestra los dos.</p></li>
+</ul>
+</section>
+<section id="historia-del-diseno-cuatro-versiones">
+<h2>19.11 Historia del diseño: cuatro versiones<a class="headerlink" href="#historia-del-diseno-cuatro-versiones" title="Permalink to this heading">#</a></h2>
+<p>El ciclo de desarrollo de la guía permite iterar sobre el diseño si el modelo no resulta superior, <strong>reportando todo con honestidad</strong>. El ACS pasó por cuatro versiones. Todas usan los mismos expertos, los mismos folds y el mismo presupuesto de búsqueda; cambian el solver y el entrenamiento del combinador.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Versión</p></th>
+<th class="head"><p>Cambio</p></th>
+<th class="head"><p>Motivo</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>v1</p></td>
+<td><p>Momentos sin centrar <span class="math notranslate nohighlight">\(A = Z^\top Z/n\)</span>; raíz encogida con <span class="math notranslate nohighlight">\(\lambda = 10^{-6}\)</span>; pronósticos fuera de muestra en orden temporal; tope de 500 iteraciones</p></td>
+<td><p>Diseño inicial</p></td>
+</tr>
+<tr class="row-odd"><td><p>v2</p></td>
+<td><p>Matriz de errores <span class="math notranslate nohighlight">\(D = E^\top E / n\)</span>; tope de 5 000 iteraciones</p></td>
+<td><p>El solver de v1 <strong>no convergía</strong> (100 % de los problemas en el tope): sus pesos se quedaban cerca del punto de partida (el promedio simple)</p></td>
+</tr>
+<tr class="row-even"><td><p>v3</p></td>
+<td><p>Raíz encogida hacia el promedio simple con la <span class="math notranslate nohighlight">\(\lambda\)</span> buscada</p></td>
+<td><p>Con el solver exacto el árbol sobreajusta; el «puzzle de la combinación» sugiere encoger hacia el promedio</p></td>
+</tr>
+<tr class="row-odd"><td><p>v4 (final)</p></td>
+<td><p>Pronósticos fuera de muestra por <strong>ajuste cruzado</strong></p></td>
+<td><p>Con ventana creciente los expertos ven menos días que los finales y el combinador subestima a los que más mejoran con datos</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Advertencia</p>
+<p><strong>Advertencia de honestidad.</strong> Las versiones 2 a 4 se diseñaron <strong>después</strong> de ver los resultados del bucle externo de las anteriores. Aunque cada cambio tiene una justificación teórica independiente, la estimación del bucle externo de la versión final es <strong>algo optimista</strong> (sesgo de selección del diseño). El test (3 – 23 sep) y los tres conjuntos de datos externos son las comprobaciones menos contaminadas.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">versiones</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;v1&quot;</span><span class="p">:</span> <span class="s2">&quot;modelo_original_v1_sin_converger.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;v2&quot;</span><span class="p">:</span> <span class="s2">&quot;modelo_original_v2_sin_encogimiento_raiz.pkl&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;v3&quot;</span><span class="p">:</span> <span class="s2">&quot;modelo_original_v3_encogimiento_raiz.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;v4 (final)&quot;</span><span class="p">:</span> <span class="s2">&quot;modelo_original.pkl&quot;</span><span class="p">}</span>
+<span class="n">filas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y_tr</span> <span class="o">=</span> <span class="n">a_log</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s2">&quot;venta_total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">versiones</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">DATA</span> <span class="o">/</span> <span class="s2">&quot;processed&quot;</span> <span class="o">/</span> <span class="n">f</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+    <span class="n">pv</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[</span><span class="s2">&quot;pred_val&quot;</span><span class="p">]</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">y_tr</span><span class="p">[</span><span class="n">pv</span><span class="p">[</span><span class="s2">&quot;fila&quot;</span><span class="p">]]</span> <span class="o">-</span> <span class="n">pv</span><span class="p">[</span><span class="s2">&quot;ACS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">rm</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">pv</span><span class="p">[</span><span class="s2">&quot;fold&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+    <span class="n">ma</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">pv</span><span class="p">[</span><span class="s2">&quot;fold&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">]))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rv</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">arbol_</span><span class="o">.</span><span class="n">iteraciones_</span><span class="p">)</span>
+    <span class="n">tope</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">arbol_</span><span class="o">.</span><span class="n">max_iter</span>
+    <span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;versión&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span> <span class="s2">&quot;RMSE log bucle externo&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">rm</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">rm</span><span class="p">,</span><span class="w"> </span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;MAE log bucle externo&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ma</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ma</span><span class="p">,</span><span class="w"> </span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;RMSE log test&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">a_log</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;venta_total&#39;</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a_log</span><span class="p">(</span><span class="n">rv</span><span class="p">[</span><span class="s1">&#39;pred_test&#39;</span><span class="p">]))</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;% problemas en el tope de iteraciones&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">it</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tope</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;hojas (final)&quot;</span><span class="p">:</span> <span class="n">rv</span><span class="p">[</span><span class="s2">&quot;final&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">arbol_</span><span class="o">.</span><span class="n">n_hojas</span><span class="p">()})</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">y_tr</span><span class="p">[</span><span class="n">pv</span><span class="p">[</span><span class="s2">&quot;fila&quot;</span><span class="p">]]</span> <span class="o">-</span> <span class="n">a_log</span><span class="p">(</span><span class="n">cargar</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="s2">&quot;ninguno&quot;</span><span class="p">,</span> <span class="s2">&quot;grid&quot;</span><span class="p">)[</span><span class="s2">&quot;pred_val&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;fila&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pv</span><span class="p">[</span><span class="s2">&quot;fila&quot;</span><span class="p">],</span> <span class="s2">&quot;pred&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+<span class="n">filas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;versión&quot;</span><span class="p">:</span> <span class="s2">&quot;Random Forest · Grid (referencia)&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;RMSE log bucle externo&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">pv</span><span class="p">[</span><span class="s1">&#39;fold&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span><span class="p">]</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;MAE log bucle externo&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">pv</span><span class="p">[</span><span class="s1">&#39;fold&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span><span class="p">]))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;RMSE log test&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cargar</span><span class="p">(</span><span class="s1">&#39;reg&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;rf&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ninguno&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;grid&#39;</span><span class="p">)[</span><span class="s1">&#39;metricas_test&#39;</span><span class="p">][</span><span class="s1">&#39;rmse_log&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">filas</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;versión&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;—&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>RMSE log bucle externo</th>
+      <th>MAE log bucle externo</th>
+      <th>RMSE log test</th>
+      <th>% problemas en el tope de iteraciones</th>
+      <th>hojas (final)</th>
+    </tr>
+    <tr>
+      <th>versión</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>v1</th>
+      <td>0.8887 ± 0.1205</td>
+      <td>0.2832 ± 0.0485</td>
+      <td>0.6184</td>
+      <td>100%</td>
+      <td>3.00</td>
+    </tr>
+    <tr>
+      <th>v2</th>
+      <td>0.9102 ± 0.1148</td>
+      <td>0.2874 ± 0.0472</td>
+      <td>0.6209</td>
+      <td>0%</td>
+      <td>4.00</td>
+    </tr>
+    <tr>
+      <th>v3</th>
+      <td>0.9109 ± 0.1131</td>
+      <td>0.2888 ± 0.0446</td>
+      <td>0.6214</td>
+      <td>0%</td>
+      <td>4.00</td>
+    </tr>
+    <tr>
+      <th>v4 (final)</th>
+      <td>0.8981 ± 0.1268</td>
+      <td>0.2878 ± 0.0511</td>
+      <td>0.6108</td>
+      <td>0%</td>
+      <td>4.00</td>
+    </tr>
+    <tr>
+      <th>Random Forest · Grid (referencia)</th>
+      <td>0.8874</td>
+      <td>0.2906</td>
+      <td>0.6221</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Lectura de la historia del diseño.</strong></p>
+<ul class="simple">
+<li><p><strong>La v1 parecía la mejor</strong> (0,8887, casi empatada con Random Forest, y la mejor en MAE). Pero su solver <strong>no convergía en el 100 % de los problemas</strong>, así que sus pesos eran prácticamente el punto de partida (el promedio simple, levemente movido). Su «ventaja» era una regularización accidental, no el mecanismo propuesto.</p></li>
+<li><p><strong>Con el solver correcto (v2 y v3) el árbol sobreajusta:</strong> 0,910 y 0,911.</p></li>
+<li><p><strong>El ajuste cruzado (v4) recupera buena parte:</strong> 0,898. Pero queda por debajo de Random Forest (0,887) en la validación externa, aunque mejor en test (0,611 contra 0,622).</p></li>
+<li><p><strong>Conclusión honesta:</strong> ninguna versión supera a Random Forest en la validación externa. La lección metodológica es que <strong>un error numérico produjo el mejor resultado aparente</strong>. Sin la prueba de optimalidad (KKT) que se agregó después, se habría reportado una ventaja que no existía.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="18_literatura.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">📚 18. Revisión de literatura y evidencia de novedad</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="20_validacion_estadistica.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">⚖️ 20. Validación estadística del modelo original</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivacion">19.1 Motivación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formulacion-matematica">19.2 Formulación matemática</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudocodigo">19.3 Pseudocódigo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#propiedades-demostradas">19.4 Propiedades demostradas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacion-empirica-de-la-complejidad">Verificación empírica de la complejidad</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacion">19.5 Implementación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pruebas-unitarias">19.6 Pruebas unitarias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hiperparametros-dentro-de-la-validacion-anidada">19.7 Hiperparámetros dentro de la validación anidada</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#el-arbol-final">El árbol final</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ablacion-y-reglas-estandar-de-combinacion">19.8 Ablación y reglas estándar de combinación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensibilidad-estabilidad-y-robustez">19.9 Sensibilidad, estabilidad y robustez</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretabilidad-acs-contra-random-forest">19.10 Interpretabilidad: ACS contra Random Forest</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#historia-del-diseno-cuatro-versiones">19.11 Historia del diseño: cuatro versiones</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por edsi23
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
