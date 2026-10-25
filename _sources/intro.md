@@ -17,7 +17,7 @@ Proyecto de Machine Learning sobre la **venta diaria** de 452 negocios (estacion
 
 ```{admonition} Tablero en línea
 :class: tip
-**URL pública (Render):** _se completa al desplegar_ · El primer acceso puede tardar 30–60 s (plan gratuito).
+**URL pública (Render):** [https://recaudo-forecast.onrender.com](https://recaudo-forecast.onrender.com) · El primer acceso puede tardar 30–60 s (plan gratuito).
 ```
 
 **Resumen ejecutivo de la tercera entrega.** El mejor modelo para pronosticar la venta del día siguiente es **Random Forest** (RMSE en log 0,887 en la validación anidada; 0,622 en test). Se propuso un modelo original, el **ACS**, que combina varios modelos con pesos que dependen del régimen del negocio. Es novedoso para este problema, se implementó desde cero y queda en el grupo de los mejores, pero **no supera a Random Forest de forma estadísticamente significativa** (condición R3 no cumplida, cap. 20).

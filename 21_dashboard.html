@@ -375,7 +375,7 @@ document.write(`
 <h1>🖥️ 21. Dashboard y despliegue<a class="headerlink" href="#dashboard-y-despliegue" title="Permalink to this heading">#</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p><strong>URL pública:</strong> <em>se completa al desplegar en Render</em> · Código: <a class="reference external" href="https://github.com/edsi23/recaudo-forecast">github.com/edsi23/recaudo-forecast</a></p>
+<p><strong>URL pública:</strong> <a class="reference external" href="https://recaudo-forecast.onrender.com">https://recaudo-forecast.onrender.com</a> · Código: <a class="reference external" href="https://github.com/edsi23/recaudo-forecast">github.com/edsi23/recaudo-forecast</a></p>
 <p>El plan gratuito de Render suspende el servicio tras unos minutos sin uso: la primera carga puede tardar 30–60 s.</p>
 </div>
 <p>El tablero lleva los resultados a una herramienta que una persona no experta puede usar: entender el problema (<strong>Contexto</strong>), explorar los datos (<strong>EDA</strong>) y pronosticar con los modelos entrenados (<strong>Modelos</strong>). Cada gráfico responde una pregunta concreta y va acompañado de una frase de interpretación.</p>
@@ -489,7 +489,7 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> con versiones exactas (incluido <code class="docutils literal notranslate"><span class="pre">gunicorn</span></code>) y <code class="docutils literal notranslate"><span class="pre">render.yaml</span></code> con <code class="docutils literal notranslate"><span class="pre">PYTHON_VERSION</span> <span class="pre">=</span> <span class="pre">3.11.9</span></code>.</p></li>
 <li><p>Subir el repositorio a GitHub.</p></li>
 <li><p>En Render: <strong>New → Blueprint</strong>, elegir el repositorio y aplicar el <code class="docutils literal notranslate"><span class="pre">render.yaml</span></code> (construcción <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>, inicio <code class="docutils literal notranslate"><span class="pre">gunicorn</span> <span class="pre">app:server</span> <span class="pre">--workers</span> <span class="pre">1</span> <span class="pre">--timeout</span> <span class="pre">120</span></code>).</p></li>
-<li><p>Revisar los registros de construcción y recorrer las tres páginas en la URL pública.</p></li>
+<li><p>Revisar los registros de construcción y recorrer las tres páginas en la URL pública. Se verificó con un navegador automático que las tres páginas cargan sin errores HTTP y que la predicción en vivo del ACS en Render da <strong>el mismo valor</strong> que en local (31 611 194 COP para el ejemplo N011 · 07 sep), lo que confirma la prueba de ida y vuelta en el entorno de producción.</p></li>
 </ol>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
