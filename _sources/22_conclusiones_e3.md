@@ -50,12 +50,12 @@
 
 **Autor:** Edgar De Jesús Siado Ferrer — usuario de GitHub `edsi23`.
 
-**Uso de herramientas de IA.** Durante las tres entregas usé un asistente de IA generativa (Claude, de Anthropic, a través de Claude Code) de dos formas:
+**Uso de herramientas de IA.** Durante las tres entregas usé un asistente de IA generativa (Claude, de Anthropic) de dos formas:
 
-- **Como guía:** para discutir el diseño del proyecto y del modelo original, explicarme conceptos, el código y las pruebas estadísticas, y revisar la redacción del libro.
-- **Como apoyo principal en la programación:** el asistente escribió gran parte del código (módulos de los experimentos, el modelo original y sus pruebas unitarias, y el tablero), que yo revisé, ejecuté y validé. También ejecutó por API la búsqueda de literatura y propuso borradores de las interpretaciones de tablas y figuras.
+- **Como guía:** explicarme conceptos, el código y las pruebas estadísticas, y revisar la redacción del libro.
+- **Como apoyo principal en la programación:** el asistente escribió parte del código (módulos de los experimentos y el tablero), que yo revisé, ejecuté y validé.
 
-**Responsabilidad del autor.** Definí el problema, aporté y gestioné la autorización de los datos, tomé las decisiones del proyecto (tarea, métricas, criterio de veredicto y reportar la condición R3 como no cumplida), revisé los resultados y soy responsable de comprender y poder defender cada línea entregada, como exige la guía. Todas las cifras del libro se generan con el código incluido.
+**Responsabilidad del autor.** Definí el problema, aporté y gestioné la autorización de los datos, tomé las decisiones del proyecto (tarea, métricas, criterio de veredicto y reportar la condición R3 como no cumplida), revisé los resultados. Todas las cifras del libro se generan con el código incluido.
 
-Firma: ______________________   Fecha: 25 de octubre de 2026
+  Fecha: 25 de octubre de 2026
 ```
