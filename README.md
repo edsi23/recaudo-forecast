@@ -3,7 +3,7 @@
 Proyecto de Machine Learning (tres entregas) sobre la venta diaria de 452 negocios (estaciones de servicio, tiendas de conveniencia y kioscos) operados por Masser.
 
 - **Libro (Jupyter Book):** https://edsi23.github.io/recaudo-forecast/
-- **Tablero (Dash, Render):** _URL al desplegar_
+- **Tablero (Dash, Render):** https://recaudo-forecast.onrender.com
 - **Versiones entregadas:** tags [`entrega-1`](https://github.com/edsi23/recaudo-forecast/tree/entrega-1), [`entrega-2`](https://github.com/edsi23/recaudo-forecast/tree/entrega-2)
 
 | Entrega | Contenido |

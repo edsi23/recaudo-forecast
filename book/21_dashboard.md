@@ -1,7 +1,7 @@
 # 🖥️ 21. Dashboard y despliegue
 
 ```{note}
-**URL pública:** _se completa al desplegar en Render_ · Código: [github.com/edsi23/recaudo-forecast](https://github.com/edsi23/recaudo-forecast)
+**URL pública:** [https://recaudo-forecast.onrender.com](https://recaudo-forecast.onrender.com) · Código: [github.com/edsi23/recaudo-forecast](https://github.com/edsi23/recaudo-forecast)
 
 El plan gratuito de Render suspende el servicio tras unos minutos sin uso: la primera carga puede tardar 30–60 s.
 ```
@@ -101,7 +101,7 @@ La sección EDA a 820 px de ancho (tableta): las columnas se apilan.
 2. `requirements.txt` con versiones exactas (incluido `gunicorn`) y `render.yaml` con `PYTHON_VERSION = 3.11.9`.
 3. Subir el repositorio a GitHub.
 4. En Render: **New → Blueprint**, elegir el repositorio y aplicar el `render.yaml` (construcción `pip install -r requirements.txt`, inicio `gunicorn app:server --workers 1 --timeout 120`).
-5. Revisar los registros de construcción y recorrer las tres páginas en la URL pública.
+5. Revisar los registros de construcción y recorrer las tres páginas en la URL pública. Se verificó con un navegador automático que las tres páginas cargan sin errores HTTP y que la predicción en vivo del ACS en Render da **el mismo valor** que en local (31 611 194 COP para el ejemplo N011 · 07 sep), lo que confirma la prueba de ida y vuelta en el entorno de producción.
 
 ```yaml
 services:
